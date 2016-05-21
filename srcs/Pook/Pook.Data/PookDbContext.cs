@@ -9,21 +9,21 @@ using Pook.Data.Entities;
 
 namespace Pook.Data
 {
-    public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
+    public class PookDbContext : IdentityDbContext<User>
     {
-        public ApplicationDbContext()
+        public PookDbContext()
             : base("PookDbContext", throwIfV1Schema: false)
         {
         }
 
-        static ApplicationDbContext()
+        static PookDbContext()
         {
-            Database.SetInitializer<ApplicationDbContext>(new PookContextDbInitializer());
+            Database.SetInitializer<PookDbContext>(new PookContextDbInitializer());
         }
 
-        public static ApplicationDbContext Create()
+        public static PookDbContext Create()
         {
-            return new ApplicationDbContext();
+            return new PookDbContext();
         }
 
         public DbSet<Book> Books { get; set; }

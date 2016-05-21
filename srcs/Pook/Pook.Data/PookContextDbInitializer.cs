@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace Pook.Data
 {
-    public class PookContextDbInitializer : DropCreateDatabaseIfModelChanges<ApplicationDbContext>
+    public class PookContextDbInitializer : DropCreateDatabaseIfModelChanges<PookDbContext>
     {
-        protected override void Seed(ApplicationDbContext context)
+        protected override void Seed(PookDbContext context)
         {
             // TODO add seed here
 

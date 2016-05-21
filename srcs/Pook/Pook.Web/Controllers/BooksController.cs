@@ -14,7 +14,7 @@ namespace Pook.Web.Controllers
 {
     public class BooksController : Controller
     {
-        private ApplicationDbContext db = new ApplicationDbContext();
+        private PookDbContext db = new PookDbContext();
 
         // GET: Books
         public ActionResult Index()

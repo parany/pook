@@ -5,14 +5,14 @@ namespace Pook.Data.Migrations
     using System.Data.Entity.Migrations;
     using System.Linq;
 
-    internal sealed class Configuration : DbMigrationsConfiguration<Pook.Data.ApplicationDbContext>
+    internal sealed class Configuration : DbMigrationsConfiguration<Pook.Data.PookDbContext>
     {
         public Configuration()
         {
             AutomaticMigrationsEnabled = false;
         }
 
-        protected override void Seed(Pook.Data.ApplicationDbContext context)
+        protected override void Seed(Pook.Data.PookDbContext context)
         {
             //  This method will be called after migrating to the latest version.
 

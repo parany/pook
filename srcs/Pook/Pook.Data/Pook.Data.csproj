@@ -57,7 +57,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Entities\ApplicationUser.cs" />
+    <Compile Include="Entities\User.cs" />
     <Compile Include="Entities\Book.cs" />
     <Compile Include="Entities\Content.cs" />
     <Compile Include="Migrations\201605211802232_InitDb.cs" />
