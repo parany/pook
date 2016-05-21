@@ -64,8 +64,11 @@
     <Compile Include="Migrations\201605211802232_InitDb.Designer.cs">
       <DependentUpon>201605211802232_InitDb.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201605211849336_Book-AddDescriptionField.cs" />
+    <Compile Include="Migrations\201605211849336_Book-AddDescriptionField.Designer.cs">
+      <DependentUpon>201605211849336_Book-AddDescriptionField.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
-    <Compile Include="PookContextDbInitializer.cs" />
     <Compile Include="PookDbContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -76,6 +79,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201605211802232_InitDb.resx">
       <DependentUpon>201605211802232_InitDb.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201605211849336_Book-AddDescriptionField.resx">
+      <DependentUpon>201605211849336_Book-AddDescriptionField.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

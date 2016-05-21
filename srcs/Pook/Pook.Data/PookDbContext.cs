@@ -16,11 +16,6 @@ namespace Pook.Data
         {
         }
 
-        static PookDbContext()
-        {
-            Database.SetInitializer<PookDbContext>(new PookContextDbInitializer());
-        }
-
         public static PookDbContext Create()
         {
             return new PookDbContext();
