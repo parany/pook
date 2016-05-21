@@ -1,18 +1,18 @@
-namespace Pook.Web.Migrations
+namespace Pook.Data.Migrations
 {
     using System;
     using System.Data.Entity;
     using System.Data.Entity.Migrations;
     using System.Linq;
 
-    internal sealed class Configuration : DbMigrationsConfiguration<Pook.Web.Models.ApplicationDbContext>
+    internal sealed class Configuration : DbMigrationsConfiguration<Pook.Data.ApplicationDbContext>
     {
         public Configuration()
         {
             AutomaticMigrationsEnabled = false;
         }
 
-        protected override void Seed(Pook.Web.Models.ApplicationDbContext context)
+        protected override void Seed(Pook.Data.ApplicationDbContext context)
         {
             //  This method will be called after migrating to the latest version.
 

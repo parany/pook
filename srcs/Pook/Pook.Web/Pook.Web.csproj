@@ -174,19 +174,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201605211725277_InitDb.cs" />
-    <Compile Include="Migrations\201605211725277_InitDb.Designer.cs">
-      <DependentUpon>201605211725277_InitDb.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201605211741030_AddReleaseDateField.cs" />
-    <Compile Include="Migrations\201605211741030_AddReleaseDateField.Designer.cs">
-      <DependentUpon>201605211741030_AddReleaseDateField.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
-    <Compile Include="Models\Book.cs" />
-    <Compile Include="Models\Content.cs" />
-    <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
@@ -264,12 +252,10 @@
     <Content Include="Scripts\jquery-1.10.2.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201605211725277_InitDb.resx">
-      <DependentUpon>201605211725277_InitDb.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201605211741030_AddReleaseDateField.resx">
-      <DependentUpon>201605211741030_AddReleaseDateField.cs</DependentUpon>
-    </EmbeddedResource>
+    <ProjectReference Include="..\Pook.Data\Pook.Data.csproj">
+      <Project>{C9A1FECB-B2E8-4BE9-940B-9427277BCB76}</Project>
+      <Name>Pook.Data</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

@@ -6,6 +6,8 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using Pook.Data;
+using Pook.Data.Entities;
 using Pook.Web.Models;
 
 namespace Pook.Web.Controllers

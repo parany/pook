@@ -1,4 +1,4 @@
-namespace Pook.Web.Migrations
+namespace Pook.Data.Migrations
 {
     using System;
     using System.Data.Entity.Migrations;
@@ -13,6 +13,7 @@ namespace Pook.Web.Migrations
                     {
                         BookId = c.Guid(nullable: false),
                         Title = c.String(),
+                        ReleaseDate = c.DateTime(nullable: false),
                     })
                 .PrimaryKey(t => t.BookId);
             

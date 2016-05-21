@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Pook.Web.Models
+namespace Pook.Data.Entities
 {
     public class Content
     {
