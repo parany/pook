@@ -6,7 +6,7 @@ using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
 
-namespace Pook.Data
+namespace Pook.Web
 {
     public class MvcApplication : System.Web.HttpApplication
     {

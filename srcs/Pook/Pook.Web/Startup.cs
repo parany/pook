@@ -1,8 +1,8 @@
 ﻿using Microsoft.Owin;
 using Owin;
 
-[assembly: OwinStartupAttribute(typeof(Pook.Data.Startup))]
-namespace Pook.Data
+[assembly: OwinStartupAttribute(typeof(Pook.Web.Startup))]
+namespace Pook.Web
 {
     public partial class Startup
     {

@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace Pook.Data.Models
+namespace Pook.Web.Models
 {
     public class ExternalLoginConfirmationViewModel
     {

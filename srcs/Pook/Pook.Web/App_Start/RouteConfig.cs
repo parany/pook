@@ -5,7 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
 
-namespace Pook.Data
+namespace Pook.Web
 {
     public class RouteConfig
     {

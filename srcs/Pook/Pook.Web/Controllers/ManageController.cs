@@ -6,9 +6,9 @@ using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
-using Pook.Data.Models;
+using Pook.Web.Models;
 
-namespace Pook.Data.Controllers
+namespace Pook.Web.Controllers
 {
     [Authorize]
     public class ManageController : Controller
