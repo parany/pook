@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pook.Web", "Pook.Web\Pook.W
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pook.Data", "Pook.Data\Pook.Data.csproj", "{C9A1FECB-B2E8-4BE9-940B-9427277BCB76}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pook.Service", "Pook.Service\Pook.Service.csproj", "{C7D1F934-2311-49E2-AAC6-8080A57F56D5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{C9A1FECB-B2E8-4BE9-940B-9427277BCB76}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C9A1FECB-B2E8-4BE9-940B-9427277BCB76}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C9A1FECB-B2E8-4BE9-940B-9427277BCB76}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C7D1F934-2311-49E2-AAC6-8080A57F56D5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C7D1F934-2311-49E2-AAC6-8080A57F56D5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C7D1F934-2311-49E2-AAC6-8080A57F56D5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C7D1F934-2311-49E2-AAC6-8080A57F56D5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

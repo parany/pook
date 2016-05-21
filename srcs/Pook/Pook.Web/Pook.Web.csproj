@@ -256,6 +256,10 @@
       <Project>{C9A1FECB-B2E8-4BE9-940B-9427277BCB76}</Project>
       <Name>Pook.Data</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Pook.Service\Pook.Service.csproj">
+      <Project>{C7D1F934-2311-49E2-AAC6-8080A57F56D5}</Project>
+      <Name>Pook.Service</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

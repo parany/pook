@@ -7,6 +7,7 @@ using Microsoft.Owin.Security.Google;
 using Owin;
 using Pook.Data;
 using Pook.Data.Entities;
+using Pook.Service;
 using Pook.Web.Models;
 
 namespace Pook.Web
