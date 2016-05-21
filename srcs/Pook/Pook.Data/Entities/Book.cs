@@ -1,0 +1,11 @@
+﻿using System;
+
+namespace Pook.Data.Entities
+{
+    public class Book : Content
+    {
+        public Guid BookId { get; set; }
+
+        public string Title { get; set; }
+    }
+}
