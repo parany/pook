@@ -2,7 +2,7 @@
 
 namespace Pook.Data.Entities
 {
-    public class Book
+    public class Book: Content
     {
         public Guid BookId { get; set; }
 
@@ -11,5 +11,9 @@ namespace Pook.Data.Entities
         public string Description { get; set; }
 
         public DateTime ReleaseDate { get; set; }
+
+        public Guid? FirmId { get; set; }
+
+        public Firm Firm { get; set; }
     }
 }

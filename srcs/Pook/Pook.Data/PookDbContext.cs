@@ -22,5 +22,7 @@ namespace Pook.Data
         }
 
         public DbSet<Book> Books { get; set; }
+
+        public DbSet<Firm> Firms { get; set; } 
     }
 }

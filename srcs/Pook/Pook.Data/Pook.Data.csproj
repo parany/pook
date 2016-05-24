@@ -57,6 +57,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Entities\Firm.cs" />
     <Compile Include="Entities\User.cs" />
     <Compile Include="Entities\Book.cs" />
     <Compile Include="Entities\Content.cs" />
@@ -67,6 +68,18 @@
     <Compile Include="Migrations\201605211849336_Book-AddDescriptionField.cs" />
     <Compile Include="Migrations\201605211849336_Book-AddDescriptionField.Designer.cs">
       <DependentUpon>201605211849336_Book-AddDescriptionField.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201605241911524_AddFirm.cs" />
+    <Compile Include="Migrations\201605241911524_AddFirm.Designer.cs">
+      <DependentUpon>201605241911524_AddFirm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201605241916195_MakeFirmNullable.cs" />
+    <Compile Include="Migrations\201605241916195_MakeFirmNullable.Designer.cs">
+      <DependentUpon>201605241916195_MakeFirmNullable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201605241919268_MakeContentFieldNullable.cs" />
+    <Compile Include="Migrations\201605241919268_MakeContentFieldNullable.Designer.cs">
+      <DependentUpon>201605241919268_MakeContentFieldNullable.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="PookDbContext.cs" />
@@ -82,6 +95,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201605211849336_Book-AddDescriptionField.resx">
       <DependentUpon>201605211849336_Book-AddDescriptionField.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201605241911524_AddFirm.resx">
+      <DependentUpon>201605241911524_AddFirm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201605241916195_MakeFirmNullable.resx">
+      <DependentUpon>201605241916195_MakeFirmNullable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201605241919268_MakeContentFieldNullable.resx">
+      <DependentUpon>201605241919268_MakeContentFieldNullable.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
