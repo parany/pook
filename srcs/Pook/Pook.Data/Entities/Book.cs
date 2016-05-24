@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Pook.Data.Entities
 {
@@ -15,5 +16,7 @@ namespace Pook.Data.Entities
         public Guid? FirmId { get; set; }
 
         public Firm Firm { get; set; }
+
+        public ICollection<BookCategory> BookCategories { get; set; } 
     }
 }

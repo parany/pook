@@ -57,6 +57,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Entities\BookCategory.cs" />
+    <Compile Include="Entities\Category.cs" />
     <Compile Include="Entities\Firm.cs" />
     <Compile Include="Entities\User.cs" />
     <Compile Include="Entities\Book.cs" />
@@ -81,6 +83,10 @@
     <Compile Include="Migrations\201605241919268_MakeContentFieldNullable.Designer.cs">
       <DependentUpon>201605241919268_MakeContentFieldNullable.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201605241946333_AddCategory.cs" />
+    <Compile Include="Migrations\201605241946333_AddCategory.Designer.cs">
+      <DependentUpon>201605241946333_AddCategory.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="PookDbContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -104,6 +110,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201605241919268_MakeContentFieldNullable.resx">
       <DependentUpon>201605241919268_MakeContentFieldNullable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201605241946333_AddCategory.resx">
+      <DependentUpon>201605241946333_AddCategory.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
