@@ -61,6 +61,7 @@
     <Compile Include="Entities\BookAuthor.cs" />
     <Compile Include="Entities\BookCategory.cs" />
     <Compile Include="Entities\Category.cs" />
+    <Compile Include="Entities\Editor.cs" />
     <Compile Include="Entities\Firm.cs" />
     <Compile Include="Entities\Person.cs" />
     <Compile Include="Entities\Role.cs" />
@@ -115,6 +116,10 @@
     <Compile Include="Migrations\201605261908588_author.Designer.cs">
       <DependentUpon>201605261908588_author.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201605261942254_editor.cs" />
+    <Compile Include="Migrations\201605261942254_editor.Designer.cs">
+      <DependentUpon>201605261942254_editor.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="PookDbContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -159,6 +164,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201605261908588_author.resx">
       <DependentUpon>201605261908588_author.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201605261942254_editor.resx">
+      <DependentUpon>201605261942254_editor.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -17,6 +17,10 @@ namespace Pook.Data.Entities
 
         public virtual Firm Firm { get; set; }
 
+        public Guid? EditorId { get; set; }
+
+        public Editor Editor { get; set; }
+
         public virtual ICollection<Category> Categories { get; set; } 
 
         public virtual ICollection<Author> Authors { get; set; } 

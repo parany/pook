@@ -34,5 +34,7 @@ namespace Pook.Data
         public DbSet<BookAuthor> BookAuthors { get; set; } 
 
         public DbSet<AuthorRole> AuthorRoles { get; set; } 
+
+        public DbSet<Editor> Editors { get; set; } 
     }
 }
