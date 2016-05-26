@@ -4,18 +4,18 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Pook.Data.Entities
 {
-    public class BookCategory
+    public class BookAuthor
     {
         [Key, Column(Order = 0)]
         public Guid BookId { get; set; }
 
         [Key, Column(Order = 1)]
-        public Guid CategoryId { get; set; }
-
-        public string Observation { get; set; }
+        public Guid AuthorId { get; set; }
 
         public virtual Book Book { get; set; }
 
-        public virtual Category Category { get; set; }
+        public virtual Author Author { get; set; }
+
+        public string Observation { get; set; }
     }
 }

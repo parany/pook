@@ -57,9 +57,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Entities\Author.cs" />
+    <Compile Include="Entities\BookAuthor.cs" />
     <Compile Include="Entities\BookCategory.cs" />
     <Compile Include="Entities\Category.cs" />
     <Compile Include="Entities\Firm.cs" />
+    <Compile Include="Entities\Person.cs" />
+    <Compile Include="Entities\Role.cs" />
     <Compile Include="Entities\User.cs" />
     <Compile Include="Entities\Book.cs" />
     <Compile Include="Entities\Content.cs" />
@@ -87,6 +91,30 @@
     <Compile Include="Migrations\201605241946333_AddCategory.Designer.cs">
       <DependentUpon>201605241946333_AddCategory.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201605252107266_update-manytomanybookcategories.cs" />
+    <Compile Include="Migrations\201605252107266_update-manytomanybookcategories.Designer.cs">
+      <DependentUpon>201605252107266_update-manytomanybookcategories.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201605252110124_addobservation.cs" />
+    <Compile Include="Migrations\201605252110124_addobservation.Designer.cs">
+      <DependentUpon>201605252110124_addobservation.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201605252112498_AddBookCategory.cs" />
+    <Compile Include="Migrations\201605252112498_AddBookCategory.Designer.cs">
+      <DependentUpon>201605252112498_AddBookCategory.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201605252116003_AddBookCategoryRemoveContent.cs" />
+    <Compile Include="Migrations\201605252116003_AddBookCategoryRemoveContent.Designer.cs">
+      <DependentUpon>201605252116003_AddBookCategoryRemoveContent.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201605252123282_AddBookCategoryAddVirtualMembers.cs" />
+    <Compile Include="Migrations\201605252123282_AddBookCategoryAddVirtualMembers.Designer.cs">
+      <DependentUpon>201605252123282_AddBookCategoryAddVirtualMembers.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201605261908588_author.cs" />
+    <Compile Include="Migrations\201605261908588_author.Designer.cs">
+      <DependentUpon>201605261908588_author.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="PookDbContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -113,6 +141,24 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201605241946333_AddCategory.resx">
       <DependentUpon>201605241946333_AddCategory.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201605252107266_update-manytomanybookcategories.resx">
+      <DependentUpon>201605252107266_update-manytomanybookcategories.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201605252110124_addobservation.resx">
+      <DependentUpon>201605252110124_addobservation.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201605252112498_AddBookCategory.resx">
+      <DependentUpon>201605252112498_AddBookCategory.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201605252116003_AddBookCategoryRemoveContent.resx">
+      <DependentUpon>201605252116003_AddBookCategoryRemoveContent.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201605252123282_AddBookCategoryAddVirtualMembers.resx">
+      <DependentUpon>201605252123282_AddBookCategoryAddVirtualMembers.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201605261908588_author.resx">
+      <DependentUpon>201605261908588_author.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

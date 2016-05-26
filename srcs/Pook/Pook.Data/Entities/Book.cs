@@ -15,8 +15,10 @@ namespace Pook.Data.Entities
 
         public Guid? FirmId { get; set; }
 
-        public Firm Firm { get; set; }
+        public virtual Firm Firm { get; set; }
 
-        public ICollection<BookCategory> BookCategories { get; set; } 
+        public virtual ICollection<Category> Categories { get; set; } 
+
+        public virtual ICollection<Author> Authors { get; set; } 
     }
 }
