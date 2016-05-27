@@ -27,6 +27,8 @@ namespace Pook.Data.Entities
 
         public ICollection<Author> Authors { get; set; }
 
+        public ICollection<Progression> Progressions { get; set; } 
+
         public Book()
         {
             Categories = new List<Category>();

@@ -43,6 +43,10 @@ namespace Pook.Data
         
         public DbSet<AuthorRole> AuthorRoles { get; set; } 
 
-        public DbSet<Editor> Editors { get; set; } 
+        public DbSet<Editor> Editors { get; set; }
+
+        public DbSet<Progression> Progressions { get; set; }
+
+        public DbSet<Status> Statuses { get; set; }
     }
 }
