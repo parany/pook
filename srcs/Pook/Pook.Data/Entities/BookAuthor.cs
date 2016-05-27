@@ -9,10 +9,10 @@ namespace Pook.Data.Entities
         [Key, Column(Order = 0)]
         public Guid BookId { get; set; }
 
+        public virtual Book Book { get; set; }
+
         [Key, Column(Order = 1)]
         public Guid AuthorId { get; set; }
-
-        public virtual Book Book { get; set; }
 
         public virtual Author Author { get; set; }
 

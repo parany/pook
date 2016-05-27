@@ -1,7 +1,9 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Pook.Data.Entities
 {
+    [Table("Editor", Schema = "Book")]
     public class Editor : Content
     {
         public Guid EditorId { get; set; }

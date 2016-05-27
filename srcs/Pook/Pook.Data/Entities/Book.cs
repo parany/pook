@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Pook.Data.Entities
 {
-    public class Book: Content
+    [Table("Book", Schema = "Book")]
+    public sealed class Book: Content
     {
         public Guid BookId { get; set; }
 
@@ -15,14 +17,19 @@ namespace Pook.Data.Entities
 
         public Guid? FirmId { get; set; }
 
-        public virtual Firm Firm { get; set; }
+        public Firm Firm { get; set; }
 
         public Guid? EditorId { get; set; }
 
         public Editor Editor { get; set; }
 
-        public virtual ICollection<Category> Categories { get; set; } 
+        public ICollection<Category> Categories { get; set; } 
 
-        public virtual ICollection<Author> Authors { get; set; } 
+        public ICollection<Author> Authors { get; set; }
+
+        public Book()
+        {
+            Categories = new List<Category>();
+        }
     }
 }

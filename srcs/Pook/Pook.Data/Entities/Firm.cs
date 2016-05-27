@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Pook.Data.Entities
 {
+    [Table("Firm", Schema = "Book")]
     public class Firm: Content
     {
         public Guid FirmId { get; set; }
