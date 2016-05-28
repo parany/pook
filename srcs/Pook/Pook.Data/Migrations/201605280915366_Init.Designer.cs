@@ -13,7 +13,7 @@ namespace Pook.Data.Migrations
         
         string IMigrationMetadata.Id
         {
-            get { return "201605271832578_Init"; }
+            get { return "201605280915366_Init"; }
         }
         
         string IMigrationMetadata.Source

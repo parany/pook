@@ -48,5 +48,7 @@ namespace Pook.Data
         public DbSet<Progression> Progressions { get; set; }
 
         public DbSet<Status> Statuses { get; set; }
+
+        public DbSet<Note> Notes { get; set; } 
     }
 }

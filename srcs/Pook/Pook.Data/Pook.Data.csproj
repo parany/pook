@@ -63,6 +63,7 @@
     <Compile Include="Entities\Category.cs" />
     <Compile Include="Entities\Editor.cs" />
     <Compile Include="Entities\Firm.cs" />
+    <Compile Include="Entities\Note.cs" />
     <Compile Include="Entities\Person.cs" />
     <Compile Include="Entities\Progression.cs" />
     <Compile Include="Entities\Role.cs" />
@@ -70,13 +71,9 @@
     <Compile Include="Entities\User.cs" />
     <Compile Include="Entities\Book.cs" />
     <Compile Include="Entities\Content.cs" />
-    <Compile Include="Migrations\201605271832578_Init.cs" />
-    <Compile Include="Migrations\201605271832578_Init.Designer.cs">
-      <DependentUpon>201605271832578_Init.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201605271923039_AddStatus.cs" />
-    <Compile Include="Migrations\201605271923039_AddStatus.Designer.cs">
-      <DependentUpon>201605271923039_AddStatus.cs</DependentUpon>
+    <Compile Include="Migrations\201605280915366_Init.cs" />
+    <Compile Include="Migrations\201605280915366_Init.Designer.cs">
+      <DependentUpon>201605280915366_Init.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="PookDbContext.cs" />
@@ -87,11 +84,8 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201605271832578_Init.resx">
-      <DependentUpon>201605271832578_Init.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201605271923039_AddStatus.resx">
-      <DependentUpon>201605271923039_AddStatus.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201605280915366_Init.resx">
+      <DependentUpon>201605280915366_Init.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

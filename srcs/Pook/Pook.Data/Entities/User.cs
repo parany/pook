@@ -21,7 +21,9 @@ namespace Pook.Data.Entities
 
         public DateTime DateOfBirth { get; set; }
 
-        public virtual ICollection<Progression> Progressions { get; set; } 
+        public virtual ICollection<Progression> Progressions { get; set; }
+
+        public virtual ICollection<Note> Notes { get; set; }
 
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<User> manager)
         {

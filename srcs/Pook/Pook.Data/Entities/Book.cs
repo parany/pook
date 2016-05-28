@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace Pook.Data.Entities
 {
     [Table("Book", Schema = "Book")]
-    public sealed class Book: Content
+    public class Book: Content
     {
         public Guid BookId { get; set; }
 
@@ -23,15 +23,12 @@ namespace Pook.Data.Entities
 
         public Editor Editor { get; set; }
 
-        public ICollection<Category> Categories { get; set; } 
+        public virtual ICollection<Category> Categories { get; set; } = new List<Category>();
 
-        public ICollection<Author> Authors { get; set; }
+        public virtual ICollection<Author> Authors { get; set; } = new List<Author>();
 
-        public ICollection<Progression> Progressions { get; set; } 
+        public virtual ICollection<Progression> Progressions { get; set; } = new List<Progression>();
 
-        public Book()
-        {
-            Categories = new List<Category>();
-        }
+        public virtual ICollection<Note> Notes { get; set; } = new List<Note>(); 
     }
 }
