@@ -1,3 +1,13 @@
 [database]
 -add Data project
--setting up db tables
+-setting up all db tables
+
+[scaffold]
+-rely on VS scaffolding to accelerate development
+
+[0.0.1]
+-release 0.0.1 as master and prerelease, this version can be already used to fill DB with concrete data.
+-create a new branch "develop" that will be used in dev. 
+-create a new DB named "Pook_Dev", that will be used during development.
+-deploy the master in another pc to test deployment and v 0.0.1.
+-data in the prod env will be imported in dev to have real data to continue dev.
