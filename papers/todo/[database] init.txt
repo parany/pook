@@ -11,3 +11,14 @@
 -create a new DB named "Pook_Dev", that will be used during development.
 -deploy the master in another pc to test deployment and v 0.0.1.
 -data in the prod env will be imported in dev to have real data to continue dev.
+
+[Area]
+-subdiviser en Area par menu et par schéma.
+
+[Column name]
+-les noms des colonnes qui s'affichent dans l'interface doivent être "Release Date" par ex au lieu de "ReleaseDate"
+-C'est pareil pour "FirmId" dans l'édition aussi, ils doivent être Firm.
+
+[Displayed fields]
+-il faut définir la liste de champs à afficher dans la liste que dans l'édition et leurs noms aussi sont à corriger/ajuster.
+-par ex pour User, il faut juste afficher qlq champs dans la liste.

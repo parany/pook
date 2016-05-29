@@ -7,20 +7,21 @@ namespace Pook.Data.Entities
     [Table("Progression", Schema = "User")]
     public class Progression : Content
     {
-        [Key, Column(Order = 0)]
+        public Guid ProgressionId { get; set; }
+
         public Guid StatusId { get; set; }
 
-        public virtual Status Status { get; set; }
+        public Status Status { get; set; }
 
-        [Key, Column(Order = 1)]
+        [Index("IX_Progression", 1, IsUnique = true, Order = 3)]
         public Guid BookId { get; set; }
 
-        public virtual Book Book { get; set; }
+        public Book Book { get; set; }
 
-        [Key, Column(Order = 2)]
-        public Guid UserId { get; set; }
+        [Index("IX_Progression", 1, IsUnique = true, Order = 4)]
+        public string UserId { get; set; }
 
-        public virtual User User { get; set; }
+        public User User { get; set; }
 
     }
 }

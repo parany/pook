@@ -176,6 +176,10 @@
     <Compile Include="Controllers\FirmController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\NoteController.cs" />
+    <Compile Include="Controllers\ProgressionController.cs" />
+    <Compile Include="Controllers\StatusController.cs" />
+    <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -269,6 +273,26 @@
     <Content Include="Views\Book\Details.cshtml" />
     <Content Include="Views\Book\Edit.cshtml" />
     <Content Include="Views\Book\Index.cshtml" />
+    <Content Include="Views\Status\Create.cshtml" />
+    <Content Include="Views\Status\Delete.cshtml" />
+    <Content Include="Views\Status\Details.cshtml" />
+    <Content Include="Views\Status\Edit.cshtml" />
+    <Content Include="Views\Status\Index.cshtml" />
+    <Content Include="Views\User\Create.cshtml" />
+    <Content Include="Views\User\Delete.cshtml" />
+    <Content Include="Views\User\Details.cshtml" />
+    <Content Include="Views\User\Edit.cshtml" />
+    <Content Include="Views\User\Index.cshtml" />
+    <Content Include="Views\Progression\Create.cshtml" />
+    <Content Include="Views\Progression\Delete.cshtml" />
+    <Content Include="Views\Progression\Details.cshtml" />
+    <Content Include="Views\Progression\Edit.cshtml" />
+    <Content Include="Views\Progression\Index.cshtml" />
+    <Content Include="Views\Note\Create.cshtml" />
+    <Content Include="Views\Note\Delete.cshtml" />
+    <Content Include="Views\Note\Details.cshtml" />
+    <Content Include="Views\Note\Edit.cshtml" />
+    <Content Include="Views\Note\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

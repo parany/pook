@@ -19,7 +19,7 @@ namespace Pook.Data.Entities
 
         public string Address { get; set; }
 
-        public DateTime DateOfBirth { get; set; }
+        public DateTime? DateOfBirth { get; set; }
 
         public virtual ICollection<Progression> Progressions { get; set; }
 

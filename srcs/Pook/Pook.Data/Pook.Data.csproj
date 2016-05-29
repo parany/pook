@@ -79,6 +79,26 @@
     <Compile Include="Migrations\201605290615295_EditorAddTitle.Designer.cs">
       <DependentUpon>201605290615295_EditorAddTitle.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201605290819151_UserMakeDateOfBirthNullable.cs" />
+    <Compile Include="Migrations\201605290819151_UserMakeDateOfBirthNullable.Designer.cs">
+      <DependentUpon>201605290819151_UserMakeDateOfBirthNullable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201605290837105_ProgressionAddUniqueBookIdUserId.cs" />
+    <Compile Include="Migrations\201605290837105_ProgressionAddUniqueBookIdUserId.Designer.cs">
+      <DependentUpon>201605290837105_ProgressionAddUniqueBookIdUserId.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201605290847214_ProgressionRemoveBookIndexRemoveUserIndexAddProgressionId.cs" />
+    <Compile Include="Migrations\201605290847214_ProgressionRemoveBookIndexRemoveUserIndexAddProgressionId.Designer.cs">
+      <DependentUpon>201605290847214_ProgressionRemoveBookIndexRemoveUserIndexAddProgressionId.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201605290906145_ProgressionUpdateUserIdToString.cs" />
+    <Compile Include="Migrations\201605290906145_ProgressionUpdateUserIdToString.Designer.cs">
+      <DependentUpon>201605290906145_ProgressionUpdateUserIdToString.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201605290946110_NoteUpdatUserIdToStringAddIndex.cs" />
+    <Compile Include="Migrations\201605290946110_NoteUpdatUserIdToStringAddIndex.Designer.cs">
+      <DependentUpon>201605290946110_NoteUpdatUserIdToStringAddIndex.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="PookDbContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -93,6 +113,21 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201605290615295_EditorAddTitle.resx">
       <DependentUpon>201605290615295_EditorAddTitle.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201605290819151_UserMakeDateOfBirthNullable.resx">
+      <DependentUpon>201605290819151_UserMakeDateOfBirthNullable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201605290837105_ProgressionAddUniqueBookIdUserId.resx">
+      <DependentUpon>201605290837105_ProgressionAddUniqueBookIdUserId.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201605290847214_ProgressionRemoveBookIndexRemoveUserIndexAddProgressionId.resx">
+      <DependentUpon>201605290847214_ProgressionRemoveBookIndexRemoveUserIndexAddProgressionId.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201605290906145_ProgressionUpdateUserIdToString.resx">
+      <DependentUpon>201605290906145_ProgressionUpdateUserIdToString.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201605290946110_NoteUpdatUserIdToStringAddIndex.resx">
+      <DependentUpon>201605290946110_NoteUpdatUserIdToStringAddIndex.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
