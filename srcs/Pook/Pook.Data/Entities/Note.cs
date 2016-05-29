@@ -24,6 +24,7 @@ namespace Pook.Data.Entities
         [Index("IX_Note", 1, IsUnique = true, Order = 5)]
         public int Page { get; set; }
 
+        [DataType(DataType.MultilineText)]
         public string Description { get; set; }
     }
 }

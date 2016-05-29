@@ -9,6 +9,7 @@ namespace Pook.Data.Entities
     {
         public Guid ProgressionId { get; set; }
 
+        [Index("IX_Progression", 1, IsUnique = true, Order = 5)]
         public Guid StatusId { get; set; }
 
         public Status Status { get; set; }
@@ -23,5 +24,6 @@ namespace Pook.Data.Entities
 
         public User User { get; set; }
 
+        public DateTime Date { get; set; }
     }
 }

@@ -51,7 +51,7 @@ namespace Pook.Web.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "ProgressionId,StatusId,BookId,UserId,CreatedOn,UpdatedOn,CreatedBy,UpdatedBy,SeoTitle")] Progression progression)
+        public ActionResult Create([Bind(Include = "ProgressionId,StatusId,BookId,UserId,Date,CreatedOn,UpdatedOn,CreatedBy,UpdatedBy,SeoTitle")] Progression progression)
         {
             if (ModelState.IsValid)
             {
@@ -90,7 +90,7 @@ namespace Pook.Web.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "ProgressionId,StatusId,BookId,UserId,CreatedOn,UpdatedOn,CreatedBy,UpdatedBy,SeoTitle")] Progression progression)
+        public ActionResult Edit([Bind(Include = "ProgressionId,StatusId,BookId,UserId,Date,CreatedOn,UpdatedOn,CreatedBy,UpdatedBy,SeoTitle")] Progression progression)
         {
             if (ModelState.IsValid)
             {

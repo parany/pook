@@ -22,3 +22,9 @@
 [Displayed fields]
 -il faut définir la liste de champs à afficher dans la liste que dans l'édition et leurs noms aussi sont à corriger/ajuster.
 -par ex pour User, il faut juste afficher qlq champs dans la liste.
+
+[category]
+modifier en many-to-one. Un livre ne peut avoir qu'une catégorie.
+
+[author]
+repenser le système de author. Une personne(person) peut avoir différents rôles pour plusieurs livres.

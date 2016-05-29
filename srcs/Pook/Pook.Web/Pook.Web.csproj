@@ -283,16 +283,16 @@
     <Content Include="Views\User\Details.cshtml" />
     <Content Include="Views\User\Edit.cshtml" />
     <Content Include="Views\User\Index.cshtml" />
-    <Content Include="Views\Progression\Create.cshtml" />
-    <Content Include="Views\Progression\Delete.cshtml" />
-    <Content Include="Views\Progression\Details.cshtml" />
-    <Content Include="Views\Progression\Edit.cshtml" />
-    <Content Include="Views\Progression\Index.cshtml" />
     <Content Include="Views\Note\Create.cshtml" />
     <Content Include="Views\Note\Delete.cshtml" />
     <Content Include="Views\Note\Details.cshtml" />
     <Content Include="Views\Note\Edit.cshtml" />
     <Content Include="Views\Note\Index.cshtml" />
+    <Content Include="Views\Progression\Create.cshtml" />
+    <Content Include="Views\Progression\Delete.cshtml" />
+    <Content Include="Views\Progression\Details.cshtml" />
+    <Content Include="Views\Progression\Edit.cshtml" />
+    <Content Include="Views\Progression\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

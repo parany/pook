@@ -99,6 +99,14 @@
     <Compile Include="Migrations\201605290946110_NoteUpdatUserIdToStringAddIndex.Designer.cs">
       <DependentUpon>201605290946110_NoteUpdatUserIdToStringAddIndex.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201605291326437_ProgressionAddDateRemoveConstraints.cs" />
+    <Compile Include="Migrations\201605291326437_ProgressionAddDateRemoveConstraints.Designer.cs">
+      <DependentUpon>201605291326437_ProgressionAddDateRemoveConstraints.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201605291347124_ProgressionAddConstraints.cs" />
+    <Compile Include="Migrations\201605291347124_ProgressionAddConstraints.Designer.cs">
+      <DependentUpon>201605291347124_ProgressionAddConstraints.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="PookDbContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -128,6 +136,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201605290946110_NoteUpdatUserIdToStringAddIndex.resx">
       <DependentUpon>201605290946110_NoteUpdatUserIdToStringAddIndex.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201605291326437_ProgressionAddDateRemoveConstraints.resx">
+      <DependentUpon>201605291326437_ProgressionAddDateRemoveConstraints.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201605291347124_ProgressionAddConstraints.resx">
+      <DependentUpon>201605291347124_ProgressionAddConstraints.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
