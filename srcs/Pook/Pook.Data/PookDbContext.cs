@@ -20,7 +20,15 @@ namespace Pook.Data
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+
             modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
+
+            modelBuilder.Entity<User>().ToTable("User", "User");
+            modelBuilder.Entity<IdentityRole>().ToTable("Role", "User");
+            modelBuilder.Entity<IdentityUserRole>().ToTable("UserRole", "User");
+            modelBuilder.Entity<IdentityUserClaim>().ToTable("UserClaim", "User");
+            modelBuilder.Entity<IdentityUserLogin>().ToTable("UserLogin", "User");
+
             modelBuilder.Entity<Book>()
                 .HasMany(c => c.Categories).WithMany(i => i.Books)
                 .Map(t => t.MapLeftKey("BookId")

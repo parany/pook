@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Pook.Data.Entities
 {
-    [Table("Progression", Schema = "Book")]
+    [Table("Progression", Schema = "User")]
     public class Progression : Content
     {
         [Key, Column(Order = 0)]

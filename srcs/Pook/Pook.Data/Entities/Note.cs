@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Pook.Data.Entities
 {
+    [Table("Note", Schema = "User")]
     public class Note : Content
     {
         [Key]

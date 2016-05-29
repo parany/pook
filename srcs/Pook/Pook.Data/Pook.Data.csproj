@@ -71,9 +71,9 @@
     <Compile Include="Entities\User.cs" />
     <Compile Include="Entities\Book.cs" />
     <Compile Include="Entities\Content.cs" />
-    <Compile Include="Migrations\201605280915366_Init.cs" />
-    <Compile Include="Migrations\201605280915366_Init.Designer.cs">
-      <DependentUpon>201605280915366_Init.cs</DependentUpon>
+    <Compile Include="Migrations\201605290536217_InitDb.cs" />
+    <Compile Include="Migrations\201605290536217_InitDb.Designer.cs">
+      <DependentUpon>201605290536217_InitDb.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="PookDbContext.cs" />
@@ -84,8 +84,8 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201605280915366_Init.resx">
-      <DependentUpon>201605280915366_Init.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201605290536217_InitDb.resx">
+      <DependentUpon>201605290536217_InitDb.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

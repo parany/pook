@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Pook.Data.Entities
 {
-    [Table("Status", Schema = "Book")]
+    [Table("Status", Schema = "User")]
     public class Status : Content
     {
         public Guid StatusId { get; set; }
