@@ -1,0 +1,34 @@
+﻿@model Pook.Data.Entities.AuthorRole
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>AuthorRole</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Title)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Title)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Desription)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Desription)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.AuthorRoleId }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
