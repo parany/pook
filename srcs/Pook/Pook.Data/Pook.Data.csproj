@@ -75,6 +75,10 @@
     <Compile Include="Migrations\201605290536217_InitDb.Designer.cs">
       <DependentUpon>201605290536217_InitDb.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201605290615295_EditorAddTitle.cs" />
+    <Compile Include="Migrations\201605290615295_EditorAddTitle.Designer.cs">
+      <DependentUpon>201605290615295_EditorAddTitle.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="PookDbContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -86,6 +90,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201605290536217_InitDb.resx">
       <DependentUpon>201605290536217_InitDb.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201605290615295_EditorAddTitle.resx">
+      <DependentUpon>201605290615295_EditorAddTitle.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
