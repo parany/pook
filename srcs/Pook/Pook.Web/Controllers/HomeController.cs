@@ -15,7 +15,6 @@ namespace Pook.Web.Controllers
 
         public ActionResult Index()
         {
-            var books = _context.Books.Include(b => b.Categories).ToList();
             return View();
         }
 

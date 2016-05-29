@@ -28,17 +28,6 @@ namespace Pook.Data
             modelBuilder.Entity<IdentityUserRole>().ToTable("UserRole", "User");
             modelBuilder.Entity<IdentityUserClaim>().ToTable("UserClaim", "User");
             modelBuilder.Entity<IdentityUserLogin>().ToTable("UserLogin", "User");
-
-            modelBuilder.Entity<Book>()
-                .HasMany(c => c.Categories).WithMany(i => i.Books)
-                .Map(t => t.MapLeftKey("BookId")
-                .MapRightKey("CategoryId")
-                .ToTable("BookCategory"));
-            modelBuilder.Entity<Book>()
-                .HasMany(c => c.Authors).WithMany(i => i.Books)
-                .Map(t => t.MapLeftKey("BookId")
-                .MapRightKey("CategoryId")
-                .ToTable("BookAuthor"));
         }
 
         public DbSet<Book> Books { get; set; }
@@ -49,7 +38,9 @@ namespace Pook.Data
 
         public DbSet<Author> Authors { get; set; }
         
-        public DbSet<AuthorRole> AuthorRoles { get; set; } 
+        public DbSet<ResponsabilityType> ResponsabilityTypes { get; set; } 
+
+        public DbSet<Responsability> Responsabilities { get; set; } 
 
         public DbSet<Editor> Editors { get; set; }
 

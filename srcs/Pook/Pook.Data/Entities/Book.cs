@@ -23,9 +23,11 @@ namespace Pook.Data.Entities
 
         public Editor Editor { get; set; }
 
-        public virtual ICollection<Category> Categories { get; set; } = new List<Category>();
+        public Guid CategoryId { get; set; }
 
-        public virtual ICollection<Author> Authors { get; set; } = new List<Author>();
+        public virtual Category Category { get; set; }
+
+        public virtual ICollection<Responsability> Responsabilities { get; set; } = new List<Responsability>();
 
         public virtual ICollection<Progression> Progressions { get; set; } = new List<Progression>();
 

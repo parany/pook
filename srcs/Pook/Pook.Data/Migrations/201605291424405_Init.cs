@@ -3,45 +3,22 @@ namespace Pook.Data.Migrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class InitDb : DbMigration
+    public partial class Init : DbMigration
     {
         public override void Up()
         {
-            CreateTable(
-                "Book.AuthorRole",
-                c => new
-                    {
-                        AuthorRoleId = c.Guid(nullable: false),
-                        Title = c.String(),
-                        Desription = c.String(),
-                        CreatedOn = c.DateTime(),
-                        UpdatedOn = c.DateTime(),
-                        CreatedBy = c.Guid(),
-                        UpdatedBy = c.Guid(),
-                        SeoTitle = c.String(),
-                    })
-                .PrimaryKey(t => t.AuthorRoleId);
-            
             CreateTable(
                 "Book.Author",
                 c => new
                     {
                         AuthorId = c.Guid(nullable: false),
-                        AuthorRoleId = c.Guid(nullable: false),
                         FirstName = c.String(),
                         LastName = c.String(),
                         Description = c.String(),
                         Email = c.String(),
                         Address = c.String(),
-                        CreatedOn = c.DateTime(),
-                        UpdatedOn = c.DateTime(),
-                        CreatedBy = c.Guid(),
-                        UpdatedBy = c.Guid(),
-                        SeoTitle = c.String(),
                     })
-                .PrimaryKey(t => t.AuthorId)
-                .ForeignKey("Book.AuthorRole", t => t.AuthorRoleId, cascadeDelete: true)
-                .Index(t => t.AuthorRoleId);
+                .PrimaryKey(t => t.AuthorId);
             
             CreateTable(
                 "Book.Book",
@@ -53,6 +30,7 @@ namespace Pook.Data.Migrations
                         ReleaseDate = c.DateTime(nullable: false),
                         FirmId = c.Guid(),
                         EditorId = c.Guid(),
+                        CategoryId = c.Guid(nullable: false),
                         CreatedOn = c.DateTime(),
                         UpdatedOn = c.DateTime(),
                         CreatedBy = c.Guid(),
@@ -60,10 +38,12 @@ namespace Pook.Data.Migrations
                         SeoTitle = c.String(),
                     })
                 .PrimaryKey(t => t.BookId)
+                .ForeignKey("Book.Category", t => t.CategoryId, cascadeDelete: true)
                 .ForeignKey("Editor.Editor", t => t.EditorId)
                 .ForeignKey("Editor.Firm", t => t.FirmId)
                 .Index(t => t.FirmId)
-                .Index(t => t.EditorId);
+                .Index(t => t.EditorId)
+                .Index(t => t.CategoryId);
             
             CreateTable(
                 "Book.Category",
@@ -85,6 +65,7 @@ namespace Pook.Data.Migrations
                 c => new
                     {
                         EditorId = c.Guid(nullable: false),
+                        Title = c.String(),
                         Description = c.String(),
                         Address = c.String(),
                         CreatedOn = c.DateTime(),
@@ -115,8 +96,9 @@ namespace Pook.Data.Migrations
                 "User.Note",
                 c => new
                     {
-                        UserId = c.Guid(nullable: false),
+                        UserId = c.String(maxLength: 128),
                         BookId = c.Guid(nullable: false),
+                        NoteId = c.Guid(nullable: false),
                         Page = c.Int(nullable: false),
                         Description = c.String(),
                         CreatedOn = c.DateTime(),
@@ -124,13 +106,11 @@ namespace Pook.Data.Migrations
                         CreatedBy = c.Guid(),
                         UpdatedBy = c.Guid(),
                         SeoTitle = c.String(),
-                        User_Id = c.String(maxLength: 128),
                     })
-                .PrimaryKey(t => new { t.UserId, t.BookId })
+                .PrimaryKey(t => t.NoteId)
                 .ForeignKey("Book.Book", t => t.BookId, cascadeDelete: true)
-                .ForeignKey("User.User", t => t.User_Id)
-                .Index(t => t.BookId)
-                .Index(t => t.User_Id);
+                .ForeignKey("User.User", t => t.UserId)
+                .Index(t => new { t.UserId, t.BookId, t.Page }, unique: true, name: "IX_Note");
             
             CreateTable(
                 "User.User",
@@ -141,7 +121,7 @@ namespace Pook.Data.Migrations
                         LastName = c.String(),
                         Description = c.String(),
                         Address = c.String(),
-                        DateOfBirth = c.DateTime(nullable: false),
+                        DateOfBirth = c.DateTime(),
                         Email = c.String(maxLength: 256),
                         EmailConfirmed = c.Boolean(nullable: false),
                         PasswordHash = c.String(),
@@ -186,23 +166,22 @@ namespace Pook.Data.Migrations
                 "User.Progression",
                 c => new
                     {
+                        ProgressionId = c.Guid(nullable: false),
                         StatusId = c.Guid(nullable: false),
                         BookId = c.Guid(nullable: false),
-                        UserId = c.Guid(nullable: false),
+                        UserId = c.String(maxLength: 128),
+                        Date = c.DateTime(nullable: false),
                         CreatedOn = c.DateTime(),
                         UpdatedOn = c.DateTime(),
                         CreatedBy = c.Guid(),
                         UpdatedBy = c.Guid(),
                         SeoTitle = c.String(),
-                        User_Id = c.String(maxLength: 128),
                     })
-                .PrimaryKey(t => new { t.StatusId, t.BookId, t.UserId })
+                .PrimaryKey(t => t.ProgressionId)
                 .ForeignKey("Book.Book", t => t.BookId, cascadeDelete: true)
                 .ForeignKey("User.Status", t => t.StatusId, cascadeDelete: true)
-                .ForeignKey("User.User", t => t.User_Id)
-                .Index(t => t.StatusId)
-                .Index(t => t.BookId)
-                .Index(t => t.User_Id);
+                .ForeignKey("User.User", t => t.UserId)
+                .Index(t => new { t.BookId, t.UserId, t.StatusId }, unique: true, name: "IX_Progression");
             
             CreateTable(
                 "User.Status",
@@ -232,6 +211,33 @@ namespace Pook.Data.Migrations
                 .Index(t => t.RoleId);
             
             CreateTable(
+                "Book.Responsability",
+                c => new
+                    {
+                        ResponsabilityId = c.Guid(nullable: false),
+                        ResponsabilityTypeId = c.Guid(nullable: false),
+                        AuthorId = c.Guid(nullable: false),
+                        BookId = c.Guid(nullable: false),
+                    })
+                .PrimaryKey(t => t.ResponsabilityId)
+                .ForeignKey("Book.Author", t => t.AuthorId, cascadeDelete: true)
+                .ForeignKey("Book.Book", t => t.BookId, cascadeDelete: true)
+                .ForeignKey("Book.ResponsabilityType", t => t.ResponsabilityTypeId, cascadeDelete: true)
+                .Index(t => t.ResponsabilityTypeId)
+                .Index(t => t.AuthorId)
+                .Index(t => t.BookId);
+            
+            CreateTable(
+                "Book.ResponsabilityType",
+                c => new
+                    {
+                        ResponsabilityTypeId = c.Guid(nullable: false),
+                        Title = c.String(),
+                        Desription = c.String(),
+                    })
+                .PrimaryKey(t => t.ResponsabilityTypeId);
+            
+            CreateTable(
                 "User.Role",
                 c => new
                     {
@@ -241,73 +247,42 @@ namespace Pook.Data.Migrations
                 .PrimaryKey(t => t.Id)
                 .Index(t => t.Name, unique: true, name: "RoleNameIndex");
             
-            CreateTable(
-                "dbo.BookAuthor",
-                c => new
-                    {
-                        BookId = c.Guid(nullable: false),
-                        CategoryId = c.Guid(nullable: false),
-                    })
-                .PrimaryKey(t => new { t.BookId, t.CategoryId })
-                .ForeignKey("Book.Book", t => t.BookId, cascadeDelete: true)
-                .ForeignKey("Book.Author", t => t.CategoryId, cascadeDelete: true)
-                .Index(t => t.BookId)
-                .Index(t => t.CategoryId);
-            
-            CreateTable(
-                "dbo.BookCategory",
-                c => new
-                    {
-                        BookId = c.Guid(nullable: false),
-                        CategoryId = c.Guid(nullable: false),
-                    })
-                .PrimaryKey(t => new { t.BookId, t.CategoryId })
-                .ForeignKey("Book.Book", t => t.BookId, cascadeDelete: true)
-                .ForeignKey("Book.Category", t => t.CategoryId, cascadeDelete: true)
-                .Index(t => t.BookId)
-                .Index(t => t.CategoryId);
-            
         }
         
         public override void Down()
         {
             DropForeignKey("User.UserRole", "RoleId", "User.Role");
+            DropForeignKey("Book.Responsability", "ResponsabilityTypeId", "Book.ResponsabilityType");
+            DropForeignKey("Book.Responsability", "BookId", "Book.Book");
+            DropForeignKey("Book.Responsability", "AuthorId", "Book.Author");
             DropForeignKey("User.UserRole", "UserId", "User.User");
-            DropForeignKey("User.Progression", "User_Id", "User.User");
+            DropForeignKey("User.Progression", "UserId", "User.User");
             DropForeignKey("User.Progression", "StatusId", "User.Status");
             DropForeignKey("User.Progression", "BookId", "Book.Book");
-            DropForeignKey("User.Note", "User_Id", "User.User");
+            DropForeignKey("User.Note", "UserId", "User.User");
             DropForeignKey("User.UserLogin", "UserId", "User.User");
             DropForeignKey("User.UserClaim", "UserId", "User.User");
             DropForeignKey("User.Note", "BookId", "Book.Book");
             DropForeignKey("Book.Book", "FirmId", "Editor.Firm");
             DropForeignKey("Book.Book", "EditorId", "Editor.Editor");
-            DropForeignKey("dbo.BookCategory", "CategoryId", "Book.Category");
-            DropForeignKey("dbo.BookCategory", "BookId", "Book.Book");
-            DropForeignKey("dbo.BookAuthor", "CategoryId", "Book.Author");
-            DropForeignKey("dbo.BookAuthor", "BookId", "Book.Book");
-            DropForeignKey("Book.Author", "AuthorRoleId", "Book.AuthorRole");
-            DropIndex("dbo.BookCategory", new[] { "CategoryId" });
-            DropIndex("dbo.BookCategory", new[] { "BookId" });
-            DropIndex("dbo.BookAuthor", new[] { "CategoryId" });
-            DropIndex("dbo.BookAuthor", new[] { "BookId" });
+            DropForeignKey("Book.Book", "CategoryId", "Book.Category");
             DropIndex("User.Role", "RoleNameIndex");
+            DropIndex("Book.Responsability", new[] { "BookId" });
+            DropIndex("Book.Responsability", new[] { "AuthorId" });
+            DropIndex("Book.Responsability", new[] { "ResponsabilityTypeId" });
             DropIndex("User.UserRole", new[] { "RoleId" });
             DropIndex("User.UserRole", new[] { "UserId" });
-            DropIndex("User.Progression", new[] { "User_Id" });
-            DropIndex("User.Progression", new[] { "BookId" });
-            DropIndex("User.Progression", new[] { "StatusId" });
+            DropIndex("User.Progression", "IX_Progression");
             DropIndex("User.UserLogin", new[] { "UserId" });
             DropIndex("User.UserClaim", new[] { "UserId" });
             DropIndex("User.User", "UserNameIndex");
-            DropIndex("User.Note", new[] { "User_Id" });
-            DropIndex("User.Note", new[] { "BookId" });
+            DropIndex("User.Note", "IX_Note");
+            DropIndex("Book.Book", new[] { "CategoryId" });
             DropIndex("Book.Book", new[] { "EditorId" });
             DropIndex("Book.Book", new[] { "FirmId" });
-            DropIndex("Book.Author", new[] { "AuthorRoleId" });
-            DropTable("dbo.BookCategory");
-            DropTable("dbo.BookAuthor");
             DropTable("User.Role");
+            DropTable("Book.ResponsabilityType");
+            DropTable("Book.Responsability");
             DropTable("User.UserRole");
             DropTable("User.Status");
             DropTable("User.Progression");
@@ -320,7 +295,6 @@ namespace Pook.Data.Migrations
             DropTable("Book.Category");
             DropTable("Book.Book");
             DropTable("Book.Author");
-            DropTable("Book.AuthorRole");
         }
     }
 }

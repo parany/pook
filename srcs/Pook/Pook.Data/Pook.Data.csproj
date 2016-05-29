@@ -57,55 +57,21 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Entities\Author.cs" />
-    <Compile Include="Entities\BookAuthor.cs" />
-    <Compile Include="Entities\BookCategory.cs" />
+    <Compile Include="Entities\ResponsabilityType.cs" />
+    <Compile Include="Entities\Responsability.cs" />
     <Compile Include="Entities\Category.cs" />
     <Compile Include="Entities\Editor.cs" />
     <Compile Include="Entities\Firm.cs" />
     <Compile Include="Entities\Note.cs" />
-    <Compile Include="Entities\Person.cs" />
+    <Compile Include="Entities\Author.cs" />
     <Compile Include="Entities\Progression.cs" />
-    <Compile Include="Entities\Role.cs" />
     <Compile Include="Entities\Status.cs" />
     <Compile Include="Entities\User.cs" />
     <Compile Include="Entities\Book.cs" />
     <Compile Include="Entities\Content.cs" />
-    <Compile Include="Migrations\201605290536217_InitDb.cs" />
-    <Compile Include="Migrations\201605290536217_InitDb.Designer.cs">
-      <DependentUpon>201605290536217_InitDb.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201605290615295_EditorAddTitle.cs" />
-    <Compile Include="Migrations\201605290615295_EditorAddTitle.Designer.cs">
-      <DependentUpon>201605290615295_EditorAddTitle.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201605290819151_UserMakeDateOfBirthNullable.cs" />
-    <Compile Include="Migrations\201605290819151_UserMakeDateOfBirthNullable.Designer.cs">
-      <DependentUpon>201605290819151_UserMakeDateOfBirthNullable.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201605290837105_ProgressionAddUniqueBookIdUserId.cs" />
-    <Compile Include="Migrations\201605290837105_ProgressionAddUniqueBookIdUserId.Designer.cs">
-      <DependentUpon>201605290837105_ProgressionAddUniqueBookIdUserId.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201605290847214_ProgressionRemoveBookIndexRemoveUserIndexAddProgressionId.cs" />
-    <Compile Include="Migrations\201605290847214_ProgressionRemoveBookIndexRemoveUserIndexAddProgressionId.Designer.cs">
-      <DependentUpon>201605290847214_ProgressionRemoveBookIndexRemoveUserIndexAddProgressionId.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201605290906145_ProgressionUpdateUserIdToString.cs" />
-    <Compile Include="Migrations\201605290906145_ProgressionUpdateUserIdToString.Designer.cs">
-      <DependentUpon>201605290906145_ProgressionUpdateUserIdToString.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201605290946110_NoteUpdatUserIdToStringAddIndex.cs" />
-    <Compile Include="Migrations\201605290946110_NoteUpdatUserIdToStringAddIndex.Designer.cs">
-      <DependentUpon>201605290946110_NoteUpdatUserIdToStringAddIndex.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201605291326437_ProgressionAddDateRemoveConstraints.cs" />
-    <Compile Include="Migrations\201605291326437_ProgressionAddDateRemoveConstraints.Designer.cs">
-      <DependentUpon>201605291326437_ProgressionAddDateRemoveConstraints.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201605291347124_ProgressionAddConstraints.cs" />
-    <Compile Include="Migrations\201605291347124_ProgressionAddConstraints.Designer.cs">
-      <DependentUpon>201605291347124_ProgressionAddConstraints.cs</DependentUpon>
+    <Compile Include="Migrations\201605291424405_Init.cs" />
+    <Compile Include="Migrations\201605291424405_Init.Designer.cs">
+      <DependentUpon>201605291424405_Init.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="PookDbContext.cs" />
@@ -116,32 +82,8 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201605290536217_InitDb.resx">
-      <DependentUpon>201605290536217_InitDb.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201605290615295_EditorAddTitle.resx">
-      <DependentUpon>201605290615295_EditorAddTitle.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201605290819151_UserMakeDateOfBirthNullable.resx">
-      <DependentUpon>201605290819151_UserMakeDateOfBirthNullable.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201605290837105_ProgressionAddUniqueBookIdUserId.resx">
-      <DependentUpon>201605290837105_ProgressionAddUniqueBookIdUserId.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201605290847214_ProgressionRemoveBookIndexRemoveUserIndexAddProgressionId.resx">
-      <DependentUpon>201605290847214_ProgressionRemoveBookIndexRemoveUserIndexAddProgressionId.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201605290906145_ProgressionUpdateUserIdToString.resx">
-      <DependentUpon>201605290906145_ProgressionUpdateUserIdToString.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201605290946110_NoteUpdatUserIdToStringAddIndex.resx">
-      <DependentUpon>201605290946110_NoteUpdatUserIdToStringAddIndex.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201605291326437_ProgressionAddDateRemoveConstraints.resx">
-      <DependentUpon>201605291326437_ProgressionAddDateRemoveConstraints.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201605291347124_ProgressionAddConstraints.resx">
-      <DependentUpon>201605291347124_ProgressionAddConstraints.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201605291424405_Init.resx">
+      <DependentUpon>201605291424405_Init.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

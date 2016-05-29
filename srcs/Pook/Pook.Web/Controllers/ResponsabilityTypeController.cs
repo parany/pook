@@ -11,108 +11,108 @@ using Pook.Data.Entities;
 
 namespace Pook.Web.Controllers
 {
-    public class AuthorRoleController : Controller
+    public class ResponsabilityTypeController : Controller
     {
         private PookDbContext db = new PookDbContext();
 
-        // GET: AuthorRole
+        // GET: ResponsabilityType
         public ActionResult Index()
         {
-            return View(db.AuthorRoles.ToList());
+            return View(db.ResponsabilityTypes.ToList());
         }
 
-        // GET: AuthorRole/Details/5
+        // GET: ResponsabilityType/Details/5
         public ActionResult Details(Guid? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            AuthorRole authorRole = db.AuthorRoles.Find(id);
-            if (authorRole == null)
+            ResponsabilityType responsabilityType = db.ResponsabilityTypes.Find(id);
+            if (responsabilityType == null)
             {
                 return HttpNotFound();
             }
-            return View(authorRole);
+            return View(responsabilityType);
         }
 
-        // GET: AuthorRole/Create
+        // GET: ResponsabilityType/Create
         public ActionResult Create()
         {
             return View();
         }
 
-        // POST: AuthorRole/Create
+        // POST: ResponsabilityType/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "AuthorRoleId,Title,Desription,CreatedOn,UpdatedOn,CreatedBy,UpdatedBy,SeoTitle")] AuthorRole authorRole)
+        public ActionResult Create([Bind(Include = "ResponsabilityTypeId,Title,Desription")] ResponsabilityType responsabilityType)
         {
             if (ModelState.IsValid)
             {
-                authorRole.AuthorRoleId = Guid.NewGuid();
-                db.AuthorRoles.Add(authorRole);
+                responsabilityType.ResponsabilityTypeId = Guid.NewGuid();
+                db.ResponsabilityTypes.Add(responsabilityType);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
-            return View(authorRole);
+            return View(responsabilityType);
         }
 
-        // GET: AuthorRole/Edit/5
+        // GET: ResponsabilityType/Edit/5
         public ActionResult Edit(Guid? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            AuthorRole authorRole = db.AuthorRoles.Find(id);
-            if (authorRole == null)
+            ResponsabilityType responsabilityType = db.ResponsabilityTypes.Find(id);
+            if (responsabilityType == null)
             {
                 return HttpNotFound();
             }
-            return View(authorRole);
+            return View(responsabilityType);
         }
 
-        // POST: AuthorRole/Edit/5
+        // POST: ResponsabilityType/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "AuthorRoleId,Title,Desription,CreatedOn,UpdatedOn,CreatedBy,UpdatedBy,SeoTitle")] AuthorRole authorRole)
+        public ActionResult Edit([Bind(Include = "ResponsabilityTypeId,Title,Desription")] ResponsabilityType responsabilityType)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(authorRole).State = EntityState.Modified;
+                db.Entry(responsabilityType).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            return View(authorRole);
+            return View(responsabilityType);
         }
 
-        // GET: AuthorRole/Delete/5
+        // GET: ResponsabilityType/Delete/5
         public ActionResult Delete(Guid? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            AuthorRole authorRole = db.AuthorRoles.Find(id);
-            if (authorRole == null)
+            ResponsabilityType responsabilityType = db.ResponsabilityTypes.Find(id);
+            if (responsabilityType == null)
             {
                 return HttpNotFound();
             }
-            return View(authorRole);
+            return View(responsabilityType);
         }
 
-        // POST: AuthorRole/Delete/5
+        // POST: ResponsabilityType/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(Guid id)
         {
-            AuthorRole authorRole = db.AuthorRoles.Find(id);
-            db.AuthorRoles.Remove(authorRole);
+            ResponsabilityType responsabilityType = db.ResponsabilityTypes.Find(id);
+            db.ResponsabilityTypes.Remove(responsabilityType);
             db.SaveChanges();
             return RedirectToAction("Index");
         }

@@ -18,8 +18,7 @@ namespace Pook.Web.Controllers
         // GET: Author
         public ActionResult Index()
         {
-            var authors = db.Authors.Include(a => a.AuthorRole);
-            return View(authors.ToList());
+            return View(db.Authors.ToList());
         }
 
         // GET: Author/Details/5
@@ -40,7 +39,6 @@ namespace Pook.Web.Controllers
         // GET: Author/Create
         public ActionResult Create()
         {
-            ViewBag.AuthorRoleId = new SelectList(db.AuthorRoles, "AuthorRoleId", "Title");
             return View();
         }
 
@@ -49,7 +47,7 @@ namespace Pook.Web.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "AuthorId,AuthorRoleId,FirstName,LastName,Description,Email,Address,CreatedOn,UpdatedOn,CreatedBy,UpdatedBy,SeoTitle")] Author author)
+        public ActionResult Create([Bind(Include = "AuthorId,FirstName,LastName,Description,Email,Address")] Author author)
         {
             if (ModelState.IsValid)
             {
@@ -59,7 +57,6 @@ namespace Pook.Web.Controllers
                 return RedirectToAction("Index");
             }
 
-            ViewBag.AuthorRoleId = new SelectList(db.AuthorRoles, "AuthorRoleId", "Title", author.AuthorRoleId);
             return View(author);
         }
 
@@ -75,7 +72,6 @@ namespace Pook.Web.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.AuthorRoleId = new SelectList(db.AuthorRoles, "AuthorRoleId", "Title", author.AuthorRoleId);
             return View(author);
         }
 
@@ -84,7 +80,7 @@ namespace Pook.Web.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "AuthorId,AuthorRoleId,FirstName,LastName,Description,Email,Address,CreatedOn,UpdatedOn,CreatedBy,UpdatedBy,SeoTitle")] Author author)
+        public ActionResult Edit([Bind(Include = "AuthorId,FirstName,LastName,Description,Email,Address")] Author author)
         {
             if (ModelState.IsValid)
             {
@@ -92,7 +88,6 @@ namespace Pook.Web.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.AuthorRoleId = new SelectList(db.AuthorRoles, "AuthorRoleId", "Title", author.AuthorRoleId);
             return View(author);
         }
 

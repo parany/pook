@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Pook.Data.Entities.AuthorRole>
+﻿@model IEnumerable<Pook.Data.Entities.ResponsabilityType>
 
 @{
     ViewBag.Title = "Index";
@@ -29,9 +29,9 @@
             @Html.DisplayFor(modelItem => item.Desription)
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.AuthorRoleId }) |
-            @Html.ActionLink("Details", "Details", new { id=item.AuthorRoleId }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.AuthorRoleId })
+            @Html.ActionLink("Edit", "Edit", new { id=item.ResponsabilityTypeId }) |
+            @Html.ActionLink("Details", "Details", new { id=item.ResponsabilityTypeId }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.ResponsabilityTypeId })
         </td>
     </tr>
 }

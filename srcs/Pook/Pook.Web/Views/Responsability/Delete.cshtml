@@ -1,4 +1,4 @@
-﻿@model Pook.Data.Entities.AuthorRole
+﻿@model Pook.Data.Entities.Responsability
 
 @{
     ViewBag.Title = "Delete";
@@ -8,23 +8,31 @@
 
 <h3>Are you sure you want to delete this?</h3>
 <div>
-    <h4>AuthorRole</h4>
+    <h4>Responsability</h4>
     <hr />
     <dl class="dl-horizontal">
         <dt>
-            @Html.DisplayNameFor(model => model.Title)
+            @Html.DisplayNameFor(model => model.Author.FirstName)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Title)
+            @Html.DisplayFor(model => model.Author.FirstName)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Desription)
+            @Html.DisplayNameFor(model => model.Book.Title)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Desription)
+            @Html.DisplayFor(model => model.Book.Title)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ResponsabilityType.Title)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ResponsabilityType.Title)
         </dd>
 
     </dl>

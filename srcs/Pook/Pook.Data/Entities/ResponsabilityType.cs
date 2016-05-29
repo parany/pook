@@ -3,10 +3,10 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Pook.Data.Entities
 {
-    [Table("AuthorRole", Schema = "Book")]
-    public class AuthorRole : Content
+    [Table("ResponsabilityType", Schema = "Book")]
+    public class ResponsabilityType
     {
-        public Guid AuthorRoleId { get; set; }
+        public Guid ResponsabilityTypeId { get; set; }
 
         public string Title { get; set; }
 

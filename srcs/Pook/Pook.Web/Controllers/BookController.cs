@@ -18,7 +18,7 @@ namespace Pook.Web.Controllers
         // GET: Book
         public ActionResult Index()
         {
-            var books = db.Books.Include(b => b.Editor).Include(b => b.Firm);
+            var books = db.Books.Include(b => b.Category).Include(b => b.Editor).Include(b => b.Firm);
             return View(books.ToList());
         }
 
@@ -40,6 +40,7 @@ namespace Pook.Web.Controllers
         // GET: Book/Create
         public ActionResult Create()
         {
+            ViewBag.CategoryId = new SelectList(db.Categories, "CategoryId", "Title");
             ViewBag.EditorId = new SelectList(db.Editors, "EditorId", "Title");
             ViewBag.FirmId = new SelectList(db.Firms, "FirmId", "Title");
             return View();
@@ -50,7 +51,7 @@ namespace Pook.Web.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "BookId,Title,Description,ReleaseDate,FirmId,EditorId,CreatedOn,UpdatedOn,CreatedBy,UpdatedBy,SeoTitle")] Book book)
+        public ActionResult Create([Bind(Include = "BookId,Title,Description,ReleaseDate,FirmId,EditorId,CategoryId,CreatedOn,UpdatedOn,CreatedBy,UpdatedBy,SeoTitle")] Book book)
         {
             if (ModelState.IsValid)
             {
@@ -60,6 +61,7 @@ namespace Pook.Web.Controllers
                 return RedirectToAction("Index");
             }
 
+            ViewBag.CategoryId = new SelectList(db.Categories, "CategoryId", "Title", book.CategoryId);
             ViewBag.EditorId = new SelectList(db.Editors, "EditorId", "Title", book.EditorId);
             ViewBag.FirmId = new SelectList(db.Firms, "FirmId", "Title", book.FirmId);
             return View(book);
@@ -77,6 +79,7 @@ namespace Pook.Web.Controllers
             {
                 return HttpNotFound();
             }
+            ViewBag.CategoryId = new SelectList(db.Categories, "CategoryId", "Title", book.CategoryId);
             ViewBag.EditorId = new SelectList(db.Editors, "EditorId", "Title", book.EditorId);
             ViewBag.FirmId = new SelectList(db.Firms, "FirmId", "Title", book.FirmId);
             return View(book);
@@ -87,7 +90,7 @@ namespace Pook.Web.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "BookId,Title,Description,ReleaseDate,FirmId,EditorId,CreatedOn,UpdatedOn,CreatedBy,UpdatedBy,SeoTitle")] Book book)
+        public ActionResult Edit([Bind(Include = "BookId,Title,Description,ReleaseDate,FirmId,EditorId,CategoryId,CreatedOn,UpdatedOn,CreatedBy,UpdatedBy,SeoTitle")] Book book)
         {
             if (ModelState.IsValid)
             {
@@ -95,6 +98,7 @@ namespace Pook.Web.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
+            ViewBag.CategoryId = new SelectList(db.Categories, "CategoryId", "Title", book.CategoryId);
             ViewBag.EditorId = new SelectList(db.Editors, "EditorId", "Title", book.EditorId);
             ViewBag.FirmId = new SelectList(db.Firms, "FirmId", "Title", book.FirmId);
             return View(book);

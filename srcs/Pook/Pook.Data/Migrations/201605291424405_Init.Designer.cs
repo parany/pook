@@ -7,13 +7,13 @@ namespace Pook.Data.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.3-40302")]
-    public sealed partial class ProgressionRemoveBookIndexRemoveUserIndexAddProgressionId : IMigrationMetadata
+    public sealed partial class Init : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(ProgressionRemoveBookIndexRemoveUserIndexAddProgressionId));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(Init));
         
         string IMigrationMetadata.Id
         {
-            get { return "201605290847214_ProgressionRemoveBookIndexRemoveUserIndexAddProgressionId"; }
+            get { return "201605291424405_Init"; }
         }
         
         string IMigrationMetadata.Source
