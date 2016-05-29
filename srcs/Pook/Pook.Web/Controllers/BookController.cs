@@ -51,7 +51,7 @@ namespace Pook.Web.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "BookId,Title,Description,ReleaseDate,FirmId,EditorId,CategoryId,CreatedOn,UpdatedOn,CreatedBy,UpdatedBy,SeoTitle")] Book book)
+        public ActionResult Create([Bind(Include = "BookId,Title,Description,NumberOfPages,ReleaseDate,FirmId,EditorId,CategoryId,CreatedOn,UpdatedOn,CreatedBy,UpdatedBy,SeoTitle")] Book book)
         {
             if (ModelState.IsValid)
             {
@@ -90,7 +90,7 @@ namespace Pook.Web.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "BookId,Title,Description,ReleaseDate,FirmId,EditorId,CategoryId,CreatedOn,UpdatedOn,CreatedBy,UpdatedBy,SeoTitle")] Book book)
+        public ActionResult Edit([Bind(Include = "BookId,Title,Description,NumberOfPages,ReleaseDate,FirmId,EditorId,CategoryId,CreatedOn,UpdatedOn,CreatedBy,UpdatedBy,SeoTitle")] Book book)
         {
             if (ModelState.IsValid)
             {

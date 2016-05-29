@@ -73,6 +73,10 @@
     <Compile Include="Migrations\201605291424405_Init.Designer.cs">
       <DependentUpon>201605291424405_Init.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201605291530514_BookAddNumberOfPages.cs" />
+    <Compile Include="Migrations\201605291530514_BookAddNumberOfPages.Designer.cs">
+      <DependentUpon>201605291530514_BookAddNumberOfPages.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="PookDbContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -84,6 +88,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201605291424405_Init.resx">
       <DependentUpon>201605291424405_Init.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201605291530514_BookAddNumberOfPages.resx">
+      <DependentUpon>201605291530514_BookAddNumberOfPages.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
