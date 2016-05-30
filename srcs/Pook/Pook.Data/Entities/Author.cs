@@ -19,5 +19,7 @@ namespace Pook.Data.Entities
         public string Email { get; set; }
 
         public string Address { get; set; }
+
+        public string FullName => string.Concat(FirstName, " ", LastName.ToUpper());
     }
 }

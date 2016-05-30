@@ -40,7 +40,7 @@ namespace Pook.Web.Controllers
         // GET: Responsability/Create
         public ActionResult Create()
         {
-            ViewBag.AuthorId = new SelectList(db.Authors, "AuthorId", "FirstName");
+            ViewBag.AuthorId = new SelectList(db.Authors, "AuthorId", "FullName");
             ViewBag.BookId = new SelectList(db.Books, "BookId", "Title");
             ViewBag.ResponsabilityTypeId = new SelectList(db.ResponsabilityTypes, "ResponsabilityTypeId", "Title");
             return View();
@@ -79,7 +79,7 @@ namespace Pook.Web.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.AuthorId = new SelectList(db.Authors, "AuthorId", "FirstName", responsability.AuthorId);
+            ViewBag.AuthorId = new SelectList(db.Authors, "AuthorId", "FullName", responsability.AuthorId);
             ViewBag.BookId = new SelectList(db.Books, "BookId", "Title", responsability.BookId);
             ViewBag.ResponsabilityTypeId = new SelectList(db.ResponsabilityTypes, "ResponsabilityTypeId", "Title", responsability.ResponsabilityTypeId);
             return View(responsability);

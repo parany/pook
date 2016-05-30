@@ -13,14 +13,14 @@ namespace Pook.Data.Entities
 
         public virtual ResponsabilityType ResponsabilityType { get; set; }
 
+        [Index("IX_Responsability", 1, IsUnique = true, Order = 1)]
         public Guid AuthorId { get; set; }
 
         public virtual Author Author { get; set; }
 
+        [Index("IX_Responsability", 1, IsUnique = true, Order = 2)]
         public Guid BookId { get; set; }
 
         public virtual Book Book { get; set; }
-
-        
     }
 }
