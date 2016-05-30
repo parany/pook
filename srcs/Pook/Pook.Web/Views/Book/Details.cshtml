@@ -1,4 +1,4 @@
-﻿@model Pook.Data.Entities.Book
+﻿@model Pook.Web.Models.BookDetails
 
 @{
     ViewBag.Title = "Details";
@@ -11,64 +11,102 @@
     <hr />
     <dl class="dl-horizontal">
         <dt>
-            @Html.DisplayNameFor(model => model.Category.Title)
+            @Html.DisplayNameFor(model => model.Book.Title)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Category.Title)
+            @Html.DisplayFor(model => model.Book.Title)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Editor.Title)
+            Category
         </dt>
-
         <dd>
-            @Html.DisplayFor(model => model.Editor.Title)
+            @Html.DisplayFor(model => model.Book.Category.Title)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Firm.Title)
+            Editor
         </dt>
-
         <dd>
-            @Html.DisplayFor(model => model.Firm.Title)
+            @Html.DisplayFor(model => model.Book.Editor.Title)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Title)
+            Firm
         </dt>
-
         <dd>
-            @Html.DisplayFor(model => model.Title)
+            @Html.DisplayFor(model => model.Book.Firm.Title)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Description)
+            @Html.DisplayNameFor(model => model.Book.Description)
         </dt>
-
         <dd>
-            @Html.DisplayFor(model => model.Description)
+            @Html.DisplayFor(model => model.Book.Description)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.NumberOfPages)
+            @Html.DisplayNameFor(model => model.Book.NumberOfPages)
         </dt>
-
         <dd>
-            @Html.DisplayFor(model => model.NumberOfPages)
+            @Html.DisplayFor(model => model.Book.NumberOfPages)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.ReleaseDate)
+            @Html.DisplayNameFor(model => model.Book.ReleaseDate)
         </dt>
-
         <dd>
-            @Html.DisplayFor(model => model.ReleaseDate)
+            @Html.DisplayFor(model => model.Book.ReleaseDate)
         </dd>
 
     </dl>
+
+    <h4>Authors</h4>
+    <table class="table table-condensed">
+        <thead>
+        <tr>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Responsability</th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var responsability in Model.Responsabilities)
+        {
+            <tr>
+                <td>@responsability.Author.FirstName</td>
+                <td>@responsability.Author.LastName</td>
+                <td>@responsability.ResponsabilityType.Title</td>
+            </tr>
+        }
+        </tbody>
+    </table>
+
+    <h4>Notes</h4>
+    <table class="table table-condensed">
+        <thead>
+            <tr>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Page</th>
+                <th>Title</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var note in Model.Notes)
+            {
+                <tr>
+                    <td>@note.User.FirstName</td>
+                    <td>@note.User.LastName</td>
+                    <td>@note.Page</td>
+                    <td>@note.Title</td>
+                </tr>
+            }
+        </tbody>
+    </table>
 </div>
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.BookId }) |
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Book.BookId }) |
     @Html.ActionLink("Back to List", "Index")
 </p>

@@ -50,7 +50,7 @@ namespace Pook.Web.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "NoteId,UserId,BookId,Page,Description,CreatedOn,UpdatedOn,CreatedBy,UpdatedBy,SeoTitle")] Note note)
+        public ActionResult Create([Bind(Include = "NoteId,UserId,BookId,Title,Page,Description,CreatedOn,UpdatedOn,CreatedBy,UpdatedBy,SeoTitle")] Note note)
         {
             if (ModelState.IsValid)
             {
@@ -87,7 +87,7 @@ namespace Pook.Web.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "NoteId,UserId,BookId,Page,Description,CreatedOn,UpdatedOn,CreatedBy,UpdatedBy,SeoTitle")] Note note)
+        public ActionResult Edit([Bind(Include = "NoteId,UserId,BookId,Title,Page,Description,CreatedOn,UpdatedOn,CreatedBy,UpdatedBy,SeoTitle")] Note note)
         {
             if (ModelState.IsValid)
             {

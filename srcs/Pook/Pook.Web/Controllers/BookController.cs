@@ -8,6 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using Pook.Data;
 using Pook.Data.Entities;
+using Pook.Web.Models;
 
 namespace Pook.Web.Controllers
 {
@@ -29,12 +30,28 @@ namespace Pook.Web.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Book book = db.Books.Find(id);
+            Book book = db.Books
+                .Include(b => b.Editor)
+                .Include(b => b.Firm)
+                .FirstOrDefault(b => b.BookId == id);
             if (book == null)
             {
                 return HttpNotFound();
             }
-            return View(book);
+            var model = new BookDetails { Book = book };
+            var responsabilities = db.Responsabilities
+                .Where(r => r.BookId == book.BookId)
+                .Include(r => r.Author)
+                .Include(r => r.ResponsabilityType)
+                .ToList();
+            model.Responsabilities = responsabilities;
+            var notes = db.Notes
+                .Where(n => n.BookId == book.BookId)
+                .OrderBy(o => o.Page)
+                .Include(n => n.User)
+                .ToList();
+            model.Notes = notes;
+            return View(model);
         }
 
         // GET: Book/Create

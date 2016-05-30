@@ -81,6 +81,10 @@
     <Compile Include="Migrations\201605301540306_ResponsabilityAddConstraints.Designer.cs">
       <DependentUpon>201605301540306_ResponsabilityAddConstraints.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201605301620592_NoteAddTitle.cs" />
+    <Compile Include="Migrations\201605301620592_NoteAddTitle.Designer.cs">
+      <DependentUpon>201605301620592_NoteAddTitle.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="PookDbContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -98,6 +102,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201605301540306_ResponsabilityAddConstraints.resx">
       <DependentUpon>201605301540306_ResponsabilityAddConstraints.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201605301620592_NoteAddTitle.resx">
+      <DependentUpon>201605301620592_NoteAddTitle.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
