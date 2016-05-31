@@ -25,6 +25,8 @@ namespace Pook.Data.Entities
 
         public virtual ICollection<Note> Notes { get; set; }
 
+        public string FullName => string.Concat(FirstName, " ", LastName);
+
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<User> manager)
         {
             // Note the authenticationType must match the one defined in CookieAuthenticationOptions.AuthenticationType

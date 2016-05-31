@@ -24,6 +24,7 @@ namespace Pook.Data.Entities
 
         public User User { get; set; }
 
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}")]
         public DateTime Date { get; set; }
     }
 }

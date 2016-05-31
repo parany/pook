@@ -18,23 +18,13 @@ namespace Pook.Web.Controllers
         // GET: Progression
         public ActionResult Index()
         {
-            var progressions = db.Progressions.Include(p => p.Book).Include(p => p.Status).Include(p => p.User);
-            return View(progressions.ToList());
-        }
-
-        // GET: Progression/Details/5
-        public ActionResult Details(Guid? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Progression progression = db.Progressions.Find(id);
-            if (progression == null)
-            {
-                return HttpNotFound();
-            }
-            return View(progression);
+            var progressions = db.Progressions
+                .OrderByDescending(p => p.Date)
+                .Include(p => p.Book)
+                .Include(p => p.Status)
+                .Include(p => p.User)
+                .ToList();
+            return View(progressions);
         }
 
         // GET: Progression/Create
@@ -63,7 +53,7 @@ namespace Pook.Web.Controllers
 
             ViewBag.BookId = new SelectList(db.Books, "BookId", "Title", progression.BookId);
             ViewBag.StatusId = new SelectList(db.Statuses, "StatusId", "Title", progression.StatusId);
-            ViewBag.UserId = new SelectList(db.Users, "Id", "FirstName", progression.UserId);
+            ViewBag.UserId = new SelectList(db.Users, "Id", "FullName", progression.UserId);
             return View(progression);
         }
 
@@ -81,7 +71,7 @@ namespace Pook.Web.Controllers
             }
             ViewBag.BookId = new SelectList(db.Books, "BookId", "Title", progression.BookId);
             ViewBag.StatusId = new SelectList(db.Statuses, "StatusId", "Title", progression.StatusId);
-            ViewBag.UserId = new SelectList(db.Users, "Id", "FirstName", progression.UserId);
+            ViewBag.UserId = new SelectList(db.Users, "Id", "FullName", progression.UserId);
             return View(progression);
         }
 

@@ -8,6 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using Pook.Data;
 using Pook.Data.Entities;
+using Pook.Web.Models;
 
 namespace Pook.Web.Controllers
 {
@@ -15,7 +16,6 @@ namespace Pook.Web.Controllers
     {
         private PookDbContext db = new PookDbContext();
 
-        // GET: User
         public ActionResult Index()
         {
             return View(db.Users.ToList());
@@ -33,7 +33,23 @@ namespace Pook.Web.Controllers
             {
                 return HttpNotFound();
             }
-            return View(user);
+            var userDetails = new UserDetails { User = user };
+            var progressions = db.Progressions
+                .OrderBy(p => p.Date)
+                .Include(p => p.Book)
+                .Include(p => p.Status)
+                .Where(p => p.UserId == user.Id)
+                .ToList();
+            var bookProgressions =
+                from p in progressions
+                group p by p.Book.Title into g
+                select new ProgressionSection
+                {
+                    Book = g.Key,
+                    Progressions = g.ToList()
+                };
+            userDetails.ProgressionSections = bookProgressions.ToList();
+            return View(userDetails);
         }
 
         // GET: User/Create
