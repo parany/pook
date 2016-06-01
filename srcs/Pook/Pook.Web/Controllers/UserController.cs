@@ -33,14 +33,16 @@ namespace Pook.Web.Controllers
             {
                 return HttpNotFound();
             }
+
             var userDetails = new UserDetails { User = user };
+
             var progressions = db.Progressions
                 .OrderBy(p => p.Date)
                 .Include(p => p.Book)
                 .Include(p => p.Status)
                 .Where(p => p.UserId == user.Id)
                 .ToList();
-            var bookProgressions =
+            var progressionSections =
                 from p in progressions
                 group p by p.Book.Title into g
                 select new ProgressionSection
@@ -48,7 +50,23 @@ namespace Pook.Web.Controllers
                     Book = g.Key,
                     Progressions = g.ToList()
                 };
-            userDetails.ProgressionSections = bookProgressions.ToList();
+            userDetails.ProgressionSections = progressionSections.ToList();
+
+            var notes = db.Notes
+                .OrderBy(n => n.Page)
+                .Include(p => p.Book)
+                .Where(p => p.UserId == user.Id)
+                .ToList();
+            var noteSections =
+                from p in notes
+                group p by p.Book.Title into g
+                select new NoteSection
+                {
+                    Book = g.Key,
+                    Notes = g.ToList()
+                };
+            userDetails.NoteSections = noteSections.ToList();
+
             return View(userDetails);
         }
 

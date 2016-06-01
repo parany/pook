@@ -27,14 +27,6 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.User.Address)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.User.Address)
-        </dd>
-
-        <dt>
             @Html.DisplayNameFor(model => model.User.Email)
         </dt>
 
@@ -68,7 +60,24 @@
             </tbody>
         </table>
     }
-    
+
+    <h2>Notes</h2>
+    @foreach (var noteSection in Model.NoteSections)
+    {
+        <h4>@noteSection.Book</h4>
+        <table class="table table-condensed">
+            <tbody>
+                @foreach (var note in noteSection.Notes)
+                {
+                    <tr class="col-md-10">
+                        <td class="col-md-6">@note.Page</td>
+                        <td class="col-md-4">@note.Title</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+
 </div>
 <p>
     @Html.ActionLink("Edit", "Edit", new { id = Model.User.Id }) |

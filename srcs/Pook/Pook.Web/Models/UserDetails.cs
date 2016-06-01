@@ -8,6 +8,8 @@ namespace Pook.Web.Models
         public User User { get; set; }
 
         public List<ProgressionSection> ProgressionSections { get; set; }
+
+        public List<NoteSection> NoteSections { get; set; }
     }
 
     public class ProgressionSection
@@ -15,5 +17,12 @@ namespace Pook.Web.Models
         public string Book { get; set; }
 
         public IList<Progression> Progressions { get; set; } 
+    }
+
+    public class NoteSection
+    {
+        public string Book { get; set; }
+
+        public IList<Note> Notes { get; set; }
     }
 }
