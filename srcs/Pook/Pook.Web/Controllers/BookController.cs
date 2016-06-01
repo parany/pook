@@ -24,12 +24,9 @@ namespace Pook.Web.Controllers
         }
 
         // GET: Book/Details/5
-        public ActionResult Details(Guid? id)
+        [Route("Book/Details/{id}")]
+        public ActionResult Details(Guid id)
         {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
             Book book = db.Books
                 .Include(b => b.Editor)
                 .Include(b => b.Firm)

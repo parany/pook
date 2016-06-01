@@ -38,17 +38,16 @@ namespace Pook.Web.Controllers
         }
 
         // GET: Responsability/Create
-        public ActionResult Create()
+        [Route("Responsability/Create/{bookId?}")]
+        public ActionResult Create(Guid? bookId)
         {
             ViewBag.AuthorId = new SelectList(db.Authors, "AuthorId", "FullName");
-            ViewBag.BookId = new SelectList(db.Books, "BookId", "Title");
+            ViewBag.BookId = new SelectList(db.Books, "BookId", "Title", bookId.GetValueOrDefault());
             ViewBag.ResponsabilityTypeId = new SelectList(db.ResponsabilityTypes, "ResponsabilityTypeId", "Title");
             return View();
         }
 
-        // POST: Responsability/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [Route("Responsability/Create/{bookId?}")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "ResponsabilityId,ResponsabilityTypeId,AuthorId,BookId")] Responsability responsability)
@@ -58,7 +57,7 @@ namespace Pook.Web.Controllers
                 responsability.ResponsabilityId = Guid.NewGuid();
                 db.Responsabilities.Add(responsability);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Details", "Book", new { id = responsability.BookId });
             }
 
             ViewBag.AuthorId = new SelectList(db.Authors, "AuthorId", "FirstName", responsability.AuthorId);
