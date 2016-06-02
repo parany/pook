@@ -50,7 +50,7 @@
 }
 
 <div>
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("Back to Book Details", "Details", "Book", new { id = @Model.BookId }, null)
 </div>
 
 @section Scripts {

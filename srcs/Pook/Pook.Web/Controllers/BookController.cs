@@ -23,7 +23,6 @@ namespace Pook.Web.Controllers
             return View(books.ToList());
         }
 
-        // GET: Book/Details/5
         [Route("Book/Details/{id}")]
         public ActionResult Details(Guid id)
         {

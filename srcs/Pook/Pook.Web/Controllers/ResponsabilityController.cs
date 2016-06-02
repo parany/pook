@@ -22,21 +22,6 @@ namespace Pook.Web.Controllers
             return View(responsabilities.ToList());
         }
 
-        // GET: Responsability/Details/5
-        public ActionResult Details(Guid? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Responsability responsability = db.Responsabilities.Find(id);
-            if (responsability == null)
-            {
-                return HttpNotFound();
-            }
-            return View(responsability);
-        }
-
         // GET: Responsability/Create
         [Route("Responsability/Create/{bookId?}")]
         public ActionResult Create(Guid? bookId)
@@ -95,7 +80,7 @@ namespace Pook.Web.Controllers
             {
                 db.Entry(responsability).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Details", "Book", new { id = responsability.BookId });
             }
             ViewBag.AuthorId = new SelectList(db.Authors, "AuthorId", "FirstName", responsability.AuthorId);
             ViewBag.BookId = new SelectList(db.Books, "BookId", "Title", responsability.BookId);
@@ -126,7 +111,7 @@ namespace Pook.Web.Controllers
             Responsability responsability = db.Responsabilities.Find(id);
             db.Responsabilities.Remove(responsability);
             db.SaveChanges();
-            return RedirectToAction("Index");
+            return RedirectToAction("Details", "Book", new { id = responsability.BookId });
         }
 
         protected override void Dispose(bool disposing)
