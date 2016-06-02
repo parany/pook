@@ -70,6 +70,7 @@
             <th>First Name</th>
             <th>Last Name</th>
             <th>Responsability</th>
+            <th></th>
         </tr>
         </thead>
         <tbody>
@@ -79,6 +80,11 @@
                 <td>@responsability.Author.FirstName</td>
                 <td>@responsability.Author.LastName</td>
                 <td>@responsability.ResponsabilityType.Title</td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", "Responsability", new { id = responsability.ResponsabilityId }) |
+                    @Html.ActionLink("Details", "Details", new { id = responsability.ResponsabilityId }) |
+                    @Html.ActionLink("Delete", "Delete", new { id = responsability.ResponsabilityId })
+                </td>
             </tr>
         }
         </tbody>
