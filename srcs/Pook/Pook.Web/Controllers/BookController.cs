@@ -58,7 +58,9 @@ namespace Pook.Web.Controllers
         {
             ViewBag.CategoryId = new SelectList(db.Categories, "CategoryId", "Title");
             ViewBag.EditorId = new SelectList(db.Editors, "EditorId", "Title");
-            ViewBag.FirmId = new SelectList(db.Firms, "FirmId", "Title");
+            var allFirms = db.Firms.ToList();
+            allFirms.Insert(0, null);
+            ViewBag.FirmId = new SelectList(allFirms, "FirmId", "Title");
             return View();
         }
 
@@ -97,7 +99,9 @@ namespace Pook.Web.Controllers
             }
             ViewBag.CategoryId = new SelectList(db.Categories, "CategoryId", "Title", book.CategoryId);
             ViewBag.EditorId = new SelectList(db.Editors, "EditorId", "Title", book.EditorId);
-            ViewBag.FirmId = new SelectList(db.Firms, "FirmId", "Title", book.FirmId);
+            var allFirms = db.Firms.ToList();
+            allFirms.Insert(0, null);
+            ViewBag.FirmId = new SelectList(allFirms, "FirmId", "Title", book.FirmId);
             return View(book);
         }
 
