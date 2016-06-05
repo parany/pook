@@ -85,6 +85,10 @@
     <Compile Include="Migrations\201605301620592_NoteAddTitle.Designer.cs">
       <DependentUpon>201605301620592_NoteAddTitle.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201606052126321_ProgressionAddPage.cs" />
+    <Compile Include="Migrations\201606052126321_ProgressionAddPage.Designer.cs">
+      <DependentUpon>201606052126321_ProgressionAddPage.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="PookDbContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -105,6 +109,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201605301620592_NoteAddTitle.resx">
       <DependentUpon>201605301620592_NoteAddTitle.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201606052126321_ProgressionAddPage.resx">
+      <DependentUpon>201606052126321_ProgressionAddPage.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
