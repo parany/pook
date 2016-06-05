@@ -89,6 +89,10 @@
     <Compile Include="Migrations\201606052126321_ProgressionAddPage.Designer.cs">
       <DependentUpon>201606052126321_ProgressionAddPage.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201606052134115_ProgressionEditPageNullable.cs" />
+    <Compile Include="Migrations\201606052134115_ProgressionEditPageNullable.Designer.cs">
+      <DependentUpon>201606052134115_ProgressionEditPageNullable.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="PookDbContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -112,6 +116,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201606052126321_ProgressionAddPage.resx">
       <DependentUpon>201606052126321_ProgressionAddPage.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201606052134115_ProgressionEditPageNullable.resx">
+      <DependentUpon>201606052134115_ProgressionEditPageNullable.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
