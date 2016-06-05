@@ -57,7 +57,9 @@ namespace Pook.Web.Controllers
         public ActionResult Create()
         {
             ViewBag.CategoryId = new SelectList(db.Categories, "CategoryId", "Title");
-            ViewBag.EditorId = new SelectList(db.Editors, "EditorId", "Title");
+            var allEditors = db.Editors.ToList();
+            allEditors.Insert(0, null);
+            ViewBag.EditorId = new SelectList(allEditors, "EditorId", "Title");
             var allFirms = db.Firms.ToList();
             allFirms.Insert(0, null);
             ViewBag.FirmId = new SelectList(allFirms, "FirmId", "Title");
@@ -98,7 +100,9 @@ namespace Pook.Web.Controllers
                 return HttpNotFound();
             }
             ViewBag.CategoryId = new SelectList(db.Categories, "CategoryId", "Title", book.CategoryId);
-            ViewBag.EditorId = new SelectList(db.Editors, "EditorId", "Title", book.EditorId);
+            var allEditors = db.Editors.ToList();
+            allEditors.Insert(0, null);
+            ViewBag.EditorId = new SelectList(allEditors, "EditorId", "Title", book.EditorId);
             var allFirms = db.Firms.ToList();
             allFirms.Insert(0, null);
             ViewBag.FirmId = new SelectList(allFirms, "FirmId", "Title", book.FirmId);
