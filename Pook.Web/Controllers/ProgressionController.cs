@@ -1,10 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Data;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
-using System.Web;
 using System.Web.Mvc;
 using Pook.Data;
 using Pook.Data.Entities;
@@ -23,6 +20,18 @@ namespace Pook.Web.Controllers
                 .Include(p => p.Book)
                 .Include(p => p.Status)
                 .Include(p => p.User)
+                .Where(p => p.Status.Title != "Current")
+                .ToList();
+            return View(progressions);
+        }
+
+        // GET: Progression/PageProgress
+        public ActionResult PageProgress(string userId, Guid bookId)
+        {
+            var progressions = db.Progressions
+                .OrderByDescending(p => p.Page)
+                .Include(p => p.Status)
+                .Where(p => p.Status.Title == "Current" && p.UserId == userId && p.BookId == bookId)
                 .ToList();
             return View(progressions);
         }
@@ -37,11 +46,9 @@ namespace Pook.Web.Controllers
         }
 
         // POST: Progression/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "ProgressionId,StatusId,BookId,UserId,Date,CreatedOn,UpdatedOn,CreatedBy,UpdatedBy,SeoTitle")] Progression progression)
+        public ActionResult Create([Bind(Include = "ProgressionId,StatusId,BookId,UserId,Date,CreatedOn,UpdatedOn,CreatedBy,UpdatedBy,SeoTitle,Page")] Progression progression)
         {
             if (ModelState.IsValid)
             {
@@ -76,11 +83,9 @@ namespace Pook.Web.Controllers
         }
 
         // POST: Progression/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "ProgressionId,StatusId,BookId,UserId,Date,CreatedOn,UpdatedOn,CreatedBy,UpdatedBy,SeoTitle")] Progression progression)
+        public ActionResult Edit([Bind(Include = "ProgressionId,StatusId,BookId,UserId,Date,CreatedOn,UpdatedOn,CreatedBy,UpdatedBy,SeoTitle,Page")] Progression progression)
         {
             if (ModelState.IsValid)
             {
