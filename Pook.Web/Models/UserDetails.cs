@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Pook.Data.Entities;
 
 namespace Pook.Web.Models
@@ -16,7 +17,11 @@ namespace Pook.Web.Models
     {
         public string Book { get; set; }
 
+        public Guid BookId { get; set; }
+
         public IList<Progression> Progressions { get; set; } 
+
+        public int PageProgress { get; set; }
     }
 
     public class NoteSection

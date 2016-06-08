@@ -47,7 +47,10 @@
     <h2>Progressions</h2>
     @foreach (var progressionSection in Model.ProgressionSections)
     {
-        <h4>@progressionSection.Book</h4>
+        <h4>
+            @progressionSection.Book 
+            (@Html.ActionLink(progressionSection.PageProgress.ToString(), "PageProgress", "Progression", new { userId = Model.User.Id, bookId = progressionSection.BookId }, null))
+        </h4>
         <table class="table table-condensed">
             <tbody>
                 @foreach (var progression in progressionSection.Progressions)

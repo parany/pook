@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Data.Entity;
+﻿using System.Data.Entity;
 using System.Linq;
 using System.Net;
-using System.Web;
 using System.Web.Mvc;
 using Pook.Data;
 using Pook.Data.Entities;
@@ -44,11 +40,13 @@ namespace Pook.Web.Controllers
                 .ToList();
             var progressionSections =
                 from p in progressions
-                group p by p.Book.Title into g
+                group p by p.Book into g
                 select new ProgressionSection
                 {
-                    Book = g.Key,
-                    Progressions = g.ToList()
+                    Book = g.Key.Title,
+                    BookId = g.Key.BookId,
+                    Progressions = g.Where(p => p.Status.Title != "Current").ToList(),
+                    PageProgress = g.Count(c => c.Status.Title == "Current")
                 };
             userDetails.ProgressionSections = progressionSections.ToList();
 
@@ -77,8 +75,6 @@ namespace Pook.Web.Controllers
         }
 
         // POST: User/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "Id,FirstName,LastName,Description,Address,DateOfBirth,Email,EmailConfirmed,PasswordHash,SecurityStamp,PhoneNumber,PhoneNumberConfirmed,TwoFactorEnabled,LockoutEndDateUtc,LockoutEnabled,AccessFailedCount,UserName")] User user)
@@ -109,8 +105,6 @@ namespace Pook.Web.Controllers
         }
 
         // POST: User/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "Id,FirstName,LastName,Description,Address,DateOfBirth,Email,EmailConfirmed,PasswordHash,SecurityStamp,PhoneNumber,PhoneNumberConfirmed,TwoFactorEnabled,LockoutEndDateUtc,LockoutEnabled,AccessFailedCount,UserName")] User user)
