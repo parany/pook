@@ -111,6 +111,14 @@
     <Compile Include="Migrations\201606052134115_ProgressionEditPageNullable.Designer.cs">
       <DependentUpon>201606052134115_ProgressionEditPageNullable.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201606090429385_ProgressionRemoveStatusConstraint.cs" />
+    <Compile Include="Migrations\201606090429385_ProgressionRemoveStatusConstraint.Designer.cs">
+      <DependentUpon>201606090429385_ProgressionRemoveStatusConstraint.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201606090432518_ProgressionAddConstraintPageStatusBookUser.cs" />
+    <Compile Include="Migrations\201606090432518_ProgressionAddConstraintPageStatusBookUser.Designer.cs">
+      <DependentUpon>201606090432518_ProgressionAddConstraintPageStatusBookUser.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="PookDbContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -137,6 +145,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201606052134115_ProgressionEditPageNullable.resx">
       <DependentUpon>201606052134115_ProgressionEditPageNullable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201606090429385_ProgressionRemoveStatusConstraint.resx">
+      <DependentUpon>201606090429385_ProgressionRemoveStatusConstraint.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201606090432518_ProgressionAddConstraintPageStatusBookUser.resx">
+      <DependentUpon>201606090432518_ProgressionAddConstraintPageStatusBookUser.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

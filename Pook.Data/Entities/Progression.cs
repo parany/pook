@@ -27,6 +27,7 @@ namespace Pook.Data.Entities
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}")]
         public DateTime Date { get; set; }
 
+        [Index("IX_Progression", 1, IsUnique = true, Order = 6)]
         public int? Page { get; set; }
     }
 }
