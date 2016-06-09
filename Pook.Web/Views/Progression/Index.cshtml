@@ -4,47 +4,41 @@
     ViewBag.Title = "Index";
 }
 
+@section Scripts{
+    <script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+}
+
 <h2>Index</h2>
 
 <p>
     @Html.ActionLink("Create New", "Create")
 </p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Date)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Book.Title)
-        </th>
-        <th>
-            Status
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.User.FirstName)
-        </th>
-        <th></th>
-    </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Date)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Book.Title)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Status.Title)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.User.FirstName)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new {id = item.ProgressionId}) |
-            @Html.ActionLink("Delete", "Delete", new {id = item.ProgressionId})
-        </td>
-    </tr>
-}
-
-</table>
+<div class="panel-body">
+    @using (Ajax.BeginForm("Search", "Progression",
+                                new AjaxOptions
+                                {
+                                    InsertionMode = InsertionMode.Replace,
+                                    HttpMethod = "GET",
+                                    UpdateTargetId = "searchresults",
+                                }))
+    {
+        <div class="form-group">
+            <div class="col-md-3">
+                @Html.DropDownList("bookId", null, new {@class = "form-control"})
+            </div>
+            <div class="col-md-3">
+                @Html.DropDownList("statusId", null, new {@class = "form-control"})
+            </div>
+            <div class="col-md-3">
+                @Html.DropDownList("userId", null, new { @class = "form-control" })
+            </div>
+            <div class="col-md-3">
+                <input type="submit" value="search" class="btn btn-default" />
+            </div>
+        </div>
+    }
+    <div id="searchresults">
+        @Html.Partial("Search", @Model)
+    </div>
+</div>

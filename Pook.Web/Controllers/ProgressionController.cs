@@ -20,9 +20,58 @@ namespace Pook.Web.Controllers
                 .Include(p => p.Book)
                 .Include(p => p.Status)
                 .Include(p => p.User)
-                .Where(p => p.Status.Title != "Current")
+                .AsNoTracking()
                 .ToList();
+            
+            var books = progressions
+                .Select(p => p.Book)
+                .GroupBy(p => p.BookId)
+                .Select(p => p.First())
+                .ToList();
+            books.Insert(0, null);
+            ViewBag.bookId = new SelectList(books, "BookId", "Title");
+            var statuses = db.Statuses.AsNoTracking().ToList();
+            statuses.Insert(0, null);
+            ViewBag.statusId = new SelectList(statuses, "StatusId", "Title");
+            var users = db.Users.ToList();
+            users.Insert(0, null);
+            ViewBag.userId = new SelectList(users, "Id", "FirstName");
+
+            progressions = progressions.Select(p => new Progression
+            {
+                Date = p.Date,
+                Book = p.Book,
+                Status = new Status { Title = p.Status.Title == "Current" ? p.Page.ToString() : "Current" },
+                User = p.User
+            }).ToList();
+
             return View(progressions);
+        }
+
+        // GET: Progression/Search
+        public ActionResult Search(Guid? bookId, Guid? statusId, string userId)
+        {
+            var progressions = db.Progressions
+                .OrderByDescending(p => p.Date)
+                .Include(p => p.Book)
+                .Include(p => p.Status)
+                .Include(p => p.User)
+                .Where(p =>
+                    (bookId == null || p.BookId == bookId)
+                    && (statusId == null || p.StatusId == statusId)
+                    && (string.IsNullOrEmpty(userId) || p.UserId == userId)
+                )
+                .ToList();
+
+            progressions = progressions.Select(p => new Progression
+            {
+                Date = p.Date,
+                Book = p.Book,
+                Status = new Status { Title = p.Status.Title == "Current" ? p.Page.ToString() : "Current" },
+                User = p.User
+            }).ToList();
+
+            return PartialView(progressions);
         }
 
         // GET: Progression/PageProgress
