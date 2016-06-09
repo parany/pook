@@ -41,7 +41,7 @@ namespace Pook.Web.Controllers
             {
                 Date = p.Date,
                 Book = p.Book,
-                Status = new Status { Title = p.Status.Title == "Current" ? p.Page.ToString() : "Current" },
+                Status = new Status { Title = p.Status.Title == "Current" ? p.Page.ToString() : p.Status.Title },
                 User = p.User
             }).ToList();
 
@@ -67,7 +67,7 @@ namespace Pook.Web.Controllers
             {
                 Date = p.Date,
                 Book = p.Book,
-                Status = new Status { Title = p.Status.Title == "Current" ? p.Page.ToString() : "Current" },
+                Status = new Status { Title = p.Status.Title == "Current" ? p.Page.ToString() : p.Status.Title },
                 User = p.User
             }).ToList();
 
