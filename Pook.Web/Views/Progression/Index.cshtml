@@ -1,7 +1,11 @@
-﻿@model IEnumerable<Pook.Data.Entities.Progression>
+﻿@model Pook.Web.Models.ProgressionSearch
 
 @{
     ViewBag.Title = "Index";
+}
+
+@section Scripts{
+    <script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
 }
 
 <h2>Index</h2>
@@ -9,42 +13,35 @@
 <p>
     @Html.ActionLink("Create New", "Create")
 </p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Date)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Book.Title)
-        </th>
-        <th>
-            Status
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.User.FirstName)
-        </th>
-        <th></th>
-    </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Date)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Book.Title)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Status.Title)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.User.FirstName)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new {id = item.ProgressionId}) |
-            @Html.ActionLink("Delete", "Delete", new {id = item.ProgressionId})
-        </td>
-    </tr>
-}
-
-</table>
+<div class="panel-body">
+    @using (Ajax.BeginForm("Search", "Progression",
+                                new AjaxOptions
+                                {
+                                    InsertionMode = InsertionMode.Replace,
+                                    HttpMethod = "GET",
+                                    UpdateTargetId = "searchresults",
+                                }))
+    {
+        <div class="form-group col-lg-12">
+            <div class="col-md-3">
+                @Html.DropDownListFor(m => m.BookId, Model.Books, new {@class = "form-control"})
+            </div>
+            <div class="col-md-3">
+                @Html.DropDownListFor(m => m.StatusId, Model.Statuses, new { @class = "form-control" })
+            </div>
+            <div class="col-md-2">
+                @Html.TextBoxFor(m => m.StartDate, "{0:MM/dd/yyyy}", new {htmlAttributes = new {@class = "form-control"}})
+            </div>
+            <div class="col-md-2">
+                @Html.TextBoxFor(m => m.EndDate, "{0:MM/dd/yyyy}", new { htmlAttributes = new { @class = "form-control" } })
+            </div>
+            <div class="col-md-2">
+                <input type="submit" value="search" class="btn btn-default" />
+            </div>
+        </div>
+    }
+    <div id="searchresults">
+        @Html.Partial("Search", Model.Progressions)
+    </div>
+</div>

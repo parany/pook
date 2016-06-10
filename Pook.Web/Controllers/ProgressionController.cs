@@ -5,6 +5,7 @@ using System.Net;
 using System.Web.Mvc;
 using Pook.Data;
 using Pook.Data.Entities;
+using Pook.Web.Models;
 
 namespace Pook.Web.Controllers
 {
@@ -15,14 +16,64 @@ namespace Pook.Web.Controllers
         // GET: Progression
         public ActionResult Index()
         {
+            var model = new ProgressionSearch();
             var progressions = db.Progressions
                 .OrderByDescending(p => p.Date)
                 .Include(p => p.Book)
                 .Include(p => p.Status)
                 .Include(p => p.User)
-                .Where(p => p.Status.Title != "Current")
+                .AsNoTracking()
                 .ToList();
-            return View(progressions);
+            
+            var books = progressions
+                .Select(p => p.Book)
+                .GroupBy(p => p.BookId)
+                .Select(p => p.First())
+                .ToList();
+            books.Insert(0, null);
+            model.Books = new SelectList(books, "BookId", "Title");
+            var statuses = db.Statuses.AsNoTracking().ToList();
+            statuses.Insert(0, null);
+            model.Statuses = new SelectList(statuses, "StatusId", "Title");
+            var now = DateTime.Now;
+            model.EndDate = now;
+            model.StartDate = now.AddDays(-60);
+            progressions = progressions.Select(p => new Progression
+            {
+                Date = p.Date,
+                Book = p.Book,
+                Status = new Status { Title = p.Status.Title == "Current" ? p.Page.ToString() : p.Status.Title },
+                User = p.User
+            }).ToList();
+            model.Progressions = progressions;
+
+            return View(model);
+        }
+
+        // GET: Progression/Search
+        public ActionResult Search(ProgressionSearch search)
+        {
+            var progressions = db.Progressions
+                .OrderByDescending(p => p.Date)
+                .Include(p => p.Book)
+                .Include(p => p.Status)
+                .Include(p => p.User)
+                .Where(p =>
+                    (search.BookId == null || p.BookId == search.BookId)
+                    && (search.StatusId == null || p.StatusId == search.StatusId)
+                    && (p.Date >= search.StartDate && p.Date <= search.EndDate)
+                )
+                .ToList();
+
+            progressions = progressions.Select(p => new Progression
+            {
+                Date = p.Date,
+                Book = p.Book,
+                Status = new Status { Title = p.Status.Title == "Current" ? p.Page.ToString() : p.Status.Title },
+                User = p.User
+            }).ToList();
+
+            return PartialView(progressions);
         }
 
         // GET: Progression/PageProgress
