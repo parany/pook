@@ -40,6 +40,7 @@ namespace Pook.Web.Controllers
             model.StartDate = now.AddDays(-60);
             progressions = progressions.Select(p => new Progression
             {
+                ProgressionId = p.ProgressionId,
                 Date = p.Date,
                 Book = p.Book,
                 Status = new Status { Title = p.Status.Title == "Current" ? p.Page.ToString() : p.Status.Title },
@@ -67,6 +68,7 @@ namespace Pook.Web.Controllers
 
             progressions = progressions.Select(p => new Progression
             {
+                ProgressionId = p.ProgressionId,
                 Date = p.Date,
                 Book = p.Book,
                 Status = new Status { Title = p.Status.Title == "Current" ? p.Page.ToString() : p.Status.Title },
