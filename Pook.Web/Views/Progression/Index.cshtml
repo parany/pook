@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Pook.Data.Entities.Progression>
+﻿@model Pook.Web.Models.ProgressionSearch
 
 @{
     ViewBag.Title = "Index";
@@ -25,16 +25,16 @@
     {
         <div class="form-group col-lg-12">
             <div class="col-md-3">
-                @Html.DropDownList("bookId", null, new {@class = "form-control"})
+                @Html.DropDownListFor(m => m.BookId, Model.Books, new {@class = "form-control"})
             </div>
             <div class="col-md-3">
-                @Html.DropDownList("statusId", null, new {@class = "form-control"})
+                @Html.DropDownListFor(m => m.StatusId, Model.Statuses, new { @class = "form-control" })
             </div>
             <div class="col-md-2">
-                @Html.Editor("startDate", null, new {htmlAttributes = new {@class = "form-control"}})
+                @Html.TextBoxFor(m => m.StartDate, "{0:MM/dd/yyyy}", new {htmlAttributes = new {@class = "form-control"}})
             </div>
             <div class="col-md-2">
-                @Html.Editor("endDate", null, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.TextBoxFor(m => m.EndDate, "{0:MM/dd/yyyy}", new { htmlAttributes = new { @class = "form-control" } })
             </div>
             <div class="col-md-2">
                 <input type="submit" value="search" class="btn btn-default" />
@@ -42,6 +42,6 @@
         </div>
     }
     <div id="searchresults">
-        @Html.Partial("Search", @Model)
+        @Html.Partial("Search", Model.Progressions)
     </div>
 </div>

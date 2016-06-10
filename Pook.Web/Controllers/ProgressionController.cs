@@ -5,6 +5,7 @@ using System.Net;
 using System.Web.Mvc;
 using Pook.Data;
 using Pook.Data.Entities;
+using Pook.Web.Models;
 
 namespace Pook.Web.Controllers
 {
@@ -15,6 +16,7 @@ namespace Pook.Web.Controllers
         // GET: Progression
         public ActionResult Index()
         {
+            var model = new ProgressionSearch();
             var progressions = db.Progressions
                 .OrderByDescending(p => p.Date)
                 .Include(p => p.Book)
@@ -29,13 +31,13 @@ namespace Pook.Web.Controllers
                 .Select(p => p.First())
                 .ToList();
             books.Insert(0, null);
-            ViewBag.bookId = new SelectList(books, "BookId", "Title");
+            model.Books = new SelectList(books, "BookId", "Title");
             var statuses = db.Statuses.AsNoTracking().ToList();
             statuses.Insert(0, null);
-            ViewBag.statusId = new SelectList(statuses, "StatusId", "Title");
+            model.Statuses = new SelectList(statuses, "StatusId", "Title");
             var now = DateTime.Now;
-            ViewBag.endDate = now;
-            ViewBag.startDate = now.AddDays(-60);
+            model.EndDate = now;
+            model.StartDate = now.AddDays(-60);
             progressions = progressions.Select(p => new Progression
             {
                 Date = p.Date,
@@ -43,12 +45,13 @@ namespace Pook.Web.Controllers
                 Status = new Status { Title = p.Status.Title == "Current" ? p.Page.ToString() : p.Status.Title },
                 User = p.User
             }).ToList();
+            model.Progressions = progressions;
 
-            return View(progressions);
+            return View(model);
         }
 
         // GET: Progression/Search
-        public ActionResult Search(Guid? bookId, Guid? statusId, DateTime startDate, DateTime endDate)
+        public ActionResult Search(ProgressionSearch search)
         {
             var progressions = db.Progressions
                 .OrderByDescending(p => p.Date)
@@ -56,9 +59,9 @@ namespace Pook.Web.Controllers
                 .Include(p => p.Status)
                 .Include(p => p.User)
                 .Where(p =>
-                    (bookId == null || p.BookId == bookId)
-                    && (statusId == null || p.StatusId == statusId)
-                    && (p.Date >= startDate && p.Date <= endDate)
+                    (search.BookId == null || p.BookId == search.BookId)
+                    && (search.StatusId == null || p.StatusId == search.StatusId)
+                    && (p.Date >= search.StartDate && p.Date <= search.EndDate)
                 )
                 .ToList();
 
