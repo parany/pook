@@ -23,17 +23,20 @@
                                     UpdateTargetId = "searchresults",
                                 }))
     {
-        <div class="form-group">
+        <div class="form-group col-lg-12">
             <div class="col-md-3">
                 @Html.DropDownList("bookId", null, new {@class = "form-control"})
             </div>
             <div class="col-md-3">
                 @Html.DropDownList("statusId", null, new {@class = "form-control"})
             </div>
-            <div class="col-md-3">
-                @Html.DropDownList("userId", null, new { @class = "form-control" })
+            <div class="col-md-2">
+                @Html.Editor("startDate", null, new {htmlAttributes = new {@class = "form-control"}})
             </div>
-            <div class="col-md-3">
+            <div class="col-md-2">
+                @Html.Editor("endDate", null, new { htmlAttributes = new { @class = "form-control" } })
+            </div>
+            <div class="col-md-2">
                 <input type="submit" value="search" class="btn btn-default" />
             </div>
         </div>

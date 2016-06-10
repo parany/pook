@@ -33,10 +33,9 @@ namespace Pook.Web.Controllers
             var statuses = db.Statuses.AsNoTracking().ToList();
             statuses.Insert(0, null);
             ViewBag.statusId = new SelectList(statuses, "StatusId", "Title");
-            var users = db.Users.ToList();
-            users.Insert(0, null);
-            ViewBag.userId = new SelectList(users, "Id", "FirstName");
-
+            var now = DateTime.Now;
+            ViewBag.endDate = now;
+            ViewBag.startDate = now.AddDays(-60);
             progressions = progressions.Select(p => new Progression
             {
                 Date = p.Date,
@@ -49,7 +48,7 @@ namespace Pook.Web.Controllers
         }
 
         // GET: Progression/Search
-        public ActionResult Search(Guid? bookId, Guid? statusId, string userId)
+        public ActionResult Search(Guid? bookId, Guid? statusId, DateTime startDate, DateTime endDate)
         {
             var progressions = db.Progressions
                 .OrderByDescending(p => p.Date)
@@ -59,7 +58,7 @@ namespace Pook.Web.Controllers
                 .Where(p =>
                     (bookId == null || p.BookId == bookId)
                     && (statusId == null || p.StatusId == statusId)
-                    && (string.IsNullOrEmpty(userId) || p.UserId == userId)
+                    && (p.Date >= startDate && p.Date <= endDate)
                 )
                 .ToList();
 
