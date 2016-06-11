@@ -16,25 +16,25 @@
 
 <div class="panel-body">
     @using (Ajax.BeginForm("Search", "Progression",
-                                new AjaxOptions
-                                {
-                                    InsertionMode = InsertionMode.Replace,
-                                    HttpMethod = "GET",
-                                    UpdateTargetId = "searchresults",
-                                }))
+                                        new AjaxOptions
+                                        {
+                                            InsertionMode = InsertionMode.Replace,
+                                            HttpMethod = "GET",
+                                            UpdateTargetId = "searchresults",
+                                        }))
     {
         <div class="form-group col-lg-12">
             <div class="col-md-3">
-                @Html.DropDownListFor(m => m.BookId, Model.Books, new {@class = "form-control"})
+                @Html.DropDownListFor(m => m.BookId, Model.Books, new { @class = "form-control" })
             </div>
             <div class="col-md-3">
                 @Html.DropDownListFor(m => m.StatusId, Model.Statuses, new { @class = "form-control" })
             </div>
             <div class="col-md-2">
-                @Html.TextBoxFor(m => m.StartDate, "{0:MM/dd/yyyy}", new {htmlAttributes = new {@class = "form-control"}})
+                @Html.EditorFor(m => m.StartDate, new { htmlAttributes = new { @class = "form-control" } })
             </div>
             <div class="col-md-2">
-                @Html.TextBoxFor(m => m.EndDate, "{0:MM/dd/yyyy}", new { htmlAttributes = new { @class = "form-control" } })
+                @Html.EditorFor(m => m.EndDate, new { htmlAttributes = new { @class = "form-control" } })
             </div>
             <div class="col-md-2">
                 <input type="submit" value="search" class="btn btn-default" />

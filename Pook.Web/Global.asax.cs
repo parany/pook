@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
+using Pook.Web.CustomModelBinders;
 
 namespace Pook.Web
 {
@@ -16,6 +14,8 @@ namespace Pook.Web
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
+
+            ModelBinders.Binders[typeof(DateTime)] = new DateTimeModelBinder("dd-MM-yyyy");
         }
     }
 }
