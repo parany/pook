@@ -213,5 +213,5 @@ ModelManifest.xml
 
 # pook
 papers/
-App.config
-Web.config
+Pook.Data/App.config
+Pook.Web/Web.config
