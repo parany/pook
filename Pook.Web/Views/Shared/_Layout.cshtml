@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿@using System.Web.Configuration
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
@@ -6,7 +7,13 @@
     <title>@ViewBag.Title - Pook</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
-
+    @{
+        string env = WebConfigurationManager.AppSettings["Environment"];
+    }
+    @if (env == "dev")
+    {
+        <link href="~/Content/Site.dev.css" rel="stylesheet" />
+    }
 </head>
 <body>
     <div class="navbar navbar-inverse navbar-fixed-top">

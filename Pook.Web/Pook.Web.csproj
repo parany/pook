@@ -196,6 +196,7 @@
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\Site.dev.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -285,7 +286,6 @@
     <Content Include="Views\Progression\Details.cshtml" />
     <Content Include="Views\Progression\Edit.cshtml" />
     <Content Include="Views\Progression\Index.cshtml" />
-    <Content Include="Views\Shared\_Layout - Copy.cshtml" />
     <Content Include="Views\Author\Create.cshtml" />
     <Content Include="Views\Author\Delete.cshtml" />
     <Content Include="Views\Author\Details.cshtml" />
