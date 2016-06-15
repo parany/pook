@@ -6,50 +6,85 @@
 
 <h2>Details</h2>
 
-<div>
+<div class="user-details">
     <h4>User</h4>
     <hr />
     <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.User.FirstName)
-        </dt>
+        @if (!string.IsNullOrEmpty(Model.User.FirstName))
+        {
+            <dt>
+                @Html.DisplayNameFor(model => model.User.FirstName)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.User.FirstName)
+            </dd>
+        }
 
-        <dd>
-            @Html.DisplayFor(model => model.User.FirstName)
-        </dd>
+        @if (!string.IsNullOrEmpty(Model.User.LastName))
+        {
+            <dt>
+                @Html.DisplayNameFor(model => model.User.LastName)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.User.LastName)
+            </dd>
+        }
 
-        <dt>
-            @Html.DisplayNameFor(model => model.User.LastName)
-        </dt>
+        @if (!string.IsNullOrEmpty(Model.User.Description))
+        {
+            <dt>
+                @Html.DisplayNameFor(model => model.User.Description)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.User.Description)
+            </dd>
+        }
 
-        <dd>
-            @Html.DisplayFor(model => model.User.LastName)
-        </dd>
+        @if (!string.IsNullOrEmpty(Model.User.Address))
+        {
+            <dt>
+                @Html.DisplayNameFor(model => model.User.Address)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.User.Address)
+            </dd>
+        }
 
-        <dt>
-            @Html.DisplayNameFor(model => model.User.Email)
-        </dt>
+        @if (!string.IsNullOrEmpty(Model.User.Email))
+        {
+            <dt>
+                @Html.DisplayNameFor(model => model.User.Email)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.User.Email)
+            </dd>
+        }
 
-        <dd>
-            @Html.DisplayFor(model => model.User.Email)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.User.UserName)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.User.UserName)
-        </dd>
-
+        @if (!string.IsNullOrEmpty(Model.User.UserName))
+        {
+            <dt>
+                @Html.DisplayNameFor(model => model.User.UserName)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.User.UserName)
+            </dd>
+        }
     </dl>
 
     <h2>Progressions</h2>
     @foreach (var progressionSection in Model.ProgressionSections)
     {
         <h4>
-            @progressionSection.Book 
-            (@Html.ActionLink(progressionSection.PageProgress.ToString(), "PageProgress", "Progression", new { userId = Model.User.Id, bookId = progressionSection.BookId }, null))
+            @progressionSection.Book
+            @if (progressionSection.PageProgress > 0)
+            {
+                @:(@Html.ActionLink(
+                    "View Page Progression",
+                    "PageProgress",
+                    "Progression",
+                    new { userId = Model.User.Id, bookId = progressionSection.BookId },
+                    new { @class = "small" }))
+            }
         </h4>
         <table class="table table-condensed">
             <tbody>
@@ -73,13 +108,8 @@
                 @foreach (var note in noteSection.Notes)
                 {
                     <tr class="col-md-10">
-                        <td class="col-md-4">@note.Page</td>
-                        <td class="col-md-4">@note.Title</td>
-                        <td class="col-md-4">
-                            @Html.ActionLink("Edit", "Edit", "Note", new { id = @note.NoteId }, null) |
-                            @Html.ActionLink("Details", "Details", "Note", new { id = @note.NoteId }, null) |
-                            @Html.ActionLink("Delete", "Delete", "Note", new { id = @note.NoteId }, null)
-                        </td>
+                        <td class="col-md-6">@note.Page</td>
+                        <td class="col-md-6">@note.Title</td>
                     </tr>
                 }
             </tbody>

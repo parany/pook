@@ -22,3 +22,11 @@ select,
 textarea {
     max-width: 280px;
 }
+
+.user-details {
+    font-size: 0.9em;
+}
+
+.user-details a.small {
+    font-size: 0.6em;
+}
