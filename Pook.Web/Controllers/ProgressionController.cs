@@ -80,6 +80,7 @@ namespace Pook.Web.Controllers
             return PartialView(progressions);
         }
 
+        [Route("Progression/PageProgress/{userId}/{bookId}")]
         // GET: Progression/PageProgress
         public ActionResult PageProgress(string userId, Guid bookId)
         {
