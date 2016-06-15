@@ -21,21 +21,6 @@ namespace Pook.Web.Controllers
             return View(db.ResponsabilityTypes.ToList());
         }
 
-        // GET: ResponsabilityType/Details/5
-        public ActionResult Details(Guid? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            ResponsabilityType responsabilityType = db.ResponsabilityTypes.Find(id);
-            if (responsabilityType == null)
-            {
-                return HttpNotFound();
-            }
-            return View(responsabilityType);
-        }
-
         // GET: ResponsabilityType/Create
         public ActionResult Create()
         {

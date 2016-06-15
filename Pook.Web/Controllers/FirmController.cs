@@ -21,21 +21,6 @@ namespace Pook.Web.Controllers
             return View(db.Firms.ToList());
         }
 
-        // GET: Firm/Details/5
-        public ActionResult Details(Guid? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Firm firm = db.Firms.Find(id);
-            if (firm == null)
-            {
-                return HttpNotFound();
-            }
-            return View(firm);
-        }
-
         // GET: Firm/Create
         public ActionResult Create()
         {

@@ -253,7 +253,6 @@
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Firm\Create.cshtml" />
     <Content Include="Views\Firm\Delete.cshtml" />
-    <Content Include="Views\Firm\Details.cshtml" />
     <Content Include="Views\Firm\Edit.cshtml" />
     <Content Include="Views\Firm\Index.cshtml" />
     <Content Include="Views\Editor\Create.cshtml" />
@@ -297,7 +296,6 @@
     <Content Include="Views\Book\Index.cshtml" />
     <Content Include="Views\ResponsabilityType\Create.cshtml" />
     <Content Include="Views\ResponsabilityType\Delete.cshtml" />
-    <Content Include="Views\ResponsabilityType\Details.cshtml" />
     <Content Include="Views\ResponsabilityType\Edit.cshtml" />
     <Content Include="Views\ResponsabilityType\Index.cshtml" />
     <Content Include="Views\Responsability\Create.cshtml" />
