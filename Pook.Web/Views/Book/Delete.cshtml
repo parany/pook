@@ -11,50 +11,66 @@
     <h4>Book</h4>
     <hr />
     <dl class="dl-horizontal">
+        @if (!string.IsNullOrEmpty(Model.Title))
+        {
+            <dt>
+                @Html.DisplayNameFor(model => model.Title)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Title)
+            </dd>
+        }
+
+        @if (!string.IsNullOrEmpty(Model.Category?.Title))
+        {
+            <dt>
+                Category
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Category.Title)
+            </dd>
+        }
+
+        @if (!string.IsNullOrEmpty(Model.Editor?.Title))
+        {
+            <dt>
+                Editor
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Editor.Title)
+            </dd>
+        }
+
+        @if (!string.IsNullOrEmpty(Model.Firm?.Title))
+        {
+            <dt>
+                Firm
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Firm.Title)
+            </dd>
+        }
+
+        @if (!string.IsNullOrEmpty(Model.Description))
+        {
+            <dt>
+                @Html.DisplayNameFor(model => model.Description)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Description)
+            </dd>
+        }
+
         <dt>
-            @Html.DisplayNameFor(model => model.Category.Title)
+            @Html.DisplayNameFor(model => model.NumberOfPages)
         </dt>
-
         <dd>
-            @Html.DisplayFor(model => model.Category.Title)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Editor.Title)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Editor.Title)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Firm.Title)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Firm.Title)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Title)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Title)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Description)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Description)
+            @Html.DisplayFor(model => model.NumberOfPages)
         </dd>
 
         <dt>
             @Html.DisplayNameFor(model => model.ReleaseDate)
         </dt>
-
         <dd>
             @Html.DisplayFor(model => model.ReleaseDate)
         </dd>
