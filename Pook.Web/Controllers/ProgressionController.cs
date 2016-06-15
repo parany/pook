@@ -17,7 +17,11 @@ namespace Pook.Web.Controllers
         public ActionResult Index()
         {
             var model = new ProgressionSearch();
+            var now = DateTime.Now;
+            model.EndDate = now;
+            model.StartDate = now.AddDays(-90);
             var progressions = db.Progressions
+                .Where(p => p.Date >= model.StartDate && p.Date <= model.EndDate)
                 .OrderByDescending(p => p.Date)
                 .Include(p => p.Book)
                 .Include(p => p.Status)
@@ -35,9 +39,7 @@ namespace Pook.Web.Controllers
             var statuses = db.Statuses.AsNoTracking().ToList();
             statuses.Insert(0, null);
             model.Statuses = new SelectList(statuses, "StatusId", "Title");
-            var now = DateTime.Now;
-            model.EndDate = now;
-            model.StartDate = now.AddDays(-60);
+            
             progressions = progressions.Select(p => new Progression
             {
                 ProgressionId = p.ProgressionId,
