@@ -15,7 +15,7 @@ namespace Pook.Data.Entities
         [DataType(DataType.MultilineText)]
         public string Description { get; set; }
 
-        [DisplayFormat(DataFormatString = "{0:dd-MMM-yyyy}")]
+        [DisplayFormat(DataFormatString = "{0:dd-MMM-yyyy}", ApplyFormatInEditMode = false)]
         public DateTime ReleaseDate { get; set; }
 
         public int NumberOfPages { get; set; }

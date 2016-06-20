@@ -69,5 +69,13 @@
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)
+    <script src="~/Scripts/moment.min.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $.validator.methods.date = function (value, element) {
+                return this.optional(element) || moment(value, 'DD-MM-YYYY').isValid();
+            };
+        });
+    </script>
 </body>
 </html>
