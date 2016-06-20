@@ -24,7 +24,7 @@ namespace Pook.Data.Entities
 
         public User User { get; set; }
 
-        [DisplayFormat(DataFormatString = "{0:dd-MMM-yyyy}")]
+        [DisplayFormat(DataFormatString = "{0:dd-MMM-yyyy}", ApplyFormatInEditMode = false)]
         public DateTime Date { get; set; }
 
         [Index("IX_Progression", 1, IsUnique = true, Order = 6)]
