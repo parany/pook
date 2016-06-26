@@ -8,8 +8,6 @@ namespace Pook.Data.Entities
     [Table("Book", Schema = "Book")]
     public class Book: Content
     {
-        public Guid BookId { get; set; }
-
         public string Title { get; set; }
 
         [DataType(DataType.MultilineText)]

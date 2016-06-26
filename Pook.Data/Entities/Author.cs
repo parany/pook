@@ -5,10 +5,8 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace Pook.Data.Entities
 {
     [Table("Author", Schema = "Book")]
-    public class Author
+    public class Author : Content
     {
-        public Guid AuthorId { get; set; }
-
         public string FirstName { get; set; }
 
         public string LastName { get; set; }

@@ -7,8 +7,6 @@ namespace Pook.Data.Entities
     [Table("Category", Schema = "Book")]
     public class Category : Content
     {
-        public Guid CategoryId { get; set; }
-
         public string Title { get; set; }
 
         public string Description { get; set; }

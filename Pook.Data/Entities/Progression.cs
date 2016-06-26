@@ -7,8 +7,6 @@ namespace Pook.Data.Entities
     [Table("Progression", Schema = "User")]
     public class Progression : Content
     {
-        public Guid ProgressionId { get; set; }
-
         [Index("IX_Progression", 1, IsUnique = true, Order = 5)]
         public Guid StatusId { get; set; }
 

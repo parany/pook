@@ -50,11 +50,11 @@ namespace Pook.Web.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "NoteId,UserId,BookId,Title,Page,Description,CreatedOn,UpdatedOn,CreatedBy,UpdatedBy,SeoTitle")] Note note)
+        public ActionResult Create(Note note)
         {
             if (ModelState.IsValid)
             {
-                note.NoteId = Guid.NewGuid();
+                note.Id = Guid.NewGuid();
                 db.Notes.Add(note);
                 db.SaveChanges();
                 return RedirectToAction("Index");

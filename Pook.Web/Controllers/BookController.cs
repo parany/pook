@@ -29,7 +29,7 @@ namespace Pook.Web.Controllers
             Book book = db.Books
                 .Include(b => b.Editor)
                 .Include(b => b.Firm)
-                .FirstOrDefault(b => b.BookId == id);
+                .FirstOrDefault(b => b.Id == id);
             if (book == null)
             {
                 return HttpNotFound();
@@ -38,14 +38,14 @@ namespace Pook.Web.Controllers
             var model = new BookDetails { Book = book };
 
             var responsabilities = db.Responsabilities
-                .Where(r => r.BookId == book.BookId)
+                .Where(r => r.BookId == book.Id)
                 .Include(r => r.Author)
                 .Include(r => r.ResponsabilityType)
                 .ToList();
             model.Responsabilities = responsabilities;
 
             var notes = db.Notes
-                .Where(n => n.BookId == book.BookId)
+                .Where(n => n.BookId == book.Id)
                 .OrderBy(o => o.Page)
                 .Include(n => n.User)
                 .ToList();
@@ -75,7 +75,7 @@ namespace Pook.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                book.BookId = Guid.NewGuid();
+                book.Id = Guid.NewGuid();
                 db.Books.Add(book);
                 db.SaveChanges();
                 return RedirectToAction("Index");

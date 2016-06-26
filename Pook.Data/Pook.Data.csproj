@@ -119,9 +119,15 @@
     <Compile Include="Migrations\201606090432518_ProgressionAddConstraintPageStatusBookUser.Designer.cs">
       <DependentUpon>201606090432518_ProgressionAddConstraintPageStatusBookUser.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201606260728489_ContentAddId.cs" />
+    <Compile Include="Migrations\201606260728489_ContentAddId.Designer.cs">
+      <DependentUpon>201606260728489_ContentAddId.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="PookDbContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repositories\Concrete\GenericRepository.cs" />
+    <Compile Include="Repositories\Interface\IGenericRepository.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -151,6 +157,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201606090432518_ProgressionAddConstraintPageStatusBookUser.resx">
       <DependentUpon>201606090432518_ProgressionAddConstraintPageStatusBookUser.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201606260728489_ContentAddId.resx">
+      <DependentUpon>201606260728489_ContentAddId.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

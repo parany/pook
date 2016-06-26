@@ -7,8 +7,6 @@ namespace Pook.Data.Entities
     [Table("Editor", Schema = "Editor")]
     public class Editor : Content
     {
-        public Guid EditorId { get; set; }
-
         public string Title { get; set; }
 
         [DataType(DataType.MultilineText)]

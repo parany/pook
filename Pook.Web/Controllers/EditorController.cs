@@ -47,11 +47,11 @@ namespace Pook.Web.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "EditorId,Title,Description,Address,CreatedOn,UpdatedOn,CreatedBy,UpdatedBy,SeoTitle")] Editor editor)
+        public ActionResult Create(Editor editor)
         {
             if (ModelState.IsValid)
             {
-                editor.EditorId = Guid.NewGuid();
+                editor.Id = Guid.NewGuid();
                 db.Editors.Add(editor);
                 db.SaveChanges();
                 return RedirectToAction("Index");

@@ -35,11 +35,11 @@ namespace Pook.Web.Controllers
         [Route("Responsability/Create/{bookId?}")]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "ResponsabilityId,ResponsabilityTypeId,AuthorId,BookId")] Responsability responsability)
+        public ActionResult Create(Responsability responsability)
         {
             if (ModelState.IsValid)
             {
-                responsability.ResponsabilityId = Guid.NewGuid();
+                responsability.Id = Guid.NewGuid();
                 db.Responsabilities.Add(responsability);
                 db.SaveChanges();
                 return RedirectToAction("Details", "Book", new { id = responsability.BookId });

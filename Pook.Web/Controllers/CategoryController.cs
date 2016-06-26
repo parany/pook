@@ -36,7 +36,7 @@ namespace Pook.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                category.CategoryId = Guid.NewGuid();
+                category.Id = Guid.NewGuid();
                 db.Categories.Add(category);
                 db.SaveChanges();
                 return RedirectToAction("Index");
