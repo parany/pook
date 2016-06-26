@@ -11,9 +11,8 @@
     <hr />
     <dl class="dl-horizontal">
         <dt>
-            @Html.DisplayNameFor(model => model.Book.Title)
+            Book
         </dt>
-
         <dd>
             @Html.DisplayFor(model => model.Book.Title)
         </dd>
@@ -21,7 +20,6 @@
         <dt>
             @Html.DisplayNameFor(model => model.User.FirstName)
         </dt>
-
         <dd>
             @Html.DisplayFor(model => model.User.FirstName)
         </dd>
@@ -29,20 +27,21 @@
         <dt>
             @Html.DisplayNameFor(model => model.Page)
         </dt>
-
         <dd>
             @Html.DisplayFor(model => model.Page)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Description)
+            @Html.DisplayNameFor(model => model.Title)
         </dt>
         <dd>
-            <br/>
-            @Html.Raw(Model.Description)
+            @Html.DisplayFor(model => model.Title)
         </dd>
-
     </dl>
+    <u><b>Description:</b></u>
+    @Html.Raw(Model.Description)
+    <br/>
+    <br />
 </div>
 <p>
     @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
