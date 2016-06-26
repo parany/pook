@@ -32,11 +32,11 @@ namespace Pook.Web.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "FirmId,Title,Description,Address,CreatedOn,UpdatedOn,CreatedBy,UpdatedBy,SeoTitle")] Firm firm)
+        public ActionResult Create(Firm firm)
         {
             if (ModelState.IsValid)
             {
-                firm.FirmId = Guid.NewGuid();
+                firm.Id = Guid.NewGuid();
                 db.Firms.Add(firm);
                 db.SaveChanges();
                 return RedirectToAction("Index");

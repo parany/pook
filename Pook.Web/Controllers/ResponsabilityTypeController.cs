@@ -32,11 +32,11 @@ namespace Pook.Web.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "ResponsabilityTypeId,Title,Desription")] ResponsabilityType responsabilityType)
+        public ActionResult Create(ResponsabilityType responsabilityType)
         {
             if (ModelState.IsValid)
             {
-                responsabilityType.ResponsabilityTypeId = Guid.NewGuid();
+                responsabilityType.Id = Guid.NewGuid();
                 db.ResponsabilityTypes.Add(responsabilityType);
                 db.SaveChanges();
                 return RedirectToAction("Index");

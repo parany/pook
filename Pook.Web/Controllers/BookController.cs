@@ -1,53 +1,81 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Data.Entity;
 using System.Linq;
 using System.Net;
-using System.Web;
 using System.Web.Mvc;
-using Pook.Data;
 using Pook.Data.Entities;
+using Pook.Data.Repositories.Interface;
 using Pook.Web.Models;
 
 namespace Pook.Web.Controllers
 {
     public class BookController : Controller
     {
-        private PookDbContext db = new PookDbContext();
+        private IGenericRepository<Book> BookRepository { get; }
+
+        private IGenericRepository<Responsability> ResponsabilityRepository { get; }
+
+        private IGenericRepository<Note> NoteRepository { get; }
+
+        private IGenericRepository<Category> CategoryRepository { get; }
+
+        private IGenericRepository<Firm> FirmRepository { get; }
+
+
+        private IGenericRepository<Editor> EditorRepository { get; }
+
+
+        public BookController(
+            IGenericRepository<Book> bookRepository, 
+            IGenericRepository<Responsability> responsabilityRepository,
+            IGenericRepository<Note> noteRepository,
+            IGenericRepository<Category> categoryRepository,
+            IGenericRepository<Firm> firmRepository,
+            IGenericRepository<Editor> editorRepository
+            )
+        {
+            BookRepository = bookRepository;
+            ResponsabilityRepository = responsabilityRepository;
+            NoteRepository = noteRepository;
+            CategoryRepository = categoryRepository;
+            FirmRepository = firmRepository;
+            EditorRepository = editorRepository;
+
+            BookRepository.AddNavigationProperties(
+                b => b.Category,
+                b => b.Editor,
+                b => b.Firm
+                );
+            ResponsabilityRepository.AddNavigationProperties(
+                r => r.Author,
+                r => r.ResponsabilityType
+                );
+            NoteRepository.AddNavigationProperty(u => u.User);
+        }
 
         // GET: Book
         public ActionResult Index()
         {
-            var books = db.Books.Include(b => b.Category).Include(b => b.Editor).Include(b => b.Firm);
+            var books = BookRepository.GetAll();
             return View(books.ToList());
         }
 
         [Route("Book/Details/{id}")]
         public ActionResult Details(Guid id)
         {
-            Book book = db.Books
-                .Include(b => b.Editor)
-                .Include(b => b.Firm)
-                .FirstOrDefault(b => b.BookId == id);
+            Book book = BookRepository.GetSingle(id);
+
             if (book == null)
-            {
                 return HttpNotFound();
-            }
 
-            var model = new BookDetails { Book = book };
+            var model = new BookDetails
+            {
+                Book = book,
+                Responsabilities = ResponsabilityRepository.GetList(r => r.BookId == book.Id)
+            };
 
-            var responsabilities = db.Responsabilities
-                .Where(r => r.BookId == book.BookId)
-                .Include(r => r.Author)
-                .Include(r => r.ResponsabilityType)
-                .ToList();
-            model.Responsabilities = responsabilities;
-
-            var notes = db.Notes
-                .Where(n => n.BookId == book.BookId)
+            var notes = NoteRepository
+                .GetList(n => n.BookId == book.Id)
                 .OrderBy(o => o.Page)
-                .Include(n => n.User)
                 .ToList();
             model.Notes = notes;
             return View(model);
@@ -56,34 +84,34 @@ namespace Pook.Web.Controllers
         // GET: Book/Create
         public ActionResult Create()
         {
-            ViewBag.CategoryId = new SelectList(db.Categories, "CategoryId", "Title");
-            var allEditors = db.Editors.ToList();
+            ViewBag.CategoryId = new SelectList(CategoryRepository.GetAll(), "Id", "Title");
+            var allEditors = EditorRepository.GetAll();
             allEditors.Insert(0, null);
-            ViewBag.EditorId = new SelectList(allEditors, "EditorId", "Title");
-            var allFirms = db.Firms.ToList();
+            ViewBag.EditorId = new SelectList(allEditors, "Id", "Title");
+            var allFirms = FirmRepository.GetAll();
             allFirms.Insert(0, null);
-            ViewBag.FirmId = new SelectList(allFirms, "FirmId", "Title");
+            ViewBag.FirmId = new SelectList(allFirms, "Id", "Title");
             return View();
         }
 
         // POST: Book/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "BookId,Title,Description,NumberOfPages,ReleaseDate,FirmId,EditorId,CategoryId,CreatedOn,UpdatedOn,CreatedBy,UpdatedBy,SeoTitle")] Book book)
+        public ActionResult Create(Book book)
         {
             if (ModelState.IsValid)
             {
-                book.BookId = Guid.NewGuid();
-                db.Books.Add(book);
-                db.SaveChanges();
+                BookRepository.Add(book);
                 return RedirectToAction("Index");
             }
 
-            ViewBag.CategoryId = new SelectList(db.Categories, "CategoryId", "Title", book.CategoryId);
-            ViewBag.EditorId = new SelectList(db.Editors, "EditorId", "Title", book.EditorId);
-            ViewBag.FirmId = new SelectList(db.Firms, "FirmId", "Title", book.FirmId);
+            ViewBag.CategoryId = new SelectList(CategoryRepository.GetAll(), "Id", "Title");
+            var allEditors = EditorRepository.GetAll();
+            allEditors.Insert(0, null);
+            ViewBag.EditorId = new SelectList(allEditors, "Id", "Title");
+            var allFirms = FirmRepository.GetAll();
+            allFirms.Insert(0, null);
+            ViewBag.FirmId = new SelectList(allFirms, "Id", "Title");
             return View(book);
         }
 
@@ -91,40 +119,41 @@ namespace Pook.Web.Controllers
         public ActionResult Edit(Guid? id)
         {
             if (id == null)
-            {
+            
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Book book = db.Books.Find(id);
+            
+            Book book = BookRepository.GetSingle(id.Value);
+
             if (book == null)
-            {
                 return HttpNotFound();
-            }
-            ViewBag.CategoryId = new SelectList(db.Categories, "CategoryId", "Title", book.CategoryId);
-            var allEditors = db.Editors.ToList();
+            
+            ViewBag.CategoryId = new SelectList(CategoryRepository.GetAll(), "Id", "Title", book.CategoryId);
+            var allEditors = EditorRepository.GetAll();
             allEditors.Insert(0, null);
-            ViewBag.EditorId = new SelectList(allEditors, "EditorId", "Title", book.EditorId);
-            var allFirms = db.Firms.ToList();
+            ViewBag.EditorId = new SelectList(allEditors, "Id", "Title", book.EditorId);
+            var allFirms = FirmRepository.GetAll();
             allFirms.Insert(0, null);
-            ViewBag.FirmId = new SelectList(allFirms, "FirmId", "Title", book.FirmId);
+            ViewBag.FirmId = new SelectList(allFirms, "Id", "Title", book.FirmId);
             return View(book);
         }
 
         // POST: Book/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "BookId,Title,Description,NumberOfPages,ReleaseDate,FirmId,EditorId,CategoryId,CreatedOn,UpdatedOn,CreatedBy,UpdatedBy,SeoTitle")] Book book)
+        public ActionResult Edit(Book book)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(book).State = EntityState.Modified;
-                db.SaveChanges();
+                BookRepository.Update(book);
                 return RedirectToAction("Index");
             }
-            ViewBag.CategoryId = new SelectList(db.Categories, "CategoryId", "Title", book.CategoryId);
-            ViewBag.EditorId = new SelectList(db.Editors, "EditorId", "Title", book.EditorId);
-            ViewBag.FirmId = new SelectList(db.Firms, "FirmId", "Title", book.FirmId);
+            ViewBag.CategoryId = new SelectList(CategoryRepository.GetAll(), "Id", "Title", book.CategoryId);
+            var allEditors = EditorRepository.GetAll();
+            allEditors.Insert(0, null);
+            ViewBag.EditorId = new SelectList(allEditors, "Id", "Title", book.EditorId);
+            var allFirms = FirmRepository.GetAll();
+            allFirms.Insert(0, null);
+            ViewBag.FirmId = new SelectList(allFirms, "Id", "Title", book.FirmId);
             return View(book);
         }
 
@@ -132,14 +161,12 @@ namespace Pook.Web.Controllers
         public ActionResult Delete(Guid? id)
         {
             if (id == null)
-            {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Book book = db.Books.Find(id);
+
+            Book book = BookRepository.GetSingle(id.Value);
             if (book == null)
-            {
                 return HttpNotFound();
-            }
+            
             return View(book);
         }
 
@@ -148,19 +175,8 @@ namespace Pook.Web.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(Guid id)
         {
-            Book book = db.Books.Find(id);
-            db.Books.Remove(book);
-            db.SaveChanges();
+            BookRepository.Delete(id);
             return RedirectToAction("Index");
-        }
-
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                db.Dispose();
-            }
-            base.Dispose(disposing);
         }
     }
 }

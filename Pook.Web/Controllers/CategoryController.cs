@@ -1,24 +1,24 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Data.Entity;
-using System.Linq;
 using System.Net;
-using System.Web;
 using System.Web.Mvc;
-using Pook.Data;
 using Pook.Data.Entities;
+using Pook.Data.Repositories.Interface;
 
 namespace Pook.Web.Controllers
 {
     public class CategoryController : Controller
     {
-        private PookDbContext db = new PookDbContext();
+        private IGenericRepository<Category> CategoryRepository { get; }
+
+        public CategoryController(IGenericRepository<Category> categoryRepository)
+        {
+            CategoryRepository = categoryRepository;
+        }
 
         // GET: Category
         public ActionResult Index()
         {
-            return View(db.Categories.ToList());
+            return View(CategoryRepository.GetAll());
         }
 
         // GET: Category/Create
@@ -28,17 +28,13 @@ namespace Pook.Web.Controllers
         }
 
         // POST: Category/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "CategoryId,Title,Description,CreatedOn,UpdatedOn,CreatedBy,UpdatedBy,SeoTitle")] Category category)
+        public ActionResult Create(Category category)
         {
             if (ModelState.IsValid)
             {
-                category.CategoryId = Guid.NewGuid();
-                db.Categories.Add(category);
-                db.SaveChanges();
+                CategoryRepository.Add(category);
                 return RedirectToAction("Index");
             }
 
@@ -49,28 +45,24 @@ namespace Pook.Web.Controllers
         public ActionResult Edit(Guid? id)
         {
             if (id == null)
-            {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Category category = db.Categories.Find(id);
+            
+            Category category = CategoryRepository.GetSingle(id.Value);
+
             if (category == null)
-            {
                 return HttpNotFound();
-            }
+            
             return View(category);
         }
 
         // POST: Category/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "CategoryId,Title,Description,CreatedOn,UpdatedOn,CreatedBy,UpdatedBy,SeoTitle")] Category category)
+        public ActionResult Edit(Category category)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(category).State = EntityState.Modified;
-                db.SaveChanges();
+                CategoryRepository.Update(category);
                 return RedirectToAction("Index");
             }
             return View(category);
@@ -80,14 +72,13 @@ namespace Pook.Web.Controllers
         public ActionResult Delete(Guid? id)
         {
             if (id == null)
-            {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Category category = db.Categories.Find(id);
+            
+            Category category = CategoryRepository.GetSingle(id.Value);
+
             if (category == null)
-            {
                 return HttpNotFound();
-            }
+
             return View(category);
         }
 
@@ -96,19 +87,8 @@ namespace Pook.Web.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(Guid id)
         {
-            Category category = db.Categories.Find(id);
-            db.Categories.Remove(category);
-            db.SaveChanges();
+            CategoryRepository.Delete(id);
             return RedirectToAction("Index");
-        }
-
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                db.Dispose();
-            }
-            base.Dispose(disposing);
         }
     }
 }

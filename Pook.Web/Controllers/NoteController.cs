@@ -40,27 +40,25 @@ namespace Pook.Web.Controllers
         // GET: Note/Create
         public ActionResult Create()
         {
-            ViewBag.BookId = new SelectList(db.Books, "BookId", "Title");
+            ViewBag.BookId = new SelectList(db.Books, "Id", "Title");
             ViewBag.UserId = new SelectList(db.Users, "Id", "FirstName");
             return View();
         }
 
         // POST: Note/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "NoteId,UserId,BookId,Title,Page,Description,CreatedOn,UpdatedOn,CreatedBy,UpdatedBy,SeoTitle")] Note note)
+        public ActionResult Create(Note note)
         {
             if (ModelState.IsValid)
             {
-                note.NoteId = Guid.NewGuid();
+                note.Id = Guid.NewGuid();
                 db.Notes.Add(note);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
-            ViewBag.BookId = new SelectList(db.Books, "BookId", "Title", note.BookId);
+            ViewBag.BookId = new SelectList(db.Books, "Id", "Title", note.BookId);
             ViewBag.UserId = new SelectList(db.Users, "Id", "FirstName", note.UserId);
             return View(note);
         }
@@ -77,17 +75,15 @@ namespace Pook.Web.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.BookId = new SelectList(db.Books, "BookId", "Title", note.BookId);
+            ViewBag.BookId = new SelectList(db.Books, "Id", "Title", note.BookId);
             ViewBag.UserId = new SelectList(db.Users, "Id", "FirstName", note.UserId);
             return View(note);
         }
 
         // POST: Note/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "NoteId,UserId,BookId,Title,Page,Description,CreatedOn,UpdatedOn,CreatedBy,UpdatedBy,SeoTitle")] Note note)
+        public ActionResult Edit(Note note)
         {
             if (ModelState.IsValid)
             {
@@ -95,7 +91,7 @@ namespace Pook.Web.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.BookId = new SelectList(db.Books, "BookId", "Title", note.BookId);
+            ViewBag.BookId = new SelectList(db.Books, "Id", "Title", note.BookId);
             ViewBag.UserId = new SelectList(db.Users, "Id", "FirstName", note.UserId);
             return View(note);
         }

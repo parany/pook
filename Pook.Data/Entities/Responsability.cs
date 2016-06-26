@@ -5,10 +5,8 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace Pook.Data.Entities
 {
     [Table("Responsability", Schema = "Book")]
-    public class Responsability
+    public class Responsability : Content
     {
-        public Guid ResponsabilityId { get; set; }
-
         public Guid ResponsabilityTypeId { get; set; }
 
         public virtual ResponsabilityType ResponsabilityType { get; set; }

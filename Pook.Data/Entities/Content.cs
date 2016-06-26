@@ -6,6 +6,9 @@ namespace Pook.Data.Entities
     public class Content
     {
         [ScaffoldColumn(false)]
+        public Guid Id { get; set; }
+
+        [ScaffoldColumn(false)]
         public DateTime? CreatedOn { get; set; }
 
         [ScaffoldColumn(false)]

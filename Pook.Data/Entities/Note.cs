@@ -7,8 +7,6 @@ namespace Pook.Data.Entities
     [Table("Note", Schema = "User")]
     public class Note : Content
     {
-        public Guid NoteId { get; set; }
-
         [Column(Order = 0)]
         [Index("IX_Note", 1, IsUnique = true, Order = 3)]
         public string UserId { get; set; }

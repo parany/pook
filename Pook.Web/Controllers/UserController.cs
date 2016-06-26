@@ -44,7 +44,7 @@ namespace Pook.Web.Controllers
                 select new ProgressionSection
                 {
                     Book = g.Key.Title,
-                    BookId = g.Key.BookId,
+                    BookId = g.Key.Id,
                     Progressions = g.Where(p => p.Status.Title != "Current").ToList(),
                     PageProgress = g.Count(c => c.Status.Title == "Current")
                 };
