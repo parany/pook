@@ -9,6 +9,7 @@ using Pook.Data;
 using Pook.Data.Entities;
 using Pook.Data.Repositories.Concrete;
 using Pook.Data.Repositories.Interface;
+using Pook.Web.Controllers;
 using Unity.Mvc5;
 
 namespace Pook.Web
@@ -18,6 +19,8 @@ namespace Pook.Web
         public static void RegisterComponents()
         {
 			var container = new UnityContainer();
+
+            container.RegisterType<AccountController>(new InjectionConstructor());
 
             container.RegisterType<IGenericRepository<Book>, GenericRepository<Book>>();
             container.RegisterType<IGenericRepository<Responsability>, GenericRepository<Responsability>>();
