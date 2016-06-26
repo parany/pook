@@ -91,8 +91,8 @@ namespace Pook.Web.Controllers
         // GET: Progression/Create
         public ActionResult Create()
         {
-            ViewBag.BookId = new SelectList(db.Books, "BookId", "Title");
-            ViewBag.StatusId = new SelectList(db.Statuses, "StatusId", "Title");
+            ViewBag.BookId = new SelectList(db.Books, "Id", "Title");
+            ViewBag.StatusId = new SelectList(db.Statuses, "Id", "Title");
             ViewBag.UserId = new SelectList(db.Users, "Id", "FirstName");
             return View();
         }
@@ -110,8 +110,8 @@ namespace Pook.Web.Controllers
                 return RedirectToAction("Index");
             }
 
-            ViewBag.BookId = new SelectList(db.Books, "BookId", "Title", progression.BookId);
-            ViewBag.StatusId = new SelectList(db.Statuses, "StatusId", "Title", progression.StatusId);
+            ViewBag.BookId = new SelectList(db.Books, "Id", "Title", progression.BookId);
+            ViewBag.StatusId = new SelectList(db.Statuses, "Id", "Title", progression.StatusId);
             ViewBag.UserId = new SelectList(db.Users, "Id", "FullName", progression.UserId);
             return View(progression);
         }
@@ -128,8 +128,8 @@ namespace Pook.Web.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.BookId = new SelectList(db.Books, "BookId", "Title", progression.BookId);
-            ViewBag.StatusId = new SelectList(db.Statuses, "StatusId", "Title", progression.StatusId);
+            ViewBag.BookId = new SelectList(db.Books, "Id", "Title", progression.BookId);
+            ViewBag.StatusId = new SelectList(db.Statuses, "Id", "Title", progression.StatusId);
             ViewBag.UserId = new SelectList(db.Users, "Id", "FullName", progression.UserId);
             return View(progression);
         }
@@ -137,7 +137,7 @@ namespace Pook.Web.Controllers
         // POST: Progression/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "ProgressionId,StatusId,BookId,UserId,Date,CreatedOn,UpdatedOn,CreatedBy,UpdatedBy,SeoTitle,Page")] Progression progression)
+        public ActionResult Edit(Progression progression)
         {
             if (ModelState.IsValid)
             {
@@ -145,8 +145,8 @@ namespace Pook.Web.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.BookId = new SelectList(db.Books, "BookId", "Title", progression.BookId);
-            ViewBag.StatusId = new SelectList(db.Statuses, "StatusId", "Title", progression.StatusId);
+            ViewBag.BookId = new SelectList(db.Books, "Id", "Title", progression.BookId);
+            ViewBag.StatusId = new SelectList(db.Statuses, "Id", "Title", progression.StatusId);
             ViewBag.UserId = new SelectList(db.Users, "Id", "FirstName", progression.UserId);
             return View(progression);
         }
