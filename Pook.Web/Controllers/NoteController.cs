@@ -81,7 +81,7 @@ namespace Pook.Web.Controllers
         }
 
         // POST: Note/Edit/5
-        [HttpPost]
+        [HttpPost, ValidateInput(false) ]
         [ValidateAntiForgeryToken]
         public ActionResult Edit(Note note)
         {
