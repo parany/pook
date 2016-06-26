@@ -13,9 +13,13 @@ namespace Pook.Data.Repositories.Interface
 
         T GetSingle(Expression<Func<T, bool>> where);
 
+        T GetSingle(Guid id);
+
         void Add(params T[] items);
 
         void Delete(params T[] items);
+
+        void Delete(Guid id);
 
         void Update(params T[] items);
 
@@ -37,8 +41,11 @@ namespace Pook.Data.Repositories.Interface
     public class PagingSettings
     {
         public int Page { get; set; }
+
         public int PageSize { get; set; }
+
         public int NumberOfRecords { get; set; }
+
         public int TotalNumberOfRecords { get; set; }
     }
 }

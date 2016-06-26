@@ -95,9 +95,9 @@
                     <td>@responsability.Author.LastName</td>
                     <td>@responsability.ResponsabilityType.Title</td>
                     <td>
-                        @Html.ActionLink("Edit", "Edit", "Responsability", new { id = responsability.ResponsabilityId }, null) |
+                        @Html.ActionLink("Edit", "Edit", "Responsability", new { id = responsability.Id }, null) |
                         @Html.ActionLink("Details", "Details", "Author", new { id = responsability.AuthorId }, null) |
-                        @Html.ActionLink("Delete", "Delete", "Responsability", new { id = responsability.ResponsabilityId }, null)
+                        @Html.ActionLink("Delete", "Delete", "Responsability", new { id = responsability.Id }, null)
                     </td>
                 </tr>
             }

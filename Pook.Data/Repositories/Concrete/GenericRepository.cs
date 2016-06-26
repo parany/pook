@@ -10,7 +10,6 @@ namespace Pook.Data.Repositories.Concrete
 {
     public class GenericRepository<T> : IGenericRepository<T> where T : Content
     {
-
         public List<Expression<Func<T, object>>> NavigationProperties;
         protected List<Expression<Func<T, object>>> IgnoreProperties;
         public PagingSettings PagingSettings;
@@ -211,6 +210,27 @@ namespace Pook.Data.Repositories.Concrete
                 item = dbQuery
                     .AsNoTracking()
                     .FirstOrDefault(where);
+            }
+
+            return item;
+        }
+
+        public virtual T GetSingle(Guid id)
+        {
+            T item;
+            using (var context = new PookDbContext())
+            {
+                IQueryable<T> dbQuery = context.Set<T>();
+
+                // Apply eager loading
+                if (NavigationProperties != null && NavigationProperties.Count > 0)
+                {
+                    dbQuery = NavigationProperties.Aggregate(dbQuery, (current, navigationProperty) => current.Include(navigationProperty));
+                }
+
+                item = dbQuery
+                    .AsNoTracking()
+                    .FirstOrDefault(b => b.Id == id);
             }
 
             return item;
