@@ -1,24 +1,24 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Data.Entity;
-using System.Linq;
 using System.Net;
-using System.Web;
 using System.Web.Mvc;
-using Pook.Data;
 using Pook.Data.Entities;
+using Pook.Data.Repositories.Interface;
 
 namespace Pook.Web.Controllers
 {
     public class ResponsabilityTypeController : Controller
     {
-        private PookDbContext db = new PookDbContext();
+        private IGenericRepository<ResponsabilityType> ResponsabilityTypeRepository { get; set; }
+
+        public ResponsabilityTypeController(IGenericRepository<ResponsabilityType> responsabilityTypeRepository)
+        {
+            ResponsabilityTypeRepository = responsabilityTypeRepository;
+        }
 
         // GET: ResponsabilityType
         public ActionResult Index()
         {
-            return View(db.ResponsabilityTypes.ToList());
+            return View(ResponsabilityTypeRepository.GetAll());
         }
 
         // GET: ResponsabilityType/Create
@@ -28,17 +28,13 @@ namespace Pook.Web.Controllers
         }
 
         // POST: ResponsabilityType/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create(ResponsabilityType responsabilityType)
         {
             if (ModelState.IsValid)
             {
-                responsabilityType.Id = Guid.NewGuid();
-                db.ResponsabilityTypes.Add(responsabilityType);
-                db.SaveChanges();
+                ResponsabilityTypeRepository.Add(responsabilityType);
                 return RedirectToAction("Index");
             }
 
@@ -49,28 +45,23 @@ namespace Pook.Web.Controllers
         public ActionResult Edit(Guid? id)
         {
             if (id == null)
-            {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            ResponsabilityType responsabilityType = db.ResponsabilityTypes.Find(id);
+            
+            ResponsabilityType responsabilityType = ResponsabilityTypeRepository.GetSingle(id.Value);
             if (responsabilityType == null)
-            {
                 return HttpNotFound();
-            }
+            
             return View(responsabilityType);
         }
 
         // POST: ResponsabilityType/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "ResponsabilityTypeId,Title,Desription")] ResponsabilityType responsabilityType)
+        public ActionResult Edit(ResponsabilityType responsabilityType)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(responsabilityType).State = EntityState.Modified;
-                db.SaveChanges();
+                ResponsabilityTypeRepository.Update(responsabilityType);
                 return RedirectToAction("Index");
             }
             return View(responsabilityType);
@@ -80,14 +71,12 @@ namespace Pook.Web.Controllers
         public ActionResult Delete(Guid? id)
         {
             if (id == null)
-            {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            ResponsabilityType responsabilityType = db.ResponsabilityTypes.Find(id);
+            
+            ResponsabilityType responsabilityType = ResponsabilityTypeRepository.GetSingle(id.Value);
             if (responsabilityType == null)
-            {
                 return HttpNotFound();
-            }
+            
             return View(responsabilityType);
         }
 
@@ -96,19 +85,8 @@ namespace Pook.Web.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(Guid id)
         {
-            ResponsabilityType responsabilityType = db.ResponsabilityTypes.Find(id);
-            db.ResponsabilityTypes.Remove(responsabilityType);
-            db.SaveChanges();
+            ResponsabilityTypeRepository.Delete(id);
             return RedirectToAction("Index");
-        }
-
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                db.Dispose();
-            }
-            base.Dispose(disposing);
         }
     }
 }

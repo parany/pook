@@ -36,7 +36,7 @@
                 @Html.DisplayNameFor(model => model.Description)
             </dt>
             <dd>
-                @Html.DisplayFor(model => model.Description)
+                @Html.Raw(Model.Description)
             </dd>
         }
 
@@ -62,6 +62,6 @@
     </dl>
 </div>
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.AuthorId }) |
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
     @Html.ActionLink("Back to List", "Index")
 </p>

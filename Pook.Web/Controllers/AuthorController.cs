@@ -1,38 +1,36 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Data.Entity;
-using System.Linq;
 using System.Net;
-using System.Web;
 using System.Web.Mvc;
-using Pook.Data;
 using Pook.Data.Entities;
+using Pook.Data.Repositories.Interface;
 
 namespace Pook.Web.Controllers
 {
     public class AuthorController : Controller
     {
-        private PookDbContext db = new PookDbContext();
+        private IGenericRepository<Author> AuthorRepository { get; set; }
+
+        public AuthorController(IGenericRepository<Author> authorRepository)
+        {
+            AuthorRepository = authorRepository;
+        }
 
         // GET: Author
         public ActionResult Index()
         {
-            return View(db.Authors.ToList());
+            return View(AuthorRepository.GetAll());
         }
 
         // GET: Author/Details/5
         public ActionResult Details(Guid? id)
         {
             if (id == null)
-            {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Author author = db.Authors.Find(id);
+            
+            Author author = AuthorRepository.GetSingle(id.Value);
             if (author == null)
-            {
                 return HttpNotFound();
-            }
+            
             return View(author);
         }
 
@@ -43,17 +41,13 @@ namespace Pook.Web.Controllers
         }
 
         // POST: Author/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
+        [HttpPost, ValidateInput(false)]
         [ValidateAntiForgeryToken]
         public ActionResult Create(Author author)
         {
             if (ModelState.IsValid)
             {
-                author.Id = Guid.NewGuid();
-                db.Authors.Add(author);
-                db.SaveChanges();
+                AuthorRepository.Add(author);
                 return RedirectToAction("Index");
             }
 
@@ -64,28 +58,23 @@ namespace Pook.Web.Controllers
         public ActionResult Edit(Guid? id)
         {
             if (id == null)
-            {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Author author = db.Authors.Find(id);
+
+            Author author = AuthorRepository.GetSingle(id.Value);
             if (author == null)
-            {
                 return HttpNotFound();
-            }
+            
             return View(author);
         }
 
         // POST: Author/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
+        [HttpPost, ValidateInput(false)]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "AuthorId,FirstName,LastName,Description,Email,Address")] Author author)
+        public ActionResult Edit(Author author)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(author).State = EntityState.Modified;
-                db.SaveChanges();
+                AuthorRepository.Update(author);
                 return RedirectToAction("Index");
             }
             return View(author);
@@ -95,14 +84,12 @@ namespace Pook.Web.Controllers
         public ActionResult Delete(Guid? id)
         {
             if (id == null)
-            {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Author author = db.Authors.Find(id);
+            
+            Author author = AuthorRepository.GetSingle(id.Value);
             if (author == null)
-            {
                 return HttpNotFound();
-            }
+            
             return View(author);
         }
 
@@ -111,19 +98,8 @@ namespace Pook.Web.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(Guid id)
         {
-            Author author = db.Authors.Find(id);
-            db.Authors.Remove(author);
-            db.SaveChanges();
+            AuthorRepository.Delete(id);
             return RedirectToAction("Index");
-        }
-
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                db.Dispose();
-            }
-            base.Dispose(disposing);
         }
     }
 }
