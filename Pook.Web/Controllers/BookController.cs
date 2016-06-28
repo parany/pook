@@ -56,6 +56,7 @@ namespace Pook.Web.Controllers
         public ActionResult Index()
         {
             var books = BookRepository.GetAll();
+            books = books.OrderBy(b => b.Title).ToList();
             return View(books.ToList());
         }
 
@@ -95,7 +96,7 @@ namespace Pook.Web.Controllers
         }
 
         // POST: Book/Create
-        [HttpPost]
+        [HttpPost, ValidateInput(false)]
         [ValidateAntiForgeryToken]
         public ActionResult Create(Book book)
         {
@@ -138,7 +139,7 @@ namespace Pook.Web.Controllers
         }
 
         // POST: Book/Edit/5
-        [HttpPost]
+        [HttpPost, ValidateInput(false)]
         [ValidateAntiForgeryToken]
         public ActionResult Edit(Book book)
         {

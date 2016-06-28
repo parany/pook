@@ -26,9 +26,9 @@ namespace Pook.Web.Controllers
         [Route("Responsability/Create/{bookId?}")]
         public ActionResult Create(Guid? bookId)
         {
-            ViewBag.AuthorId = new SelectList(db.Authors, "AuthorId", "FullName");
-            ViewBag.BookId = new SelectList(db.Books, "BookId", "Title", bookId.GetValueOrDefault());
-            ViewBag.ResponsabilityTypeId = new SelectList(db.ResponsabilityTypes, "ResponsabilityTypeId", "Title");
+            ViewBag.AuthorId = new SelectList(db.Authors, "Id", "FullName");
+            ViewBag.BookId = new SelectList(db.Books, "Id", "Title", bookId.GetValueOrDefault());
+            ViewBag.ResponsabilityTypeId = new SelectList(db.ResponsabilityTypes, "id", "Title");
             return View();
         }
 
