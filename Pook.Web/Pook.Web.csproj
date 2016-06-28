@@ -483,8 +483,6 @@
     <Content Include="Views\ResponsabilityType\Index.cshtml" />
     <Content Include="Views\Responsability\Create.cshtml" />
     <Content Include="Views\Responsability\Delete.cshtml" />
-    <Content Include="Views\Responsability\Edit.cshtml" />
-    <Content Include="Views\Responsability\Index.cshtml" />
     <Content Include="Views\Progression\PageProgress.cshtml" />
     <Content Include="Views\Progression\Search.cshtml" />
     <Content Include="Scripts\tinymce\skins\lightgray\fonts\tinymce.woff" />
