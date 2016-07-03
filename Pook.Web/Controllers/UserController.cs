@@ -1,60 +1,72 @@
-﻿using System.Data.Entity;
-using System.Linq;
+﻿using System.Linq;
 using System.Net;
 using System.Web.Mvc;
-using Pook.Data;
 using Pook.Data.Entities;
+using Pook.Data.Repositories.Interface;
 using Pook.Web.Models;
 
 namespace Pook.Web.Controllers
 {
     public class UserController : Controller
     {
-        private PookDbContext db = new PookDbContext();
+        private IUserRepository UserRepository { get; }
+
+        private IGenericRepository<Progression> ProgressionRepository { get; }
+
+        private IGenericRepository<Note> NoteRepository { get; }
+
+        public UserController(
+            IUserRepository userRepository,
+            IGenericRepository<Progression> progressionRepository,
+            IGenericRepository<Note> noteRepository
+            )
+        {
+            UserRepository = userRepository;
+            ProgressionRepository = progressionRepository;
+            NoteRepository = noteRepository;
+
+            ProgressionRepository.SetSortExpression(list => list.OrderBy(p => p.Date));
+            ProgressionRepository.AddNavigationProperties(
+                p => p.Book,
+                p => p.Status
+                );
+            NoteRepository.SetSortExpression(list => list.OrderBy(n => n.Page));
+            NoteRepository.AddNavigationProperty(n => n.Book);
+        }
 
         public ActionResult Index()
         {
-            return View(db.Users.ToList());
+            return View(UserRepository.GetAll());
         }
 
         // GET: User/Details/5
         public ActionResult Details(string id)
         {
             if (id == null)
-            {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            User user = db.Users.Find(id);
+
+            User user = UserRepository.GetSingle(id);
             if (user == null)
-            {
                 return HttpNotFound();
-            }
 
             var userDetails = new UserDetails { User = user };
 
-            var progressions = db.Progressions
-                .OrderBy(p => p.Date)
-                .Include(p => p.Book)
-                .Include(p => p.Status)
-                .Where(p => p.UserId == user.Id)
-                .ToList();
+            var progressions = ProgressionRepository.GetList(p => p.UserId == user.Id);
+            var books = progressions.Select(p => p.Book);
             var progressionSections =
                 from p in progressions
-                group p by p.Book into g
+                group p by p.Book.Id into g
                 select new ProgressionSection
                 {
-                    Book = g.Key.Title,
-                    BookId = g.Key.Id,
+                    Book = books.First(b => b.Id == g.Key).Title,
+                    BookId = g.Key,
                     Progressions = g.Where(p => p.Status.Title != "Current").ToList(),
                     PageProgress = g.Count(c => c.Status.Title == "Current")
                 };
             userDetails.ProgressionSections = progressionSections.ToList();
 
-            var notes = db.Notes
-                .OrderBy(n => n.Page)
-                .Include(p => p.Book)
-                .Where(p => p.UserId == user.Id)
-                .ToList();
+            var notes = NoteRepository
+                .GetList(p => p.UserId == user.Id);
             var noteSections =
                 from p in notes
                 group p by p.Book.Title into g
@@ -77,12 +89,11 @@ namespace Pook.Web.Controllers
         // POST: User/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,FirstName,LastName,Description,Address,DateOfBirth,Email,EmailConfirmed,PasswordHash,SecurityStamp,PhoneNumber,PhoneNumberConfirmed,TwoFactorEnabled,LockoutEndDateUtc,LockoutEnabled,AccessFailedCount,UserName")] User user)
+        public ActionResult Create(User user)
         {
             if (ModelState.IsValid)
             {
-                db.Users.Add(user);
-                db.SaveChanges();
+                UserRepository.Add(user);
                 return RedirectToAction("Index");
             }
 
@@ -93,26 +104,23 @@ namespace Pook.Web.Controllers
         public ActionResult Edit(string id)
         {
             if (id == null)
-            {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            User user = db.Users.Find(id);
+
+            User user = UserRepository.GetSingle(id);
             if (user == null)
-            {
                 return HttpNotFound();
-            }
+            
             return View(user);
         }
 
         // POST: User/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,FirstName,LastName,Description,Address,DateOfBirth,Email,EmailConfirmed,PasswordHash,SecurityStamp,PhoneNumber,PhoneNumberConfirmed,TwoFactorEnabled,LockoutEndDateUtc,LockoutEnabled,AccessFailedCount,UserName")] User user)
+        public ActionResult Edit(User user)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(user).State = EntityState.Modified;
-                db.SaveChanges();
+                UserRepository.Update(user);
                 return RedirectToAction("Index");
             }
             return View(user);
@@ -122,14 +130,12 @@ namespace Pook.Web.Controllers
         public ActionResult Delete(string id)
         {
             if (id == null)
-            {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            User user = db.Users.Find(id);
+
+            User user = UserRepository.GetSingle(id);
             if (user == null)
-            {
                 return HttpNotFound();
-            }
+            
             return View(user);
         }
 
@@ -138,19 +144,8 @@ namespace Pook.Web.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(string id)
         {
-            User user = db.Users.Find(id);
-            db.Users.Remove(user);
-            db.SaveChanges();
+            UserRepository.Delete(id);
             return RedirectToAction("Index");
-        }
-
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                db.Dispose();
-            }
-            base.Dispose(disposing);
         }
     }
 }

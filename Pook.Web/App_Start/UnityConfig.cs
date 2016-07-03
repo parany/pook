@@ -32,6 +32,7 @@ namespace Pook.Web
             container.RegisterType<IGenericRepository<Progression>, GenericRepository<Progression>>();
             container.RegisterType<IGenericRepository<Status>, GenericRepository<Status>>();
             container.RegisterType<IGenericRepository<Author>, GenericRepository<Author>>();
+            container.RegisterType<IUserRepository, UserRepository>();
 
             container.RegisterType<IUserStore<User>, UserStore<User>>();
             container.RegisterType<DbContext, PookDbContext>(new HierarchicalLifetimeManager());

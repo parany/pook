@@ -127,7 +127,9 @@
     <Compile Include="PookDbContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\Concrete\GenericRepository.cs" />
+    <Compile Include="Repositories\Concrete\UserRepository.cs" />
     <Compile Include="Repositories\Interface\IGenericRepository.cs" />
+    <Compile Include="Repositories\Interface\IUserRepository.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
