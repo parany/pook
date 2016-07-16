@@ -60,10 +60,11 @@
             toolbar: "sizeselect | bold italic | fontselect |  fontsizeselect | code | bold italic | link image anchor | bullist numlist | undo redo",
             setup: function (ed) {
                 ed.on('init', function () {
-                    this.getDoc().body.style.fontSize = '13px';
+                    this.getDoc().body.style.fontSize = '13pt';
                     this.getDoc().body.style.fontFamily = 'Book Antiqua';
                 });
-            }
+            },
+            fontsize_formats: "8pt 10pt 12pt 13pt 14pt 18pt 24pt 36pt"
         });
     </script>
     <script type="text/javascript">

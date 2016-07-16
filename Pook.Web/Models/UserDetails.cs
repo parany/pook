@@ -20,8 +20,6 @@ namespace Pook.Web.Models
         public Guid BookId { get; set; }
 
         public IList<Progression> Progressions { get; set; } 
-
-        public int PageProgress { get; set; }
     }
 
     public class NoteSection

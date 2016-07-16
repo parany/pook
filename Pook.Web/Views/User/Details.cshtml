@@ -76,22 +76,22 @@
     {
         <h4>
             @progressionSection.Book
-            @if (progressionSection.PageProgress > 0)
-            {
-                @:(@Html.ActionLink(
-                    "View Page Progression",
-                    "PageProgress",
-                    "Progression",
-                    new { userId = Model.User.Id, bookId = progressionSection.BookId },
-                    new { @class = "small" }))
-            }
         </h4>
         <table class="table table-condensed">
             <tbody>
                 @foreach (var progression in progressionSection.Progressions)
                 {
                     <tr class="col-md-10">
-                        <td class="col-md-6">@progression.Status.Title</td>
+                        <td class="col-md-6">
+                            @if (progression.Status.Title == "Current")
+                            {
+                                @progression.Page
+                            }
+                            else
+                            {
+                                @progression.Status.Title
+                            }
+                        </td>
                         <td class="col-md-6">@progression.Date.ToString("dd-MMM-yyyy")</td>
                     </tr>
                 }
