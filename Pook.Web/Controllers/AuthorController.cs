@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Net;
 using System.Web.Mvc;
 using Pook.Data.Entities;
@@ -18,6 +19,7 @@ namespace Pook.Web.Controllers
         // GET: Author
         public ActionResult Index()
         {
+            AuthorRepository.SetSortExpression(list => list.OrderBy(a => a.FirstName));
             return View(AuthorRepository.GetAll());
         }
 
