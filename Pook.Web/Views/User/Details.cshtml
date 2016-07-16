@@ -107,9 +107,14 @@
             <tbody>
                 @foreach (var note in noteSection.Notes)
                 {
-                    <tr class="col-md-10">
-                        <td class="col-md-6">@note.Page</td>
+                    <tr class="col-md-12">
+                        <td class="col-md-2">@note.Page</td>
                         <td class="col-md-6">@note.Title</td>
+                        <td>
+                            @Html.ActionLink("Edit", "Edit", new { id = @note.Id }) |
+                            @Html.ActionLink("Details", "Details", new { id = @note.Id }) |
+                            @Html.ActionLink("Delete", "Delete", new { id = @note.Id })
+                        </td>
                     </tr>
                 }
             </tbody>
