@@ -135,8 +135,8 @@ namespace Pook.Web.Controllers
             if (progression == null)
                 return HttpNotFound();
 
-            ViewBag.BookId = new SelectList(BookRepository.GetAll(), "Id", "Title");
-            ViewBag.StatusId = new SelectList(StatusRepository.GetAll(), "Id", "Title");
+            ViewBag.BookId = new SelectList(BookRepository.GetAll(), "Id", "Title", progression.BookId);
+            ViewBag.StatusId = new SelectList(StatusRepository.GetAll(), "Id", "Title", progression.StatusId);
             return View(progression);
         }
 
