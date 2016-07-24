@@ -56,8 +56,9 @@
             mode: "textareas",
             theme: "modern",
             menubar: false,
+            plugins: "textcolor",
             // Theme options
-            toolbar: "fontselect |  fontsizeselect | bold italic | bullist numlist | undo redo | alignleft aligncenter alignright alignjustify",
+            toolbar: "fontselect |  fontsizeselect | forecolor backcolor | bold italic | bullist numlist | undo redo | alignleft aligncenter alignright alignjustify",
             setup: function (ed) {
                 ed.on('init', function () {
                     this.getDoc().body.style.fontSize = '13pt';
