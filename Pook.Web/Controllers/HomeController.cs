@@ -11,8 +11,6 @@ namespace Pook.Web.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly PookDbContext _context = new PookDbContext();
-
         public ActionResult Index()
         {
             return View();
