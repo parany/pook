@@ -80,6 +80,9 @@ namespace Pook.Data.Repositories.Concrete
                     dbQuery = NavigationProperties.Aggregate(dbQuery, (current, navigationProperty) => current.Include(navigationProperty));
                 }
 
+                // Apply sorting
+                dbQuery = OrderBy(dbQuery);
+
                 list = dbQuery
                   .AsNoTracking()
                   .ToList();

@@ -1,6 +1,7 @@
 ﻿body {
     padding-top: 50px;
     padding-bottom: 20px;
+    font-size: 9.6pt;
 }
 
 /* Set padding to keep content from hitting the edges */
@@ -21,12 +22,4 @@ input,
 select,
 textarea {
     max-width: 280px;
-}
-
-.user-details {
-    font-size: 0.9em;
-}
-
-.user-details a.small {
-    font-size: 0.6em;
 }

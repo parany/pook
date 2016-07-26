@@ -76,22 +76,22 @@
     {
         <h4>
             @progressionSection.Book
-            @if (progressionSection.PageProgress > 0)
-            {
-                @:(@Html.ActionLink(
-                    "View Page Progression",
-                    "PageProgress",
-                    "Progression",
-                    new { userId = Model.User.Id, bookId = progressionSection.BookId },
-                    new { @class = "small" }))
-            }
         </h4>
         <table class="table table-condensed">
             <tbody>
                 @foreach (var progression in progressionSection.Progressions)
                 {
                     <tr class="col-md-10">
-                        <td class="col-md-6">@progression.Status.Title</td>
+                        <td class="col-md-6">
+                            @if (progression.Status.Title == "Current")
+                            {
+                                @progression.Page
+                            }
+                            else
+                            {
+                                @progression.Status.Title
+                            }
+                        </td>
                         <td class="col-md-6">@progression.Date.ToString("dd-MMM-yyyy")</td>
                     </tr>
                 }
@@ -107,9 +107,14 @@
             <tbody>
                 @foreach (var note in noteSection.Notes)
                 {
-                    <tr class="col-md-10">
-                        <td class="col-md-6">@note.Page</td>
+                    <tr class="col-md-12">
+                        <td class="col-md-2">@note.Page</td>
                         <td class="col-md-6">@note.Title</td>
+                        <td>
+                            @Html.ActionLink("Edit", "Edit", "Note", new { id = @note.Id }, null) |
+                            @Html.ActionLink("Details", "Details", "Note", new { id = @note.Id }, null) |
+                            @Html.ActionLink("Delete", "Delete", "Note", new { id = @note.Id }, null)
+                        </td>
                     </tr>
                 }
             </tbody>

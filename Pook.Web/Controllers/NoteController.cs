@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Net;
 using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
@@ -31,7 +32,7 @@ namespace Pook.Web.Controllers
         // GET: Note
         public ActionResult Index()
         {
-            var notes = NoteRepository.GetAll();
+            var notes = NoteRepository.GetAll().OrderByDescending(n => n.CreatedOn);
             return View(notes);
         }
 
