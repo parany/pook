@@ -1,0 +1,61 @@
+﻿@model IEnumerable<Pook.Web.Models.BookList>
+
+@{
+    ViewBag.Title = "Current Books";
+}
+
+<h2>Read (@Model.Count())</h2>
+
+<table class="table">
+    <tr>
+        <th>
+            Title
+        </th>
+        <th>
+            Category
+        </th>
+        <th>
+            Number of Pages
+        </th>
+        <th>
+            Read On
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Title)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Category)
+            </td>
+            <td>
+                @item.NumberOfPages
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Progression.Date)
+            </td>
+            <td>
+                @Html.ActionLink("Details", "Details", new { id = item.Id }) |
+                @Html.ActionLink("Progressions", "PageProgress", "Progression", new
+                {
+                    userId = item.Progression.UserId,
+                    bookId = item.Progression.BookId
+                }, null) 
+                @if (item.HasNote)
+                {
+                    @: |
+                    @Html.ActionLink("Notes", "ByBook", "Note", new
+                    {
+                        userId = item.Progression.UserId,
+                        bookId = item.Progression.BookId
+                    }, null)
+                }
+            </td>
+        </tr>
+    }
+
+</table>
