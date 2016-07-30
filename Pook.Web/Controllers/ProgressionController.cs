@@ -95,8 +95,16 @@ namespace Pook.Web.Controllers
         {
             ProgressionRepository.SetSortExpression(p => p.OrderByDescending(r => r.Page));
             var progressions = ProgressionRepository
-                .GetList(p => p.Status.Title == "Current" && p.UserId == userId && p.BookId == bookId)
+                .GetList(p => p.UserId == userId && p.BookId == bookId)
                 .ToList();
+            progressions = progressions.Select(p => new Progression
+            {
+                Id = p.Id,
+                Date = p.Date,
+                Book = p.Book,
+                Status = new Status { Title = p.Status.Title == "Current" ? p.Page.ToString() : p.Status.Title },
+                User = p.User
+            }).ToList();
             return View(progressions);
         }
 

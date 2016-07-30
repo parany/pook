@@ -497,6 +497,8 @@
     <Content Include="Views\Book\List.cshtml" />
     <Content Include="Views\Book\Bookmark.cshtml" />
     <Content Include="Views\Book\Bookmarked.cshtml" />
+    <Content Include="Views\Book\Current.cshtml" />
+    <Content Include="Views\Note\ByBook.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

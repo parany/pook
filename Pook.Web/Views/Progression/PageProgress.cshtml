@@ -4,7 +4,7 @@
     ViewBag.Title = "PageProgress";
 }
 
-<h2>Index</h2>
+<h2>Progression - @Model.First().Book.Title</h2>
 <table class="table">
     <tr>
         <th>
@@ -23,7 +23,7 @@
                 @Html.DisplayFor(modelItem => item.Date)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Page)
+                @Html.DisplayFor(modelItem => item.Status.Title)
             </td>
             <td>
                 @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |

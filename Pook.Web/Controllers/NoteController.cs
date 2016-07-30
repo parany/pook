@@ -27,12 +27,20 @@ namespace Pook.Web.Controllers
                 n => n.Book,
                 n => n.User
                 );
+            NoteRepository.SetSortExpression(l => l.OrderBy(n => n.CreatedOn));
         }
 
         // GET: Note
         public ActionResult Index()
         {
-            var notes = NoteRepository.GetAll().OrderByDescending(n => n.CreatedOn);
+            var notes = NoteRepository.GetAll();
+            return View(notes);
+        }
+
+        [Route("Note/ByBook/{userId}/{bookId}")]
+        public ViewResult ByBook(string userId, Guid bookId)
+        {
+            var notes = NoteRepository.GetList(n => n.UserId == userId && n.BookId == bookId);
             return View(notes);
         }
 

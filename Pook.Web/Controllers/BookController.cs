@@ -127,6 +127,41 @@ namespace Pook.Web.Controllers
             return View(bookModels);
         }
 
+        [Route("Book/Current")]
+        public ViewResult Current()
+        {
+            var books = BookRepository.GetAll();
+            var userId = User.Identity.GetUserId();
+            var progressions = ProgressionRepository.GetList(p => p.UserId == userId);
+            progressions =
+                (from progression in progressions
+                 group progression by progression.BookId
+                 into g
+                 where g.First().Status.Title == "Current"
+                 select g.First()
+                 ).ToList();
+            var bookModels =
+                (from book in books
+                 join progression in progressions on book.Id equals progression.BookId
+                 select new BookList
+                 {
+                     Id = book.Id,
+                     Status = progression.Status,
+                     Title = book.Title,
+                     Category = book.Category.Title,
+                     NumberOfPages = book.NumberOfPages,
+                     ReleaseDate = book.ReleaseDate,
+                     Progression = progression
+                 }).ToList();
+            var bookIds = bookModels.Select(b => b.Id);
+            var notes = NoteRepository.GetList(n => bookIds.Contains(n.BookId));
+            foreach (var book in bookModels)
+            {
+                book.HasNote = notes.Any(n => n.BookId == book.Id);
+            }
+            return View(bookModels);
+        }
+
         [Route("Book/Details/{id}")]
         public ActionResult Details(Guid id)
         {

@@ -20,5 +20,7 @@ namespace Pook.Web.Models
         public Status Status { get; set; }
 
         public Progression Progression { get; set; }
+
+        public bool HasNote { get; set; }
     }
 }
