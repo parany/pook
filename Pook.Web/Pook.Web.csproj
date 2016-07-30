@@ -501,6 +501,7 @@
     <Content Include="Views\Note\ByBook.cshtml" />
     <Content Include="Views\Book\Read.cshtml" />
     <Content Include="Views\Book\UnBookmark.cshtml" />
+    <Content Include="Views\Book\_Details.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

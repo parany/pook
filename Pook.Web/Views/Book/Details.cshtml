@@ -7,73 +7,7 @@
 <h2>Details</h2>
 
 <div>
-    <h4>Book</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        @if (!string.IsNullOrEmpty(Model.Book.Title))
-        {
-            <dt>
-                @Html.DisplayNameFor(model => model.Book.Title)
-            </dt>
-            <dd>
-                @Html.DisplayFor(model => model.Book.Title)
-            </dd>
-        }
-
-        @if (!string.IsNullOrEmpty(Model.Book.Category?.Title))
-        {
-            <dt>
-                Category
-            </dt>
-            <dd>
-                @Html.DisplayFor(model => model.Book.Category.Title)
-            </dd>
-        }
-
-        @if (!string.IsNullOrEmpty(Model.Book.Editor?.Title))
-        {
-            <dt>
-                Editor
-            </dt>
-            <dd>
-                @Html.DisplayFor(model => model.Book.Editor.Title)
-            </dd>
-        }
-
-        @if (!string.IsNullOrEmpty(Model.Book.Firm?.Title))
-        {
-            <dt>
-                Firm
-            </dt>
-            <dd>
-                @Html.DisplayFor(model => model.Book.Firm.Title)
-            </dd>
-        }
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Book.NumberOfPages)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Book.NumberOfPages)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Book.ReleaseDate)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Book.ReleaseDate)
-        </dd>
-
-        @if (!string.IsNullOrEmpty(Model.Book.Description))
-        {
-            <dt>
-                @Html.DisplayNameFor(model => model.Book.Description)
-            </dt>
-            <dd>
-                @Html.Raw(Model.Book.Description)
-            </dd>
-        }
-    </dl>
+    @Html.Partial("_Details", @Model.Book)
 
     <h4>Authors</h4>
     <h5>@Html.ActionLink("Add", "Create", "Responsability", new { bookId = Model.Book.Id }, null)</h5>
