@@ -138,7 +138,7 @@ namespace Pook.Web.Controllers
                 (from progression in progressions
                  group progression by progression.BookId
                  into g
-                 where g.First().Status.Title == "Current"
+                 where g.First().Status.Title == "Current" || g.First().Status.Title == "StartRead"
                  select g.First()
                  ).ToList();
             var bookModels =
@@ -347,6 +347,33 @@ namespace Pook.Web.Controllers
                 Date = DateTime.Now
             };
             ProgressionRepository.Add(progression);
+            return RedirectToAction("Bookmarked");
+        }
+
+        // GET: Book/UnBookmark/5
+        public ActionResult UnBookmark(Guid? id)
+        {
+            if (id == null)
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+
+            Book book = BookRepository.GetSingle(id.Value);
+            if (book == null)
+                return HttpNotFound();
+
+            return View(book);
+        }
+
+        // POST: Book/UnBookmark/5
+        [HttpPost, ActionName("UnBookmark")]
+        [ValidateAntiForgeryToken]
+        public ActionResult UnBookmarkConfirmed(Guid id)
+        {
+            var bookmarkStatus = StatusRepository.GetSingle(s => s.Title == "Bookmarked");
+            var progression = ProgressionRepository.GetSingle(
+                p => p.StatusId == bookmarkStatus.Id
+                && p.BookId == id
+                );
+            ProgressionRepository.Delete(progression.Id);
             return RedirectToAction("List");
         }
     }
