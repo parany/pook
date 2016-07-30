@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using Pook.Data.Entities;
 
 namespace Pook.Web.Models
 {
@@ -16,6 +17,8 @@ namespace Pook.Web.Models
         [DisplayFormat(DataFormatString = "{0:dd-MMM-yyyy}")]
         public DateTime ReleaseDate { get; set; }
 
-        public string Status { get; set; }
+        public Status Status { get; set; }
+
+        public Progression Progression { get; set; }
     }
 }

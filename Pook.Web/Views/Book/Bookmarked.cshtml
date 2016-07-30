@@ -4,7 +4,7 @@
     ViewBag.Title = "Index";
 }
 
-<h2>All books (@Model.Count())</h2>
+<h2>Bookmarked (@Model.Count())</h2>
 
 <table class="table">
     <tr>
@@ -21,9 +21,8 @@
             Release Date
         </th>
         <th>
-            Status
+            Bookmarked On
         </th>
-        <th></th>
     </tr>
 
     @foreach (var item in Model)
@@ -42,16 +41,7 @@
                 @Html.DisplayFor(modelItem => item.ReleaseDate)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Status.Title)
-            </td>
-            <td>
-                @Html.ActionLink("Details", "Details", new { id = item.Id }) 
-                @if (item.Status.Title == "N/A")
-                {
-                    @: |
-                    @Html.ActionLink("Bookmark", "Bookmark", new { id = item.Id })
-
-                }
+                @Html.DisplayFor(modelItem => item.Progression.Date)
             </td>
         </tr>
     }

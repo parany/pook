@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Web.Mvc;
@@ -75,7 +74,6 @@ namespace Pook.Web.Controllers
         [Route("Book/List")]
         public ViewResult List()
         {
-            BookRepository.AddIgnoreProperty(b => b.Progressions);
             var books = BookRepository.GetAll();
             var userId = User.Identity.GetUserId();
             var progressions = ProgressionRepository.GetList(b => b.UserId == userId);
@@ -91,11 +89,40 @@ namespace Pook.Web.Controllers
                  select new BookList
                  {
                      Id = book.Id,
-                     Status = progression != null ? progression.Status.Title : "N/A",
+                     Status = progression != null ? progression.Status : new Status { Title = "N/A" } ,
                      Title = book.Title,
                      Category = book.Category.Title,
                      NumberOfPages = book.NumberOfPages,
                      ReleaseDate = book.ReleaseDate
+                 }).ToList();
+            return View(bookModels);
+        }
+
+        [Route("Book/Bookmarked")]
+        public ViewResult Bookmarked()
+        {
+            var books = BookRepository.GetAll();
+            var userId = User.Identity.GetUserId();
+            var progressions = ProgressionRepository.GetList(p => p.UserId == userId);
+            progressions =
+                (from progression in progressions
+                 group progression by progression.BookId
+                 into g
+                 where g.First().Status.Title == "Bookmarked"
+                 select g.First()
+                 ).ToList();
+            var bookModels =
+                (from book in books
+                 join progression in progressions on book.Id equals progression.BookId
+                 select new BookList
+                 {
+                     Id = book.Id,
+                     Status = progression.Status,
+                     Title = book.Title,
+                     Category = book.Category.Title,
+                     NumberOfPages = book.NumberOfPages,
+                     ReleaseDate = book.ReleaseDate,
+                     Progression = progression
                  }).ToList();
             return View(bookModels);
         }
