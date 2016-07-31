@@ -33,6 +33,7 @@ namespace Pook.Web.Controllers
                 p => p.Status,
                 p => p.User
                 );
+            ProgressionRepository.SetSortExpression(l => l.OrderByDescending(p => p.Date));
         }
 
         // GET: Progression/ByDate
@@ -106,6 +107,7 @@ namespace Pook.Web.Controllers
                      BookId = g.Key,
                      Progressions = g.ToList()
                  }).ToList();
+
             return View(progressionSections);
         }
 
