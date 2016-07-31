@@ -16,14 +16,14 @@
 
     @foreach (var item in Model)
     {
-        <tr class="col-md-10">
+        <tr class="col-md-11">
             <td class="col-md-1">
                 @Html.DisplayFor(modelItem => item.Date)
             </td>
             <td class="col-md-2">
                 @Html.DisplayFor(modelItem => item.Book.Title)
             </td>
-            <td class="col-md-1">
+            <td class="col-md-2">
                 @Html.DisplayFor(modelItem => item.Status.Title)
             </td>
             <td class="col-md-2">
