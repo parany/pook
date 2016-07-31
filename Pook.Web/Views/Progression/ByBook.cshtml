@@ -1,0 +1,42 @@
+﻿@model IEnumerable<Pook.Web.Models.ProgressionSection>
+
+@{
+    ViewBag.Title = "Progressions By Book";
+}
+
+<h2>Progressions By Book</h2>
+
+<div class="user-details">
+    @foreach (var progressionSection in Model)
+    {
+        <h4>
+             @Html.ActionLink(@progressionSection.Book, "Create", new { bookId = progressionSection.BookId })
+        </h4>
+        <table class="table table-condensed">
+            <tbody>
+                @foreach (var progression in progressionSection.Progressions)
+                {
+                    <tr class="col-md-10">
+                        <td class="col-md-6">
+                            @if (progression.Status.Title == "Current")
+                            {
+                                @progression.Page
+                            }
+                            else
+                            {
+                                @progression.Status.Title
+                            }
+                        </td>
+                        <td class="col-md-4">@progression.Date.ToString("dd-MMM-yyyy")</td>
+                        <td>
+                            @Html.ActionLink("Edit", "Edit", new { id = progression.Id }) |
+                            @Html.ActionLink("Delete", "Delete", new { id = progression.Id })
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+
+</div>
+

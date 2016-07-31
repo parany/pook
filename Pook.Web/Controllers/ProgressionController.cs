@@ -35,8 +35,8 @@ namespace Pook.Web.Controllers
                 );
         }
 
-        // GET: Progression
-        public ActionResult Index()
+        // GET: Progression/ByDate
+        public ActionResult ByDate()
         {
             var model = new ProgressionSearch();
             var now = DateTime.Now;
@@ -53,7 +53,7 @@ namespace Pook.Web.Controllers
             var statuses = StatusRepository.GetAll();
             statuses.Insert(0, null);
             model.Statuses = new SelectList(statuses, "Id", "Title");
-            
+
             progressions = progressions.Select(p => new Progression
             {
                 Id = p.Id,
@@ -90,6 +90,25 @@ namespace Pook.Web.Controllers
             return PartialView(progressions);
         }
 
+        // GET: Progression/ByBook
+        public ActionResult ByBook()
+        {
+            var userId = User.Identity.GetUserId();
+            var progressions = ProgressionRepository.GetList(p => p.UserId == userId);
+            var books = progressions.Select(p => p.Book);
+            var progressionSections =
+                (from p in progressions
+                 orderby p.Book.Title
+                 group p by p.Book.Id into g
+                 select new ProgressionSection
+                 {
+                     Book = books.First(b => b.Id == g.Key).Title,
+                     BookId = g.Key,
+                     Progressions = g.ToList()
+                 }).ToList();
+            return View(progressionSections);
+        }
+
         [Route("Progression/PageProgress/{userId}/{bookId}")]
         public ActionResult PageProgress(string userId, Guid bookId)
         {
@@ -108,27 +127,31 @@ namespace Pook.Web.Controllers
             return View(progressions);
         }
 
-        // GET: Progression/Create
-        public ActionResult Create()
+        [HttpGet]
+        [Route("Progression/Create/{bookId}")]
+        public ActionResult Create(Guid bookId)
         {
-            ViewBag.BookId = new SelectList(BookRepository.GetAll(), "Id", "Title");
+            var progression = new Progression
+            {
+                BookId = bookId,
+                Date = DateTime.Now,
+            };
             ViewBag.StatusId = new SelectList(StatusRepository.GetAll(), "Id", "Title");
-            return View();
+            return View(progression);
         }
 
-        // POST: Progression/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(Progression progression)
+        [Route("Progression/Create/{bookId}")]
+        public ActionResult Create(Progression progression, Guid bookId)
         {
             if (ModelState.IsValid)
             {
                 progression.UserId = User.Identity.GetUserId();
                 ProgressionRepository.Add(progression);
-                return RedirectToAction("Index");
+                return RedirectToAction("ByBook");
             }
 
-            ViewBag.BookId = new SelectList(BookRepository.GetAll(), "Id", "Title");
             ViewBag.StatusId = new SelectList(StatusRepository.GetAll(), "Id", "Title");
             return View(progression);
         }
@@ -157,7 +180,7 @@ namespace Pook.Web.Controllers
             {
                 progression.UserId = User.Identity.GetUserId();
                 ProgressionRepository.Update(progression);
-                return RedirectToAction("Index");
+                return RedirectToAction("ByDate");
             }
             ViewBag.BookId = new SelectList(BookRepository.GetAll(), "Id", "Title");
             ViewBag.StatusId = new SelectList(StatusRepository.GetAll(), "Id", "Title");
@@ -169,11 +192,11 @@ namespace Pook.Web.Controllers
         {
             if (id == null)
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            
+
             Progression progression = ProgressionRepository.GetSingle(id.Value);
             if (progression == null)
                 return HttpNotFound();
-            
+
             return View(progression);
         }
 
@@ -183,7 +206,7 @@ namespace Pook.Web.Controllers
         public ActionResult DeleteConfirmed(Guid id)
         {
             ProgressionRepository.Delete(id);
-            return RedirectToAction("Index");
+            return RedirectToAction("ByDate");
         }
     }
 }

@@ -55,12 +55,13 @@ namespace Pook.Web.Controllers
             var books = progressions.Select(p => p.Book);
             var progressionSections =
                 from p in progressions
+                orderby p.Book.Title
                 group p by p.Book.Id into g
                 select new ProgressionSection
                 {
                     Book = books.First(b => b.Id == g.Key).Title,
                     BookId = g.Key,
-                    Progressions = g.Where(p => p.Status.Title != "Current").ToList()
+                    Progressions = g.ToList()
                 };
             userDetails.ProgressionSections = progressionSections.ToList();
 
