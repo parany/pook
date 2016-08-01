@@ -1,7 +1,7 @@
 ﻿@model Pook.Web.Models.ProgressionSearch
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Progressions By Date";
 }
 
 @section Scripts {
@@ -11,13 +11,12 @@
 <h2>Progressions By Date</h2>
 
 <div class="panel-body">
-    @using (Ajax.BeginForm("Search", "Progression",
-                                        new AjaxOptions
-                                        {
-                                            InsertionMode = InsertionMode.Replace,
-                                            HttpMethod = "GET",
-                                            UpdateTargetId = "searchresults",
-                                        }))
+    @using (Ajax.BeginForm("Search", "Progression", new AjaxOptions
+    {
+        InsertionMode = InsertionMode.Replace,
+        HttpMethod = "GET",
+        UpdateTargetId = "searchresults",
+    }))
     {
         <div class="form-group col-lg-12">
             <div class="col-md-3">
@@ -33,7 +32,7 @@
                 @Html.EditorFor(m => m.EndDate, new { htmlAttributes = new { @class = "form-control" } })
             </div>
             <div class="col-md-2">
-                <input type="submit" value="search" class="btn btn-default" />
+                <input type="submit" value="Search" class="btn btn-default" />
             </div>
         </div>
     }

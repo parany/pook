@@ -1,51 +1,37 @@
-﻿@model IEnumerable<Pook.Data.Entities.Note>
+﻿@model IEnumerable<Pook.Web.Models.NoteSection>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Notes By Book";
 }
 
-<h2>Note - @Model.First().Book.Title</h2>
+<h2>Notes By Book</h2>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Book.Title)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.User.FirstName)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Page)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Title)
-        </th>
-        <th></th>
-    </tr>
+<div class="user-details">
+    @foreach (var noteSection in Model)
+    {
+        <h4>
+            @Html.ActionLink(@noteSection.Book, "Create", new { bookId = noteSection.Notes.First().BookId })
+        </h4>
+        <table class="table table-condensed">
+            <tbody>
+                @foreach (var note in noteSection.Notes)
+                {
+                    <tr class="col-md-11">
+                        <td class="col-md-1">
+                            @Html.DisplayFor(modelItem => note.Page)
+                        </td>
+                        <td class="col-md-7">
+                            @Html.DisplayFor(modelItem => note.Title)
+                        </td>
+                        <td class="col-md-3">
+                            @Html.ActionLink("Edit", "Edit", new { id = note.Id }) |
+                            @Html.ActionLink("Details", "Details", new { id = note.Id }) |
+                            @Html.ActionLink("Delete", "Delete", new { id = note.Id })
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+</div>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Book.Title)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.User.FirstName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Page)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Title)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
-            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
-        </td>
-    </tr>
-}
-
-</table>

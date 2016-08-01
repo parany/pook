@@ -44,7 +44,13 @@
                             <li>@Html.ActionLink("By Book", "ByBook", "Progression")</li>
                         </ul>
                     </li>
-                    <li>@Html.ActionLink("Note", "Index", "Note")</li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Note<span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li>@Html.ActionLink("By Date", "ByDate", "Note")</li>
+                            <li>@Html.ActionLink("By Book", "ByBook", "Note")</li>
+                        </ul>
+                    </li>
                 </ul>
                 @Html.Partial("_LoginPartial")
             </div>

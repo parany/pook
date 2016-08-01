@@ -210,6 +210,7 @@
     <Compile Include="Models\BookDetails.cs" />
     <Compile Include="Models\BookList.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\NoteSearch.cs" />
     <Compile Include="Models\ProgressionSearch.cs" />
     <Compile Include="Models\UserDetails.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -460,7 +461,7 @@
     <Content Include="Views\Note\Delete.cshtml" />
     <Content Include="Views\Note\Details.cshtml" />
     <Content Include="Views\Note\Edit.cshtml" />
-    <Content Include="Views\Note\Index.cshtml" />
+    <Content Include="Views\Note\ByDate.cshtml" />
     <Content Include="Views\Progression\Create.cshtml" />
     <Content Include="Views\Progression\Delete.cshtml" />
     <Content Include="Views\Progression\Details.cshtml" />
@@ -498,11 +499,13 @@
     <Content Include="Views\Book\Bookmark.cshtml" />
     <Content Include="Views\Book\Bookmarked.cshtml" />
     <Content Include="Views\Book\Current.cshtml" />
-    <Content Include="Views\Note\ByBook.cshtml" />
+    <Content Include="Views\Note\PageNote.cshtml" />
     <Content Include="Views\Book\Read.cshtml" />
     <Content Include="Views\Book\UnBookmark.cshtml" />
     <Content Include="Views\Book\_Details.cshtml" />
     <Content Include="Views\Progression\ByBook.cshtml" />
+    <Content Include="Views\Note\Search.cshtml" />
+    <Content Include="Views\Note\ByBook.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

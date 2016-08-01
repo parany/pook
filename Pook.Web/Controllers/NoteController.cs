@@ -5,6 +5,7 @@ using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
 using Pook.Data.Entities;
 using Pook.Data.Repositories.Interface;
+using Pook.Web.Models;
 
 namespace Pook.Web.Controllers
 {
@@ -28,17 +29,59 @@ namespace Pook.Web.Controllers
                 n => n.User
                 );
             NoteRepository.SetSortExpression(l => l.OrderBy(n => n.CreatedOn));
+            bookRepository.SetSortExpression(l => l.OrderBy(b => b.Title));
         }
 
-        // GET: Note
-        public ActionResult Index()
+        // GET: Note/ByDate
+        public ActionResult ByDate()
         {
-            var notes = NoteRepository.GetAll();
-            return View(notes);
+            NoteRepository.SetSortExpression(l => l.OrderBy(n => n.CreatedOn));
+            var books = BookRepository.GetAll();
+            books.Insert(0, null);
+            var noteSearch = new NoteSearch
+            {
+                Notes = NoteRepository.GetAll(),
+                Books = new SelectList(books, "Id", "Title")
+            };
+            return View(noteSearch);
         }
 
-        [Route("Note/ByBook/{userId}/{bookId}")]
-        public ViewResult ByBook(string userId, Guid bookId)
+        // GET: Note/Search
+        [ChildActionOnly]
+        public ActionResult Search(NoteSearch search)
+        {
+            NoteRepository.SetSortExpression(l => l.OrderBy(n => n.CreatedOn));
+            var notes = NoteRepository
+                .GetList(n =>
+                    (search.BookId == null || n.BookId == search.BookId)
+                    && (search.NoteTitle == null || n.Title.Contains(search.NoteTitle))
+                    && (search.NoteDescription == null || n.Description.Contains(search.NoteDescription)))
+                .ToList();
+
+            return PartialView(notes);
+        }
+
+        // GET: Note/ByBook
+        public ActionResult ByBook()
+        {
+            var userId = User.Identity.GetUserId();
+            var notes = NoteRepository.GetList(p => p.UserId == userId);
+            var books = notes.Select(p => p.Book);
+            var noteSections =
+                (from n in notes
+                 group n by n.Book.Id into g
+                 select new NoteSection
+                 {
+                     Book = books.First(b => b.Id == g.Key).Title,
+                     BookId = g.Key,
+                     Notes = g.OrderBy(n => n.Page).ToList()
+                 }).ToList();
+
+            return View(noteSections);
+        }
+
+        [Route("Note/PageNote/{userId}/{bookId}")]
+        public ViewResult PageNote(string userId, Guid bookId)
         {
             var notes = NoteRepository.GetList(n => n.UserId == userId && n.BookId == bookId);
             return View(notes);

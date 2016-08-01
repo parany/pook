@@ -26,6 +26,8 @@ namespace Pook.Web.Models
     {
         public string Book { get; set; }
 
+        public Guid BookId { get; set; }
+
         public IList<Note> Notes { get; set; }
     }
 }

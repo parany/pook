@@ -48,7 +48,7 @@
                 @if (item.HasNote)
                 {
                     @: |
-                    @Html.ActionLink("Notes", "ByBook", "Note", new
+                    @Html.ActionLink("Notes", "PageNote", "Note", new
                     {
                         userId = item.Progression.UserId,
                         bookId = item.Progression.BookId
