@@ -1,0 +1,44 @@
+﻿@model Pook.Web.Models.NoteSearch
+
+@{
+    ViewBag.Title = "Notes By Date";
+}
+
+@section Scripts {
+    <script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+}
+
+<h2>Notes By Date</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+
+<div class="panel-body">
+    @using (Ajax.BeginForm("Search", "Note", new AjaxOptions
+    {
+        InsertionMode = InsertionMode.Replace,
+        HttpMethod = "GET",
+        UpdateTargetId = "searchresults",
+    }))
+
+    {
+        <div class="form-group col-lg-12">
+            <div class="col-md-3">
+                @Html.DropDownListFor(m => m.BookId, Model.Books, new { @class = "form-control" })
+            </div>
+            <div class="col-md-2">
+                @Html.EditorFor(m => m.NoteTitle, new { htmlAttributes = new { @class = "form-control", placeholder = "Note Title" } })
+            </div>
+            <div class="col-md-2">
+                @Html.EditorFor(m => m.NoteDescription, new { htmlAttributes = new { @class = "form-control", placeholder = "Note Description" } })
+            </div>
+            <div class="col-md-2">
+                <input type="submit" value="Search" class="btn btn-default" />
+            </div>
+        </div>
+    }
+    <div id="searchresults">
+        @Html.Partial("Search", Model.Notes)
+    </div>
+</div>

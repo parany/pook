@@ -69,6 +69,7 @@ namespace Pook.Web.Controllers
             var books = notes.Select(p => p.Book);
             var noteSections =
                 (from n in notes
+                 orderby n.Book.Title
                  group n by n.Book.Id into g
                  select new NoteSection
                  {
@@ -100,15 +101,21 @@ namespace Pook.Web.Controllers
             return View(note);
         }
 
-        // GET: Note/Create
-        public ActionResult Create()
+        [HttpGet]
+        [Route("Note/Create/{bookId?}")]
+        public ActionResult Create(Guid? bookId)
         {
-            ViewBag.BookId = new SelectList(BookRepository.GetAll(), "Id", "Title");
-            return View();
+            var note = new Note();
+            if (bookId.HasValue)
+                note.BookId = bookId.Value;
+            else
+                ViewBag.BookId = new SelectList(BookRepository.GetAll(), "Id", "Title");
+            return View(note);
         }
 
         // POST: Note/Create
         [HttpPost, ValidateInput(false)]
+        [Route("Note/Create/{bookId?}")]
         [ValidateAntiForgeryToken]
         public ActionResult Create(Note note)
         {
@@ -116,10 +123,8 @@ namespace Pook.Web.Controllers
             {
                 note.UserId = User.Identity.GetUserId();
                 NoteRepository.Add(note);
-                return RedirectToAction("Index");
+                return RedirectToAction("ByBook");
             }
-
-            ViewBag.BookId = new SelectList(BookRepository.GetAll(), "Id", "Title", note.BookId);
             return View(note);
         }
 
@@ -146,7 +151,7 @@ namespace Pook.Web.Controllers
             {
                 note.UserId = User.Identity.GetUserId();
                 NoteRepository.Update(note);
-                return RedirectToAction("Index");
+                return RedirectToAction("ByBook");
             }
             ViewBag.BookId = new SelectList(BookRepository.GetAll(), "Id", "Title", note.BookId);
             return View(note);
@@ -171,7 +176,7 @@ namespace Pook.Web.Controllers
         public ActionResult DeleteConfirmed(Guid id)
         {
             NoteRepository.Delete(id);
-            return RedirectToAction("Index");
+            return RedirectToAction("ByBook");
         }
     }
 }
