@@ -47,7 +47,6 @@ namespace Pook.Web.Controllers
         }
 
         // GET: Note/Search
-        [ChildActionOnly]
         public ActionResult Search(NoteSearch search)
         {
             NoteRepository.SetSortExpression(l => l.OrderBy(n => n.CreatedOn));
