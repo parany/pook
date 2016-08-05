@@ -25,9 +25,19 @@ textarea {
 }
 
 .user-details a {
-    color: black;   
+    color: black;
+    font-weight: bold;
 }
 
 .user-details a:hover {
-    color: black;   
+    color: black;
+}
+
+.user-details td a {
+    color: #428bca;
+    font-weight: normal;
+}
+
+.user-details a:hover {
+    color: initial;
 }
