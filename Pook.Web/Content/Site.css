@@ -23,3 +23,11 @@ select,
 textarea {
     max-width: 280px;
 }
+
+.user-details a {
+    color: black;   
+}
+
+.user-details a:hover {
+    color: black;   
+}
