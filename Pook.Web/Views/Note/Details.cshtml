@@ -4,40 +4,11 @@
     ViewBag.Title = "Details";
 }
 
-<h2>Details</h2>
+<h2>@Model.Book.Title (@Model.Page)</h2>
 
 <div>
-    <h4>Note</h4>
+    <h4>@Model.Title</h4>
     <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            Book
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Book.Title)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.User.FirstName)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.User.FirstName)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Page)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Page)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Title)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Title)
-        </dd>
-    </dl>
     @Html.Raw(Model.Description)
     <br/>
     <br />
