@@ -150,7 +150,7 @@ namespace Pook.Web.Controllers
             {
                 note.UserId = User.Identity.GetUserId();
                 NoteRepository.Update(note);
-                return RedirectToAction("ByBook");
+                return RedirectToAction("Details", new { id = note.Id });
             }
             ViewBag.BookId = new SelectList(BookRepository.GetAll(), "Id", "Title", note.BookId);
             return View(note);
