@@ -122,7 +122,7 @@ namespace Pook.Web.Controllers
             {
                 note.UserId = User.Identity.GetUserId();
                 NoteRepository.Add(note);
-                return RedirectToAction("ByBook");
+                return RedirectToAction("Details", new { id = note.Id });
             }
             return View(note);
         }
