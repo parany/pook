@@ -114,7 +114,7 @@ namespace Pook.Web.Controllers
         [Route("Progression/PageProgress/{userId}/{bookId}")]
         public ActionResult PageProgress(string userId, Guid bookId)
         {
-            ProgressionRepository.SetSortExpression(p => p.OrderByDescending(r => r.Page));
+            ProgressionRepository.SetSortExpression(p => p.OrderByDescending(r => r.Date));
             var progressions = ProgressionRepository
                 .GetList(p => p.UserId == userId && p.BookId == bookId)
                 .ToList();
@@ -151,7 +151,11 @@ namespace Pook.Web.Controllers
             {
                 progression.UserId = User.Identity.GetUserId();
                 ProgressionRepository.Add(progression);
-                return RedirectToAction("ByBook");
+                return RedirectToAction("PageProgress", new
+                {
+                    userId = progression.UserId,
+                    progressionId = progression.Id
+                });
             }
 
             ViewBag.StatusId = new SelectList(StatusRepository.GetAll(), "Id", "Title");
@@ -182,7 +186,11 @@ namespace Pook.Web.Controllers
             {
                 progression.UserId = User.Identity.GetUserId();
                 ProgressionRepository.Update(progression);
-                return RedirectToAction("ByDate");
+                return RedirectToAction("PageProgress", new
+                {
+                    userId = progression.UserId,
+                    bookId = progression.BookId
+                });
             }
             ViewBag.BookId = new SelectList(BookRepository.GetAll(), "Id", "Title");
             ViewBag.StatusId = new SelectList(StatusRepository.GetAll(), "Id", "Title");
@@ -207,8 +215,13 @@ namespace Pook.Web.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(Guid id)
         {
+            var progression = ProgressionRepository.GetSingle(id);
             ProgressionRepository.Delete(id);
-            return RedirectToAction("ByDate");
+            return RedirectToAction("PageProgress", new
+            {
+                userId = progression.UserId,
+                bookId = progression.BookId
+            });
         }
     }
 }

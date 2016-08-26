@@ -10,7 +10,11 @@
     @foreach (var progressionSection in Model)
     {
         <h4>
-             @Html.ActionLink(@progressionSection.Book, "Create", new { bookId = progressionSection.BookId })
+            @Html.ActionLink(@progressionSection.Book, "PageProgress", "Progression", new
+            {
+                userId = progressionSection.Progressions.First().UserId,
+                bookId = progressionSection.BookId
+            }, null)
         </h4>
         <table class="table table-condensed">
             <tbody>
