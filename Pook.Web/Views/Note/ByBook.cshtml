@@ -10,26 +10,30 @@
     @foreach (var noteSection in Model)
     {
         <h4>
-            @Html.ActionLink(@noteSection.Book, "Create", new { bookId = noteSection.Notes.First().BookId })
+            @Html.ActionLink(@noteSection.Book, "PageNote", "Note", new
+            {
+                userId = noteSection.Notes.First().UserId,
+                bookId = noteSection.Notes.First().BookId
+            }, null)
         </h4>
         <table class="table table-condensed">
             <tbody>
-                @foreach (var note in noteSection.Notes)
-                {
-                    <tr class="col-md-11">
-                        <td class="col-md-1">
-                            @Html.DisplayFor(modelItem => note.Page)
-                        </td>
-                        <td class="col-md-7">
-                            @Html.DisplayFor(modelItem => note.Title)
-                        </td>
-                        <td class="col-md-3">
-                            @Html.ActionLink("Edit", "Edit", new { id = note.Id }) |
-                            @Html.ActionLink("Details", "Details", new { id = note.Id }) |
-                            @Html.ActionLink("Delete", "Delete", new { id = note.Id })
-                        </td>
-                    </tr>
-                }
+            @foreach (var note in noteSection.Notes)
+            {
+                <tr class="col-md-11">
+                    <td class="col-md-1">
+                        @Html.DisplayFor(modelItem => note.Page)
+                    </td>
+                    <td class="col-md-7">
+                        @Html.DisplayFor(modelItem => note.Title)
+                    </td>
+                    <td class="col-md-3">
+                        @Html.ActionLink("Edit", "Edit", new {id = note.Id}) |
+                        @Html.ActionLink("Details", "Details", new {id = note.Id}) |
+                        @Html.ActionLink("Delete", "Delete", new {id = note.Id})
+                    </td>
+                </tr>
+            }
             </tbody>
         </table>
     }

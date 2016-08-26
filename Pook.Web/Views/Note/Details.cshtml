@@ -15,5 +15,10 @@
 </div>
 <p>
     @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Back to Book", "PageNote", "Note", new
+    {
+        userId = Model.UserId,
+        bookId = Model.BookId
+    }, null) |
     @Html.ActionLink("Back to List", "ByBook")
 </p>
