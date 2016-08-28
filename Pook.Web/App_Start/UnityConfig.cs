@@ -9,6 +9,8 @@ using Pook.Data;
 using Pook.Data.Entities;
 using Pook.Data.Repositories.Concrete;
 using Pook.Data.Repositories.Interface;
+using Pook.Service.Coordinator.Concrete;
+using Pook.Service.Coordinator.Interface;
 using Pook.Web.Controllers;
 using Unity.Mvc5;
 
@@ -39,6 +41,8 @@ namespace Pook.Web
             container.RegisterType<UserManager<User>>(new HierarchicalLifetimeManager());
             container.RegisterType<IUserStore<User>, UserStore<User>>(new HierarchicalLifetimeManager());
             container.RegisterType<IAuthenticationManager>(new InjectionFactory(c => HttpContext.Current.GetOwinContext().Authentication));
+            
+            container.RegisterType<IAuthorService, AuthorService>();
 
             DependencyResolver.SetResolver(new UnityDependencyResolver(container));
         }

@@ -1,35 +1,38 @@
 ﻿using System;
-using System.Linq;
 using System.Net;
 using System.Web.Mvc;
 using Pook.Data.Entities;
 using Pook.Data.Repositories.Interface;
+using Pook.Service.Coordinator.Interface;
+using SAuthor = Pook.Service.Models.Author;
 
 namespace Pook.Web.Controllers
 {
     public class AuthorController : Controller
     {
-        private IGenericRepository<Author> AuthorRepository { get; set; }
+        private IGenericRepository<Author> AuthorRepository { get; }
 
-        public AuthorController(IGenericRepository<Author> authorRepository)
+        private IAuthorService AuthorService { get; }
+
+        public AuthorController(
+            IGenericRepository<Author> authorRepository,
+            IAuthorService authorService
+            )
         {
+            AuthorService = authorService;
             AuthorRepository = authorRepository;
         }
 
         // GET: Author
         public ActionResult Index()
         {
-            AuthorRepository.SetSortExpression(list => list.OrderBy(a => a.FirstName));
-            return View(AuthorRepository.GetAll());
+            return View(AuthorService.GetAll());
         }
 
         // GET: Author/Details/5
-        public ActionResult Details(Guid? id)
+        public ActionResult Details(Guid id)
         {
-            if (id == null)
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            
-            Author author = AuthorRepository.GetSingle(id.Value);
+            SAuthor author = AuthorService.GetSingle(id);
             if (author == null)
                 return HttpNotFound();
             

@@ -1,6 +1,4 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Pook.Data.Entities
 {
@@ -11,13 +9,10 @@ namespace Pook.Data.Entities
 
         public string LastName { get; set; }
 
-        [DataType(DataType.MultilineText)]
         public string Description { get; set; }
 
         public string Email { get; set; }
 
         public string Address { get; set; }
-
-        public string FullName => string.Concat(FirstName, " ", LastName.ToUpper());
     }
 }
