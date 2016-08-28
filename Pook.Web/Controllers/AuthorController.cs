@@ -4,6 +4,7 @@ using System.Web.Mvc;
 using Pook.Data.Entities;
 using Pook.Data.Repositories.Interface;
 using Pook.Service.Coordinator.Interface;
+using Pook.Web.Filters;
 using SAuthor = Pook.Service.Models.Author;
 
 namespace Pook.Web.Controllers
@@ -46,26 +47,22 @@ namespace Pook.Web.Controllers
         }
 
         // POST: Author/Create
-        [HttpPost, ValidateInput(false)]
+        [HttpPost]
+        [ValidateInput(false)]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(Author author)
+        [ValidateModel]
+        public ActionResult Create(SAuthor author)
         {
-            if (ModelState.IsValid)
-            {
-                AuthorRepository.Add(author);
-                return RedirectToAction("Index");
-            }
+            AuthorService.Add(author);
+            return RedirectToAction("Index");
 
             return View(author);
         }
 
         // GET: Author/Edit/5
-        public ActionResult Edit(Guid? id)
+        public ActionResult Edit(Guid id)
         {
-            if (id == null)
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-
-            Author author = AuthorRepository.GetSingle(id.Value);
+            SAuthor author = AuthorService.GetSingle(id);
             if (author == null)
                 return HttpNotFound();
             
@@ -73,15 +70,14 @@ namespace Pook.Web.Controllers
         }
 
         // POST: Author/Edit/5
-        [HttpPost, ValidateInput(false)]
+        [HttpPost]
+        [ValidateInput(false)]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(Author author)
+        [ValidateModel]
+        public ActionResult Edit(SAuthor author)
         {
-            if (ModelState.IsValid)
-            {
-                AuthorRepository.Update(author);
+                AuthorService.Update(author);
                 return RedirectToAction("Index");
-            }
             return View(author);
         }
 

@@ -46,5 +46,30 @@ namespace Pook.Service.Coordinator.Concrete
                 Email = author.Email
             };
         }
+
+        public void Add(SAuthor author)
+        {
+            AuthorRepository.Add(new DAuthor
+            {
+                FirstName = author.FirstName,
+                LastName = author.LastName,
+                Email = author.Email,
+                Address = author.Address,
+                Description = author.Description,
+            });
+        }
+
+        public void Update(SAuthor author)
+        {
+            AuthorRepository.Update(new DAuthor
+            {
+                Id = author.Id,
+                FirstName = author.FirstName,
+                LastName = author.LastName,
+                Email = author.Email,
+                Address = author.Address,
+                Description = author.Description,
+            });
+        }
     }
 }

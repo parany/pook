@@ -9,5 +9,9 @@ namespace Pook.Service.Coordinator.Interface
         IList<Author> GetAll();
 
         Author GetSingle(Guid id);
+
+        void Add(Author author);
+
+        void Update(Author author);
     }
 }

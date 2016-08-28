@@ -7,6 +7,8 @@ namespace Pook.Service.Models
     {
         public Guid Id { get; set; }
 
+        [Required]
+        [StringLength(20, MinimumLength = 2, ErrorMessage = "Invalid Length")]
         public string FirstName { get; set; }
 
         public string LastName { get; set; }
