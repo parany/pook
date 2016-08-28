@@ -7,6 +7,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using Pook.Service;
+using Pook.Service.Manager;
 using Pook.Web.Models;
 
 namespace Pook.Web.Controllers

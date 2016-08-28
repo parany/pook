@@ -103,11 +103,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ApplicationSignInManager.cs" />
-    <Compile Include="ApplicationUserManager.cs" />
-    <Compile Include="EmailService.cs" />
+    <Compile Include="Manager\ApplicationSignInManager.cs" />
+    <Compile Include="Manager\ApplicationUserManager.cs" />
+    <Compile Include="Manager\EmailManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SmsService.cs" />
+    <Compile Include="Manager\SmsManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

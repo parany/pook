@@ -8,6 +8,7 @@ using Owin;
 using Pook.Data;
 using Pook.Data.Entities;
 using Pook.Service;
+using Pook.Service.Manager;
 using Pook.Web.Models;
 
 namespace Pook.Web
