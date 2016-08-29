@@ -31,12 +31,13 @@ namespace Pook.Web.Controllers
         }
 
         // GET: Author/Details/5
+        [NotFound]
         public ActionResult Details(Guid id)
         {
             SAuthor author = AuthorService.GetSingle(id);
             if (author == null)
                 return HttpNotFound();
-            
+
             return View(author);
         }
 
@@ -55,8 +56,6 @@ namespace Pook.Web.Controllers
         {
             AuthorService.Add(author);
             return RedirectToAction("Index");
-
-            return View(author);
         }
 
         // GET: Author/Edit/5
@@ -65,7 +64,7 @@ namespace Pook.Web.Controllers
             SAuthor author = AuthorService.GetSingle(id);
             if (author == null)
                 return HttpNotFound();
-            
+
             return View(author);
         }
 
@@ -76,21 +75,17 @@ namespace Pook.Web.Controllers
         [ValidateModel]
         public ActionResult Edit(SAuthor author)
         {
-                AuthorService.Update(author);
-                return RedirectToAction("Index");
-            return View(author);
+            AuthorService.Update(author);
+            return RedirectToAction("Index");
         }
 
         // GET: Author/Delete/5
-        public ActionResult Delete(Guid? id)
+        public ActionResult Delete(Guid id)
         {
-            if (id == null)
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            
-            Author author = AuthorRepository.GetSingle(id.Value);
+            Author author = AuthorRepository.GetSingle(id);
             if (author == null)
                 return HttpNotFound();
-            
+
             return View(author);
         }
 

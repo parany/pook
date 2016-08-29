@@ -4,6 +4,7 @@ using System.Data.Entity;
 using System.Linq;
 using System.Linq.Expressions;
 using Pook.Data.Entities;
+using Pook.Data.Exceptions;
 using Pook.Data.Repositories.Interface;
 
 namespace Pook.Data.Repositories.Concrete
@@ -235,6 +236,8 @@ namespace Pook.Data.Repositories.Concrete
                     .AsNoTracking()
                     .FirstOrDefault(b => b.Id == id);
             }
+            if (item == null)
+                throw new NotFoundException($"The provided Id ({id}) is not found in {typeof(T)} table");
 
             return item;
         }

@@ -202,6 +202,7 @@
     <Compile Include="Controllers\ResponsabilityTypeController.cs" />
     <Compile Include="Controllers\StatusController.cs" />
     <Compile Include="Controllers\UserController.cs" />
+    <Compile Include="Filters\NotFoundAttribute.cs" />
     <Compile Include="Filters\ValidateModelAttribute.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>

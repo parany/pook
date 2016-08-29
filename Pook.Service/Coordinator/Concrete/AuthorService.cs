@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics.Contracts;
 using System.Linq;
 using Pook.Data.Repositories.Interface;
 using Pook.Service.Coordinator.Interface;
-using Pook.Service.Models;
 using DAuthor = Pook.Data.Entities.Author;
 using SAuthor = Pook.Service.Models.Author;
 

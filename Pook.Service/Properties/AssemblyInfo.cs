@@ -1,10 +1,12 @@
-﻿using System.Reflection;
+﻿using System.Diagnostics.Contracts;
+using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
+[assembly: ContractVerification(false)]
 [assembly: AssemblyTitle("Pook.Service")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
