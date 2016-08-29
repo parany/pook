@@ -9,6 +9,7 @@ namespace Pook.Web.Filters
         {
             if (exceptionContext.Exception is NotFoundException)
             {
+                exceptionContext.ExceptionHandled = true;
                 exceptionContext.Result = new ViewResult { ViewName = "Error" };
             }
         }
