@@ -43,6 +43,7 @@ namespace Pook.Web
             container.RegisterType<IAuthenticationManager>(new InjectionFactory(c => HttpContext.Current.GetOwinContext().Authentication));
             
             container.RegisterType<IAuthorService, AuthorService>();
+            container.RegisterType<IBookService, BookService>();
 
             DependencyResolver.SetResolver(new UnityDependencyResolver(container));
         }

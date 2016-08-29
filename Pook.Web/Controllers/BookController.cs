@@ -5,13 +5,14 @@ using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
 using Pook.Data.Entities;
 using Pook.Data.Repositories.Interface;
-using Pook.Web.Models;
+using Pook.Service.Models.Book;
+using DBook = Pook.Data.Entities.Book;
 
 namespace Pook.Web.Controllers
 {
     public class BookController : Controller
     {
-        private IGenericRepository<Book> BookRepository { get; }
+        private IGenericRepository<DBook> BookRepository { get; }
 
         private IGenericRepository<Responsability> ResponsabilityRepository { get; }
 
@@ -29,7 +30,7 @@ namespace Pook.Web.Controllers
 
 
         public BookController(
-            IGenericRepository<Book> bookRepository,
+            IGenericRepository<DBook> bookRepository,
             IGenericRepository<Responsability> responsabilityRepository,
             IGenericRepository<Note> noteRepository,
             IGenericRepository<Category> categoryRepository,
@@ -203,7 +204,7 @@ namespace Pook.Web.Controllers
         [Route("Book/Details/{id}")]
         public ActionResult Details(Guid id)
         {
-            Book book = BookRepository.GetSingle(id);
+            DBook book = BookRepository.GetSingle(id);
 
             if (book == null)
                 return HttpNotFound();
@@ -238,7 +239,7 @@ namespace Pook.Web.Controllers
         // POST: Book/Create
         [HttpPost, ValidateInput(false)]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(Book book)
+        public ActionResult Create(DBook book)
         {
             if (ModelState.IsValid)
             {
@@ -263,7 +264,7 @@ namespace Pook.Web.Controllers
 
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 
-            Book book = BookRepository.GetSingle(id.Value);
+            DBook book = BookRepository.GetSingle(id.Value);
 
             if (book == null)
                 return HttpNotFound();
@@ -281,7 +282,7 @@ namespace Pook.Web.Controllers
         // POST: Book/Edit/5
         [HttpPost, ValidateInput(false)]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(Book book)
+        public ActionResult Edit(DBook book)
         {
             if (ModelState.IsValid)
             {
@@ -304,7 +305,7 @@ namespace Pook.Web.Controllers
             if (id == null)
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 
-            Book book = BookRepository.GetSingle(id.Value);
+            DBook book = BookRepository.GetSingle(id.Value);
             if (book == null)
                 return HttpNotFound();
 
@@ -326,7 +327,7 @@ namespace Pook.Web.Controllers
             if (id == null)
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 
-            Book book = BookRepository.GetSingle(id.Value);
+            DBook book = BookRepository.GetSingle(id.Value);
             if (book == null)
                 return HttpNotFound();
 
@@ -356,7 +357,7 @@ namespace Pook.Web.Controllers
             if (id == null)
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 
-            Book book = BookRepository.GetSingle(id.Value);
+            DBook book = BookRepository.GetSingle(id.Value);
             if (book == null)
                 return HttpNotFound();
 

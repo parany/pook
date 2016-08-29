@@ -209,8 +209,6 @@
     </Compile>
     <Compile Include="CustomModelBinders\DateTimeModelBinder.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
-    <Compile Include="Models\BookDetails.cs" />
-    <Compile Include="Models\BookList.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\NoteSearch.cs" />
     <Compile Include="Models\ProgressionSearch.cs" />
