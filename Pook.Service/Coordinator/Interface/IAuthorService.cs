@@ -4,14 +4,7 @@ using Pook.Service.Models;
 
 namespace Pook.Service.Coordinator.Interface
 {
-    public interface IAuthorService
+    public interface IAuthorService : IGenericService<Author>
     {
-        IList<Author> GetAll();
-
-        Author GetSingle(Guid id);
-
-        void Add(Author author);
-
-        void Update(Author author);
     }
 }

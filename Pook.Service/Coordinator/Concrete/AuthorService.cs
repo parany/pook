@@ -69,5 +69,10 @@ namespace Pook.Service.Coordinator.Concrete
                 Description = author.Description,
             });
         }
+
+        public void Delete(Guid id)
+        {
+            AuthorRepository.Delete(id);
+        }
     }
 }

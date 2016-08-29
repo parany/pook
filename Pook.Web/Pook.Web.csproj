@@ -508,6 +508,7 @@
     <Content Include="Views\Progression\ByBook.cshtml" />
     <Content Include="Views\Note\Search.cshtml" />
     <Content Include="Views\Note\ByBook.cshtml" />
+    <Content Include="Views\Shared\ErrorNotFound.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

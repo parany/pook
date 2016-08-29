@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Net;
 using System.Web.Mvc;
-using Pook.Data.Entities;
-using Pook.Data.Repositories.Interface;
 using Pook.Service.Coordinator.Interface;
 using Pook.Web.Filters;
 using SAuthor = Pook.Service.Models.Author;
@@ -11,17 +8,11 @@ namespace Pook.Web.Controllers
 {
     public class AuthorController : Controller
     {
-        private IGenericRepository<Author> AuthorRepository { get; }
-
         private IAuthorService AuthorService { get; }
 
-        public AuthorController(
-            IGenericRepository<Author> authorRepository,
-            IAuthorService authorService
-            )
+        public AuthorController(IAuthorService authorService)
         {
             AuthorService = authorService;
-            AuthorRepository = authorRepository;
         }
 
         // GET: Author
@@ -59,6 +50,7 @@ namespace Pook.Web.Controllers
         }
 
         // GET: Author/Edit/5
+        [NotFound]
         public ActionResult Edit(Guid id)
         {
             SAuthor author = AuthorService.GetSingle(id);
@@ -80,21 +72,21 @@ namespace Pook.Web.Controllers
         }
 
         // GET: Author/Delete/5
+        [NotFound]
         public ActionResult Delete(Guid id)
         {
-            Author author = AuthorRepository.GetSingle(id);
-            if (author == null)
-                return HttpNotFound();
-
+            SAuthor author = AuthorService.GetSingle(id);
             return View(author);
         }
 
         // POST: Author/Delete/5
-        [HttpPost, ActionName("Delete")]
+        [HttpPost]
+        [ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [ValidateModel]
         public ActionResult DeleteConfirmed(Guid id)
         {
-            AuthorRepository.Delete(id);
+            AuthorService.Delete(id);
             return RedirectToAction("Index");
         }
     }

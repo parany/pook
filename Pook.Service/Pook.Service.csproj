@@ -148,6 +148,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Coordinator\Concrete\AuthorService.cs" />
+    <Compile Include="Coordinator\Interface\IGenericService.cs" />
     <Compile Include="Coordinator\Interface\IAuthorService.cs" />
     <Compile Include="Manager\ApplicationSignInManager.cs" />
     <Compile Include="Manager\ApplicationUserManager.cs" />
