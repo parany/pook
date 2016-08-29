@@ -470,7 +470,6 @@
     <Content Include="Views\Progression\Edit.cshtml" />
     <Content Include="Views\Progression\ByDate.cshtml" />
     <Content Include="Views\Author\Create.cshtml" />
-    <Content Include="Views\Author\Delete.cshtml" />
     <Content Include="Views\Author\Details.cshtml" />
     <Content Include="Views\Author\Edit.cshtml" />
     <Content Include="Views\Author\Index.cshtml" />

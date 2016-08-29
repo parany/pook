@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Web.Mvc;
 using Pook.Service.Coordinator.Interface;
+using Pook.Service.Models;
 using Pook.Web.Filters;
-using SAuthor = Pook.Service.Models.Author;
 
 namespace Pook.Web.Controllers
 {
@@ -15,78 +15,47 @@ namespace Pook.Web.Controllers
             AuthorService = authorService;
         }
 
-        // GET: Author
+        [Route("Author")]
         public ActionResult Index()
         {
             return View(AuthorService.GetAll());
         }
 
-        // GET: Author/Details/5
+        [Route("Author/Details/{id}")]
         [NotFound]
         public ActionResult Details(Guid id)
         {
-            SAuthor author = AuthorService.GetSingle(id);
-            if (author == null)
-                return HttpNotFound();
-
+            Author author = AuthorService.GetSingle(id);
             return View(author);
         }
 
-        // GET: Author/Create
+        [Route("Author/Create")]
         public ActionResult Create()
         {
             return View();
         }
 
-        // POST: Author/Create
-        [HttpPost]
-        [ValidateInput(false)]
-        [ValidateAntiForgeryToken]
-        [ValidateModel]
-        public ActionResult Create(SAuthor author)
+        [Route("Author/Create"), HttpPost]
+        [ValidateInput(false), ValidateAntiForgeryToken, ValidateModel]
+        public ActionResult Create(Author author)
         {
             AuthorService.Add(author);
             return RedirectToAction("Index");
         }
 
-        // GET: Author/Edit/5
+        [Route("Author/Edit/{id}")]
         [NotFound]
         public ActionResult Edit(Guid id)
         {
-            SAuthor author = AuthorService.GetSingle(id);
-            if (author == null)
-                return HttpNotFound();
-
+            Author author = AuthorService.GetSingle(id);
             return View(author);
         }
 
-        // POST: Author/Edit/5
-        [HttpPost]
-        [ValidateInput(false)]
-        [ValidateAntiForgeryToken]
-        [ValidateModel]
-        public ActionResult Edit(SAuthor author)
+        [Route("Author/Edit/{id}"), HttpPost]
+        [ValidateInput(false), ValidateAntiForgeryToken, ValidateModel]
+        public ActionResult Edit(Author author)
         {
             AuthorService.Update(author);
-            return RedirectToAction("Index");
-        }
-
-        // GET: Author/Delete/5
-        [NotFound]
-        public ActionResult Delete(Guid id)
-        {
-            SAuthor author = AuthorService.GetSingle(id);
-            return View(author);
-        }
-
-        // POST: Author/Delete/5
-        [HttpPost]
-        [ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        [ValidateModel]
-        public ActionResult DeleteConfirmed(Guid id)
-        {
-            AuthorService.Delete(id);
             return RedirectToAction("Index");
         }
     }
