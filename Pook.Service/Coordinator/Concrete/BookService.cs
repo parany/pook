@@ -55,6 +55,7 @@ namespace Pook.Service.Coordinator.Concrete
                 b => b.Firm
                 );
             BookRepository.SetSortExpression(l => l.OrderBy(b => b.Title));
+
             var books = BookRepository.GetAll();
             return books.Select(Transform).ToList();
         }
@@ -63,6 +64,7 @@ namespace Pook.Service.Coordinator.Concrete
         {
             BookRepository.AddNavigationProperty(b => b.Category);
             ProgressionRepository.AddNavigationProperty(b => b.Status);
+
             var books = BookRepository.GetAll();
             var progressions = ProgressionRepository.GetList(b => b.UserId == userId);
             progressions =
@@ -90,6 +92,7 @@ namespace Pook.Service.Coordinator.Concrete
         {
             BookRepository.AddNavigationProperty(b => b.Category);
             ProgressionRepository.AddNavigationProperty(b => b.Status);
+
             var books = BookRepository.GetAll();
             var progressions = ProgressionRepository.GetList(p => p.UserId == userId);
             progressions =
@@ -114,6 +117,21 @@ namespace Pook.Service.Coordinator.Concrete
                  }).ToList();
             bookModels = bookModels.OrderByDescending(b => b.Progression.Date).ToList();
             return bookModels;
+        }
+
+        public BookDetails GetDetails(Guid id)
+        {
+            NoteRepository.SetSortExpression(l => l.OrderBy(o => o.Page));
+            NoteRepository.AddNavigationProperty(u => u.User);
+
+            SBook book = GetSingle(id);
+            var model = new BookDetails
+            {
+                Book = book,
+                Responsabilities = ResponsabilityRepository.GetList(r => r.BookId == book.Id),
+                Notes = NoteRepository.GetList(n => n.BookId == book.Id)
+            };
+            return model;
         }
 
         public SBook GetSingle(Guid id)

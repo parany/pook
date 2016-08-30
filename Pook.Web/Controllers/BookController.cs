@@ -13,6 +13,7 @@ using SBook = Pook.Service.Models.Books.Book;
 
 namespace Pook.Web.Controllers
 {
+    [RoutePrefix("Book")]
     public class BookController : Controller
     {
         private IGenericRepository<DBook> BookRepository { get; }
@@ -72,19 +73,20 @@ namespace Pook.Web.Controllers
             ProgressionRepository.SetSortExpression(l => l.OrderByDescending(p => p.Date));
         }
 
-        // GET: Book
+        [Route("")]
+        [Route("~/")]
         public ActionResult Index()
         {
             return View(BookService.GetAll());
         }
 
-        [Route("Book/List")]
+        [Route("List")]
         public ViewResult List()
         {
             return View(BookService.GetList(User.Identity.GetUserId()));
         }
 
-        [Route("Book/Bookmarked")]
+        [Route("Bookmarked")]
         public ViewResult Bookmarked()
         {
             Func<Progression, bool> filter = progression => progression.Status.Title == "Bookmarked";
@@ -93,7 +95,7 @@ namespace Pook.Web.Controllers
             return View(bookModels);
         }
 
-        [Route("Book/Current")]
+        [Route("Current")]
         public ViewResult Current()
         {
             Func<Progression, bool> filter = progression => progression.Status.Title == "Current" 
@@ -103,7 +105,7 @@ namespace Pook.Web.Controllers
             return View(bookModels);
         }
 
-        [Route("Book/Read")]
+        [Route("Read")]
         public ViewResult Read()
         {
             Func<Progression, bool> filter = progression => progression.Status.Title == "Read";
@@ -112,21 +114,11 @@ namespace Pook.Web.Controllers
             return View(bookModels);
         }
 
-        [Route("Book/Details/{id}")]
+        [Route("Details/{id}")]
         [NotFound]
         public ActionResult Details(Guid id)
         {
-            SBook book = BookService.GetSingle(id);
-            var model = new BookDetails
-            {
-                Book = book,
-                Responsabilities = ResponsabilityRepository.GetList(r => r.BookId == book.Id)
-            };
-            var notes = NoteRepository
-                .GetList(n => n.BookId == book.Id)
-                .OrderBy(o => o.Page)
-                .ToList();
-            model.Notes = notes;
+            var model = BookService.GetDetails(id);
             return View(model);
         }
 
