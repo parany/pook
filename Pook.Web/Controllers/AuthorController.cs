@@ -6,6 +6,7 @@ using Pook.Web.Filters;
 
 namespace Pook.Web.Controllers
 {
+    [RoutePrefix("Author")]
     public class AuthorController : Controller
     {
         private IAuthorService AuthorService { get; }
@@ -15,13 +16,13 @@ namespace Pook.Web.Controllers
             AuthorService = authorService;
         }
 
-        [Route("Author")]
+        [Route("")]
         public ActionResult Index()
         {
             return View(AuthorService.GetAll());
         }
 
-        [Route("Author/Details/{id}")]
+        [Route("Details/{id}")]
         [NotFound]
         public ActionResult Details(Guid id)
         {
@@ -29,13 +30,13 @@ namespace Pook.Web.Controllers
             return View(author);
         }
 
-        [Route("Author/Create")]
+        [Route("Create")]
         public ActionResult Create()
         {
             return View();
         }
 
-        [Route("Author/Create"), HttpPost]
+        [Route("Create"), HttpPost]
         [ValidateInput(false), ValidateAntiForgeryToken, ValidateModel]
         public ActionResult Create(Author author)
         {
@@ -43,7 +44,7 @@ namespace Pook.Web.Controllers
             return RedirectToAction("Index");
         }
 
-        [Route("Author/Edit/{id}")]
+        [Route("Edit/{id}")]
         [NotFound]
         public ActionResult Edit(Guid id)
         {
@@ -51,7 +52,7 @@ namespace Pook.Web.Controllers
             return View(author);
         }
 
-        [Route("Author/Edit/{id}"), HttpPost]
+        [Route("Edit/{id}"), HttpPost]
         [ValidateInput(false), ValidateAntiForgeryToken, ValidateModel]
         public ActionResult Edit(Author author)
         {
