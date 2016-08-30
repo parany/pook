@@ -4,8 +4,9 @@ using System.Linq;
 using Pook.Data.Entities;
 using Pook.Data.Repositories.Interface;
 using Pook.Service.Coordinator.Interface;
+using Pook.Service.Models.Books;
 using DBook = Pook.Data.Entities.Book;
-using SBook = Pook.Service.Models.Book.Book;
+using SBook = Pook.Service.Models.Books.Book;
 
 namespace Pook.Service.Coordinator.Concrete
 {
@@ -27,7 +28,7 @@ namespace Pook.Service.Coordinator.Concrete
 
         private IGenericRepository<Status> StatusRepository { get; }
 
-        public BookService(IGenericRepository<Book> bookRepository,
+        public BookService(IGenericRepository<DBook> bookRepository,
             IGenericRepository<Responsability> responsabilityRepository,
             IGenericRepository<Note> noteRepository,
             IGenericRepository<Category> categoryRepository,
@@ -55,20 +56,75 @@ namespace Pook.Service.Coordinator.Concrete
                 );
             BookRepository.SetSortExpression(l => l.OrderBy(b => b.Title));
             var books = BookRepository.GetAll();
-            return books.Select(b => new SBook
-            {
-                Id = b.Id,
-                Title = b.Title,
-                Category = b.Category,
-                Editor = b.Editor,
-                Firm = b.Firm,
-                NumberOfPages = b.NumberOfPages
-            }).ToList();
+            return books.Select(Transform).ToList();
+        }
+
+        public IList<BookList> GetList(string userId)
+        {
+            BookRepository.AddNavigationProperty(b => b.Category);
+            ProgressionRepository.AddNavigationProperty(b => b.Status);
+            var books = BookRepository.GetAll();
+            var progressions = ProgressionRepository.GetList(b => b.UserId == userId);
+            progressions =
+                (from progression in progressions
+                 group progression by progression.BookId
+                 into g
+                 select g.First()
+                 ).ToList();
+            var bookModels =
+                (from book in books
+                 let progression = progressions.FirstOrDefault(p => p.BookId == book.Id)
+                 select new BookList
+                 {
+                     Id = book.Id,
+                     Status = progression != null ? progression.Status : new Status { Title = "N/A" },
+                     Title = book.Title,
+                     Category = book.Category.Title,
+                     NumberOfPages = book.NumberOfPages,
+                     ReleaseDate = book.ReleaseDate
+                 }).ToList();
+            return bookModels;
+        }
+
+        public IList<BookList> GetListByStatus(string userId, Func<Progression, bool> filter)
+        {
+            BookRepository.AddNavigationProperty(b => b.Category);
+            ProgressionRepository.AddNavigationProperty(b => b.Status);
+            var books = BookRepository.GetAll();
+            var progressions = ProgressionRepository.GetList(p => p.UserId == userId);
+            progressions =
+                (from progression in progressions
+                 group progression by progression.BookId
+                 into g
+                 where filter(g.First())
+                 select g.First()
+                 ).ToList();
+            var bookModels =
+                (from book in books
+                 join progression in progressions on book.Id equals progression.BookId
+                 select new BookList
+                 {
+                     Id = book.Id,
+                     Status = progression.Status,
+                     Title = book.Title,
+                     Category = book.Category.Title,
+                     NumberOfPages = book.NumberOfPages,
+                     ReleaseDate = book.ReleaseDate,
+                     Progression = progression
+                 }).ToList();
+            bookModels = bookModels.OrderByDescending(b => b.Progression.Date).ToList();
+            return bookModels;
         }
 
         public SBook GetSingle(Guid id)
         {
-            throw new NotImplementedException();
+            BookRepository.AddNavigationProperties(
+                b => b.Category,
+                b => b.Editor,
+                b => b.Firm
+                );
+            var book = BookRepository.GetSingle(id);
+            return Transform(book);
         }
 
         public void Add(SBook author)
@@ -84,6 +140,20 @@ namespace Pook.Service.Coordinator.Concrete
         public void Delete(Guid id)
         {
             throw new NotImplementedException();
+        }
+
+        private SBook Transform(DBook book)
+        {
+            return new SBook
+            {
+                Id = book.Id,
+                Title = book.Title,
+                CategoryTitle = book.Category?.Title,
+                EditorTitle = book.Editor?.Title,
+                FirmTitle = book.Firm?.Title,
+                NumberOfPages = book.NumberOfPages,
+                ReleaseDate = book.ReleaseDate
+            };
         }
     }
 }

@@ -5,8 +5,11 @@ using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
 using Pook.Data.Entities;
 using Pook.Data.Repositories.Interface;
-using Pook.Service.Models.Book;
+using Pook.Service.Coordinator.Interface;
+using Pook.Service.Models.Books;
+using Pook.Web.Filters;
 using DBook = Pook.Data.Entities.Book;
+using SBook = Pook.Service.Models.Books.Book;
 
 namespace Pook.Web.Controllers
 {
@@ -28,6 +31,8 @@ namespace Pook.Web.Controllers
 
         private IGenericRepository<Status> StatusRepository { get; }
 
+        private IBookService BookService { get; set; }
+
 
         public BookController(
             IGenericRepository<DBook> bookRepository,
@@ -37,9 +42,12 @@ namespace Pook.Web.Controllers
             IGenericRepository<Firm> firmRepository,
             IGenericRepository<Progression> progressionRepository,
             IGenericRepository<Status> statusRepository,
-            IGenericRepository<Editor> editorRepository
+            IGenericRepository<Editor> editorRepository,
+            IBookService bookService
             )
         {
+            BookService = bookService;
+
             BookRepository = bookRepository;
             ResponsabilityRepository = responsabilityRepository;
             NoteRepository = noteRepository;
@@ -67,154 +75,53 @@ namespace Pook.Web.Controllers
         // GET: Book
         public ActionResult Index()
         {
-            var books = BookRepository.GetAll();
-            books = books.OrderBy(b => b.Title).ToList();
-            return View(books.ToList());
+            return View(BookService.GetAll());
         }
 
         [Route("Book/List")]
         public ViewResult List()
         {
-            var books = BookRepository.GetAll();
-            var userId = User.Identity.GetUserId();
-            var progressions = ProgressionRepository.GetList(b => b.UserId == userId);
-            progressions =
-                (from progression in progressions
-                 group progression by progression.BookId
-                 into g
-                 select g.First()
-                 ).ToList();
-            var bookModels =
-                (from book in books
-                 let progression = progressions.FirstOrDefault(p => p.BookId == book.Id)
-                 select new BookList
-                 {
-                     Id = book.Id,
-                     Status = progression != null ? progression.Status : new Status { Title = "N/A" },
-                     Title = book.Title,
-                     Category = book.Category.Title,
-                     NumberOfPages = book.NumberOfPages,
-                     ReleaseDate = book.ReleaseDate
-                 }).ToList();
-            return View(bookModels);
+            return View(BookService.GetList(User.Identity.GetUserId()));
         }
 
         [Route("Book/Bookmarked")]
         public ViewResult Bookmarked()
         {
-            var books = BookRepository.GetAll();
+            Func<Progression, bool> filter = progression => progression.Status.Title == "Bookmarked";
             var userId = User.Identity.GetUserId();
-            var progressions = ProgressionRepository.GetList(p => p.UserId == userId);
-            progressions =
-                (from progression in progressions
-                 group progression by progression.BookId
-                 into g
-                 where g.First().Status.Title == "Bookmarked"
-                 select g.First()
-                 ).ToList();
-            var bookModels =
-                (from book in books
-                 join progression in progressions on book.Id equals progression.BookId
-                 select new BookList
-                 {
-                     Id = book.Id,
-                     Status = progression.Status,
-                     Title = book.Title,
-                     Category = book.Category.Title,
-                     NumberOfPages = book.NumberOfPages,
-                     ReleaseDate = book.ReleaseDate,
-                     Progression = progression
-                 }).ToList();
-            bookModels = bookModels.OrderByDescending(b => b.Progression.Date).ToList();
+            var bookModels = BookService.GetListByStatus(userId, filter);
             return View(bookModels);
         }
 
         [Route("Book/Current")]
         public ViewResult Current()
         {
-            var books = BookRepository.GetAll();
+            Func<Progression, bool> filter = progression => progression.Status.Title == "Current" 
+                                                         || progression.Status.Title == "StartRead";
             var userId = User.Identity.GetUserId();
-            var progressions = ProgressionRepository.GetList(p => p.UserId == userId);
-            progressions =
-                (from progression in progressions
-                 group progression by progression.BookId
-                 into g
-                 where g.First().Status.Title == "Current" || g.First().Status.Title == "StartRead"
-                 select g.First()
-                 ).ToList();
-            var bookModels =
-                (from book in books
-                 join progression in progressions on book.Id equals progression.BookId
-                 select new BookList
-                 {
-                     Id = book.Id,
-                     Status = progression.Status,
-                     Title = book.Title,
-                     Category = book.Category.Title,
-                     NumberOfPages = book.NumberOfPages,
-                     ReleaseDate = book.ReleaseDate,
-                     Progression = progression
-                 }).ToList();
-            var bookIds = bookModels.Select(b => b.Id);
-            var notes = NoteRepository.GetList(n => bookIds.Contains(n.BookId));
-            foreach (var book in bookModels)
-            {
-                book.HasNote = notes.Any(n => n.BookId == book.Id);
-            }
-            bookModels = bookModels.OrderByDescending(b => b.Progression.Date).ToList();
+            var bookModels = BookService.GetListByStatus(userId, filter);
             return View(bookModels);
         }
 
         [Route("Book/Read")]
         public ViewResult Read()
         {
-            var books = BookRepository.GetAll();
+            Func<Progression, bool> filter = progression => progression.Status.Title == "Read";
             var userId = User.Identity.GetUserId();
-            var progressions = ProgressionRepository.GetList(p => p.UserId == userId);
-            progressions =
-                (from progression in progressions
-                 group progression by progression.BookId
-                 into g
-                 where g.First().Status.Title == "Read"
-                 select g.First()
-                 ).ToList();
-            var bookModels =
-                (from book in books
-                 join progression in progressions on book.Id equals progression.BookId
-                 select new BookList
-                 {
-                     Id = book.Id,
-                     Status = progression.Status,
-                     Title = book.Title,
-                     Category = book.Category.Title,
-                     NumberOfPages = book.NumberOfPages,
-                     ReleaseDate = book.ReleaseDate,
-                     Progression = progression
-                 }).ToList();
-            var bookIds = bookModels.Select(b => b.Id);
-            var notes = NoteRepository.GetList(n => bookIds.Contains(n.BookId));
-            foreach (var book in bookModels)
-            {
-                book.HasNote = notes.Any(n => n.BookId == book.Id);
-            }
-            bookModels = bookModels.OrderByDescending(b => b.Progression.Date).ToList();
+            var bookModels = BookService.GetListByStatus(userId, filter);
             return View(bookModels);
         }
 
         [Route("Book/Details/{id}")]
+        [NotFound]
         public ActionResult Details(Guid id)
         {
-            DBook book = BookRepository.GetSingle(id);
-
-            if (book == null)
-                return HttpNotFound();
-
+            SBook book = BookService.GetSingle(id);
             var model = new BookDetails
             {
                 Book = book,
                 Responsabilities = ResponsabilityRepository.GetList(r => r.BookId == book.Id)
             };
-
             var notes = NoteRepository
                 .GetList(n => n.BookId == book.Id)
                 .OrderBy(o => o.Page)

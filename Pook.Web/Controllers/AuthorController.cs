@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Web.Mvc;
 using Pook.Service.Coordinator.Interface;
-using Pook.Service.Models.Author;
+using Pook.Service.Models.Authors;
 using Pook.Web.Filters;
 
 namespace Pook.Web.Controllers

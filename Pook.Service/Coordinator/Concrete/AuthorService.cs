@@ -4,7 +4,7 @@ using System.Linq;
 using Pook.Data.Repositories.Interface;
 using Pook.Service.Coordinator.Interface;
 using DAuthor = Pook.Data.Entities.Author;
-using SAuthor = Pook.Service.Models.Author.Author;
+using SAuthor = Pook.Service.Models.Authors.Author;
 
 namespace Pook.Service.Coordinator.Concrete
 {

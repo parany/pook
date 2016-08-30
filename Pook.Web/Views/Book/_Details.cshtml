@@ -1,47 +1,31 @@
-﻿@model Pook.Data.Entities.Book
+﻿@model Pook.Service.Models.Books.Book
 
 <div>
     <h4>@Model.Title</h4>
     <hr />
     <dl class="dl-horizontal">
         @if (!string.IsNullOrEmpty(Model.Title))
-            {
-            <dt>
-                @Html.DisplayNameFor(model => model.Title)
-            </dt>
-            <dd>
-                @Html.DisplayFor(model => model.Title)
-            </dd>
+        {
+            <dt>Title</dt>
+            <dd>@Model.Title</dd>
         }
 
-        @if (!string.IsNullOrEmpty(Model.Category?.Title))
-            {
-            <dt>
-                Category
-            </dt>
-            <dd>
-                @Html.DisplayFor(model => model.Category.Title)
-            </dd>
+        @if (!string.IsNullOrEmpty(Model.CategoryTitle))
+        {
+            <dt>Category</dt>
+            <dd>@Model.CategoryTitle</dd>
         }
 
-        @if (!string.IsNullOrEmpty(Model.Editor?.Title))
-            {
-            <dt>
-                Editor
-            </dt>
-            <dd>
-                @Html.DisplayFor(model => model.Editor.Title)
-            </dd>
+        @if (!string.IsNullOrEmpty(Model.EditorTitle))
+        {
+            <dt>Editor</dt>
+            <dd>@Model.EditorTitle</dd>
         }
 
-        @if (!string.IsNullOrEmpty(Model.Firm?.Title))
-            {
-            <dt>
-                Firm
-            </dt>
-            <dd>
-                @Html.DisplayFor(model => model.Firm.Title)
-            </dd>
+        @if (!string.IsNullOrEmpty(Model.FirmTitle))
+        {
+            <dt>Firm</dt>
+            <dd>@Model.FirmTitle</dd>
         }
 
         @if (!string.IsNullOrEmpty(Model.Description))
@@ -70,6 +54,3 @@
 
     </dl>
 </div>
-
-
-

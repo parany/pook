@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace Pook.Service.Models.Author
+namespace Pook.Service.Models.Authors
 {
     public class Author
     {

@@ -1,8 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
-using Pook.Data.Entities;
 
-namespace Pook.Service.Models.Book
+namespace Pook.Service.Models.Books
 {
     public class Book
     {
@@ -18,16 +17,10 @@ namespace Pook.Service.Models.Book
 
         public int NumberOfPages { get; set; }
 
-        public Guid? FirmId { get; set; }
+        public string FirmTitle { get; set; }
 
-        public Firm Firm { get; set; }
+        public string EditorTitle { get; set; }
 
-        public Guid? EditorId { get; set; }
-
-        public Editor Editor { get; set; }
-
-        public Guid CategoryId { get; set; }
-
-        public Category Category { get; set; }
+        public string CategoryTitle { get; set; }
     }
 }

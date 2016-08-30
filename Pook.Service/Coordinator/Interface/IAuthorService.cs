@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using Pook.Service.Models.Author;
+using Pook.Service.Models.Authors;
 
 namespace Pook.Service.Coordinator.Interface
 {

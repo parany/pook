@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using Pook.Data.Entities;
 
-namespace Pook.Service.Models.Book
+namespace Pook.Service.Models.Books
 {
     public class BookList
     {

@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Pook.Data.Entities.Book>
+﻿@model IList<Pook.Service.Models.Books.Book>
 
 @{
     ViewBag.Title = "Index";
@@ -11,24 +11,12 @@
 </p>
 <table class="table">
     <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Title)
-        </th>
-        <th>
-            Category
-        </th>
-        <th>
-            Editory
-        </th>
-        <th>
-            Firm
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.NumberOfPages)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.ReleaseDate)
-        </th>
+        <th>Title</th>
+        <th>Category</th>
+        <th>Editory</th>
+        <th>Firm</th>
+        <th>Nb Of Pages</th>
+        <th>Release Date</th>
         <th></th>
     </tr>
 
@@ -38,13 +26,13 @@
             @Html.DisplayFor(modelItem => item.Title)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.Category.Title)
+            @Html.DisplayFor(modelItem => item.CategoryTitle)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.Editor.Title)
+            @Html.DisplayFor(modelItem => item.EditorTitle)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.Firm.Title)
+            @Html.DisplayFor(modelItem => item.FirmTitle)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.NumberOfPages)

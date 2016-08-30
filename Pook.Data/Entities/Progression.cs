@@ -10,12 +10,12 @@ namespace Pook.Data.Entities
         [Index("IX_Progression", 1, IsUnique = true, Order = 5)]
         public Guid StatusId { get; set; }
 
-        public Status Status { get; set; }
+        public virtual Status Status { get; set; }
 
         [Index("IX_Progression", 1, IsUnique = true, Order = 3)]
         public Guid BookId { get; set; }
 
-        public Book Book { get; set; }
+        public virtual Book Book { get; set; }
 
         [Index("IX_Progression", 1, IsUnique = true, Order = 4)]
         public string UserId { get; set; }

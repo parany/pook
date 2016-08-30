@@ -17,11 +17,11 @@ namespace Pook.Data.Entities
 
         public Guid? FirmId { get; set; }
 
-        public Firm Firm { get; set; }
+        public virtual Firm Firm { get; set; }
 
         public Guid? EditorId { get; set; }
 
-        public Editor Editor { get; set; }
+        public virtual Editor Editor { get; set; }
 
         public Guid CategoryId { get; set; }
 

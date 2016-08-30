@@ -155,10 +155,10 @@
     <Compile Include="Manager\ApplicationSignInManager.cs" />
     <Compile Include="Manager\ApplicationUserManager.cs" />
     <Compile Include="Manager\EmailManager.cs" />
-    <Compile Include="Models\Author\Author.cs" />
-    <Compile Include="Models\Book\Book.cs" />
-    <Compile Include="Models\Book\BookDetails.cs" />
-    <Compile Include="Models\Book\BookList.cs" />
+    <Compile Include="Models\Authors\Author.cs" />
+    <Compile Include="Models\Books\Book.cs" />
+    <Compile Include="Models\Books\BookDetails.cs" />
+    <Compile Include="Models\Books\BookList.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Manager\SmsManager.cs" />
   </ItemGroup>
