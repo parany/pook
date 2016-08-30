@@ -61,7 +61,8 @@ namespace Pook.Service.Coordinator.Concrete
                 Title = b.Title,
                 Category = b.Category,
                 Editor = b.Editor,
-                Firm = b.Firm
+                Firm = b.Firm,
+                NumberOfPages = b.NumberOfPages
             }).ToList();
         }
 
