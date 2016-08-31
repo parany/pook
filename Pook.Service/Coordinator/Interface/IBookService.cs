@@ -13,5 +13,7 @@ namespace Pook.Service.Coordinator.Interface
         IList<BookList> GetListByStatus(string userId, Func<Progression, bool> filter);
 
         BookDetails GetDetails(Guid id);
+
+        BookCreate GetBookCreate();
     }
 }

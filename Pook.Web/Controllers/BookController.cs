@@ -6,7 +6,6 @@ using Microsoft.AspNet.Identity;
 using Pook.Data.Entities;
 using Pook.Data.Repositories.Interface;
 using Pook.Service.Coordinator.Interface;
-using Pook.Service.Models.Books;
 using Pook.Web.Filters;
 using DBook = Pook.Data.Entities.Book;
 using SBook = Pook.Service.Models.Books.Book;
@@ -122,38 +121,19 @@ namespace Pook.Web.Controllers
             return View(model);
         }
 
-        // GET: Book/Create
+        [Route("Create"), HttpGet]
         public ActionResult Create()
         {
-            ViewBag.CategoryId = new SelectList(CategoryRepository.GetAll(), "Id", "Title");
-            var allEditors = EditorRepository.GetAll();
-            allEditors.Insert(0, null);
-            ViewBag.EditorId = new SelectList(allEditors, "Id", "Title");
-            var allFirms = FirmRepository.GetAll();
-            allFirms.Insert(0, null);
-            ViewBag.FirmId = new SelectList(allFirms, "Id", "Title");
-            return View();
+            var book = BookService.GetBookCreate();
+            return View(book);
         }
 
-        // POST: Book/Create
-        [HttpPost, ValidateInput(false)]
-        [ValidateAntiForgeryToken]
+        [Route("Create"), HttpPost]
+        [ValidateAntiForgeryToken, ValidateInput(false), ValidateModel]
         public ActionResult Create(DBook book)
         {
-            if (ModelState.IsValid)
-            {
-                BookRepository.Add(book);
-                return RedirectToAction("Index");
-            }
-
-            ViewBag.CategoryId = new SelectList(CategoryRepository.GetAll(), "Id", "Title");
-            var allEditors = EditorRepository.GetAll();
-            allEditors.Insert(0, null);
-            ViewBag.EditorId = new SelectList(allEditors, "Id", "Title");
-            var allFirms = FirmRepository.GetAll();
-            allFirms.Insert(0, null);
-            ViewBag.FirmId = new SelectList(allFirms, "Id", "Title");
-            return View(book);
+            BookRepository.Add(book);
+            return RedirectToAction("Index");
         }
 
         // GET: Book/Edit/5

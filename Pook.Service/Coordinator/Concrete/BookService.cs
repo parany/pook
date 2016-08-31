@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Web.Mvc;
 using Pook.Data.Entities;
 using Pook.Data.Repositories.Interface;
 using Pook.Service.Coordinator.Interface;
@@ -132,6 +133,24 @@ namespace Pook.Service.Coordinator.Concrete
                 Notes = NoteRepository.GetList(n => n.BookId == book.Id)
             };
             return model;
+        }
+
+        public BookCreate GetBookCreate()
+        {
+            var categories = new SelectList(CategoryRepository.GetAll(), "Id", "Title");
+            var allEditors = EditorRepository.GetAll();
+            allEditors.Insert(0, null);
+            var editors = new SelectList(allEditors, "Id", "Title");
+            var allFirms = FirmRepository.GetAll();
+            allFirms.Insert(0, null);
+            var firms = new SelectList(allFirms, "Id", "Title");
+            var bookCreate = new BookCreate
+            {
+                Categories = categories,
+                Editors = editors,
+                Firms = firms
+            };
+            return bookCreate;
         }
 
         public SBook GetSingle(Guid id)
