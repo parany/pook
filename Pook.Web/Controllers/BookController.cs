@@ -152,25 +152,19 @@ namespace Pook.Web.Controllers
             return RedirectToAction("Index");
         }
 
-        // GET: Book/Delete/5
-        public ActionResult Delete(Guid? id)
+        [Route("Delete/{id}"), HttpGet]
+        [NotFound]
+        public ActionResult Delete(Guid id)
         {
-            if (id == null)
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-
-            DBook book = BookRepository.GetSingle(id.Value);
-            if (book == null)
-                return HttpNotFound();
-
+            SBook book = BookService.GetSingle(id);
             return View(book);
         }
 
-        // POST: Book/Delete/5
-        [HttpPost, ActionName("Delete")]
+        [Route("Delete/{id}"), HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(Guid id)
         {
-            BookRepository.Delete(id);
+            BookService.Delete(id);
             return RedirectToAction("Index");
         }
 

@@ -181,7 +181,7 @@ namespace Pook.Service.Coordinator.Concrete
 
         public void Delete(Guid id)
         {
-            throw new NotImplementedException();
+            BookRepository.Delete(id);
         }
 
         #endregion
