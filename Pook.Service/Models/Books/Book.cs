@@ -33,6 +33,6 @@ namespace Pook.Service.Models.Books
         public Guid CategoryId { get; set; }
 
         [DisplayName("Editor")]
-        public Guid EditorId { get; set; }
+        public Guid? EditorId { get; set; }
     }
 }

@@ -1,4 +1,4 @@
-﻿@model Pook.Data.Entities.Book
+﻿@model Pook.Service.Models.Books.BookCreate
 
 @{
     ViewBag.Title = "Edit";
@@ -10,66 +10,66 @@
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-    
+
     <div class="form-horizontal">
         <h4>Book</h4>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        @Html.HiddenFor(model => model.Id)
+        @Html.HiddenFor(model => model.Book.Id)
 
         <div class="form-group">
-            @Html.LabelFor(model => model.Title, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.Book.Title, new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Title, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
+                @Html.EditorFor(model => model.Book.Title, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Book.Title, "", new { @class = "text-danger" })
             </div>
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.Description, htmlAttributes: new {@class = "control-label col-md-2"})
+            @Html.LabelFor(model => model.Book.Description, new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Description, new {htmlAttributes = new {@class = "form-control", rows = "10"}})
-                @Html.ValidationMessageFor(model => model.Description, "", new {@class = "text-danger"})
+                @Html.EditorFor(model => model.Book.Description, new { htmlAttributes = new { @class = "form-control", rows = "10" } })
+                @Html.ValidationMessageFor(model => model.Book.Description, "", new { @class = "text-danger" })
             </div>
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.NumberOfPages, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.Book.NumberOfPages, new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.NumberOfPages, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.NumberOfPages, "", new { @class = "text-danger" })
+                @Html.EditorFor(model => model.Book.NumberOfPages, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Book.NumberOfPages, "", new { @class = "text-danger" })
             </div>
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.ReleaseDate, new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.Book.ReleaseDate, new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.TextBoxFor(model => model.ReleaseDate, "{0:dd-MM-yyyy}", new {@class = "form-control"})
-                @Html.ValidationMessageFor(model => model.ReleaseDate, "", new {@class = "text-danger"})
+                @Html.TextBoxFor(model => model.Book.ReleaseDate, "{0:dd-MM-yyyy}", new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Book.ReleaseDate, "", new { @class = "text-danger" })
             </div>
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.FirmId, "FirmId", htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.Book.FirmId, new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.DropDownList("FirmId", null, htmlAttributes: new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.FirmId, "", new { @class = "text-danger" })
+                @Html.DropDownListFor(m => m.Book.FirmId, Model.Firms, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Book.FirmId, "", new { @class = "text-danger" })
             </div>
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.EditorId, "EditorId", htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.Book.EditorId, new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.DropDownList("EditorId", null, htmlAttributes: new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.EditorId, "", new { @class = "text-danger" })
+                @Html.DropDownListFor(m => m.Book.EditorId, Model.Editors, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Book.EditorId, "", new { @class = "text-danger" })
             </div>
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.CategoryId, "CategoryId", htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.Book.CategoryId, new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.DropDownList("CategoryId", null, htmlAttributes: new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.CategoryId, "", new { @class = "text-danger" })
+                @Html.DropDownListFor(m => m.Book.CategoryId, Model.Categories, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Book.CategoryId, "", new { @class = "text-danger" })
             </div>
         </div>
 

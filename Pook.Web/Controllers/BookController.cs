@@ -136,46 +136,20 @@ namespace Pook.Web.Controllers
             return RedirectToAction("Index");
         }
 
-        // GET: Book/Edit/5
-        public ActionResult Edit(Guid? id)
+        [Route("Edit/{id}"), HttpGet]
+        [NotFound]
+        public ActionResult Edit(Guid id)
         {
-            if (id == null)
-
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-
-            DBook book = BookRepository.GetSingle(id.Value);
-
-            if (book == null)
-                return HttpNotFound();
-
-            ViewBag.CategoryId = new SelectList(CategoryRepository.GetAll(), "Id", "Title", book.CategoryId);
-            var allEditors = EditorRepository.GetAll();
-            allEditors.Insert(0, null);
-            ViewBag.EditorId = new SelectList(allEditors, "Id", "Title", book.EditorId);
-            var allFirms = FirmRepository.GetAll();
-            allFirms.Insert(0, null);
-            ViewBag.FirmId = new SelectList(allFirms, "Id", "Title", book.FirmId);
-            return View(book);
+            var bookEdit = BookService.GetBookEdit(id);
+            return View(bookEdit);
         }
 
-        // POST: Book/Edit/5
-        [HttpPost, ValidateInput(false)]
-        [ValidateAntiForgeryToken]
+        [Route("Edit/{id}"), HttpPost]
+        [ValidateAntiForgeryToken, ValidateInput(false), ValidateModel]
         public ActionResult Edit(DBook book)
         {
-            if (ModelState.IsValid)
-            {
-                BookRepository.Update(book);
-                return RedirectToAction("Index");
-            }
-            ViewBag.CategoryId = new SelectList(CategoryRepository.GetAll(), "Id", "Title", book.CategoryId);
-            var allEditors = EditorRepository.GetAll();
-            allEditors.Insert(0, null);
-            ViewBag.EditorId = new SelectList(allEditors, "Id", "Title", book.EditorId);
-            var allFirms = FirmRepository.GetAll();
-            allFirms.Insert(0, null);
-            ViewBag.FirmId = new SelectList(allFirms, "Id", "Title", book.FirmId);
-            return View(book);
+            BookRepository.Update(book);
+            return RedirectToAction("Index");
         }
 
         // GET: Book/Delete/5

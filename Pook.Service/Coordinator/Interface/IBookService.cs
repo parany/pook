@@ -15,5 +15,7 @@ namespace Pook.Service.Coordinator.Interface
         BookDetails GetDetails(Guid id);
 
         BookCreate GetBookCreate();
+
+        BookCreate GetBookEdit(Guid bookId);
     }
 }

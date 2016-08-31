@@ -13,6 +13,8 @@ namespace Pook.Service.Coordinator.Concrete
 {
     public class BookService : IBookService
     {
+        #region Private Properties
+
         private IGenericRepository<DBook> BookRepository { get; }
 
         private IGenericRepository<Responsability> ResponsabilityRepository { get; }
@@ -28,6 +30,10 @@ namespace Pook.Service.Coordinator.Concrete
         private IGenericRepository<Progression> ProgressionRepository { get; }
 
         private IGenericRepository<Status> StatusRepository { get; }
+
+        #endregion
+
+        #region Constructors
 
         public BookService(IGenericRepository<DBook> bookRepository,
             IGenericRepository<Responsability> responsabilityRepository,
@@ -47,6 +53,10 @@ namespace Pook.Service.Coordinator.Concrete
             StatusRepository = statusRepository;
             ProgressionRepository = progressionRepository;
         }
+
+        #endregion
+
+        #region Public Methods
 
         public IList<SBook> GetAll()
         {
@@ -137,20 +147,15 @@ namespace Pook.Service.Coordinator.Concrete
 
         public BookCreate GetBookCreate()
         {
-            var categories = new SelectList(CategoryRepository.GetAll(), "Id", "Title");
-            var allEditors = EditorRepository.GetAll();
-            allEditors.Insert(0, null);
-            var editors = new SelectList(allEditors, "Id", "Title");
-            var allFirms = FirmRepository.GetAll();
-            allFirms.Insert(0, null);
-            var firms = new SelectList(allFirms, "Id", "Title");
-            var bookCreate = new BookCreate
-            {
-                Categories = categories,
-                Editors = editors,
-                Firms = firms
-            };
-            return bookCreate;
+            return BuidBookCreate();
+        }
+
+        public BookCreate GetBookEdit(Guid bookId)
+        {
+            SBook book = GetSingle(bookId);
+            var bookEdit = BuidBookCreate(book.CategoryId, book.EditorId, book.FirmId);
+            bookEdit.Book = book;
+            return bookEdit;
         }
 
         public SBook GetSingle(Guid id)
@@ -179,18 +184,46 @@ namespace Pook.Service.Coordinator.Concrete
             throw new NotImplementedException();
         }
 
+        #endregion
+
+        #region Private Methods
+
         private SBook Transform(DBook book)
         {
             return new SBook
             {
                 Id = book.Id,
                 Title = book.Title,
+                Description = book.Description,
                 CategoryTitle = book.Category?.Title,
                 EditorTitle = book.Editor?.Title,
                 FirmTitle = book.Firm?.Title,
                 NumberOfPages = book.NumberOfPages,
+                CategoryId = book.CategoryId,
+                EditorId = book.EditorId,
+                FirmId = book.FirmId,
                 ReleaseDate = book.ReleaseDate
             };
         }
+
+        private BookCreate BuidBookCreate(Guid? categoryId = null, Guid? editorId = null, Guid? firmId = null)
+        {
+            var categories = new SelectList(CategoryRepository.GetAll(), "Id", "Title", categoryId);
+            var allEditors = EditorRepository.GetAll();
+            allEditors.Insert(0, null);
+            var editors = new SelectList(allEditors, "Id", "Title", editorId);
+            var allFirms = FirmRepository.GetAll();
+            allFirms.Insert(0, null);
+            var firms = new SelectList(allFirms, "Id", "Title", firmId);
+            var bookCreate = new BookCreate
+            {
+                Categories = categories,
+                Editors = editors,
+                Firms = firms
+            };
+            return bookCreate;
+        }
+
+        #endregion
     }
 }
