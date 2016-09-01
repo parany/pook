@@ -171,6 +171,17 @@ namespace Pook.Service.Coordinator.Concrete
             ProgressionRepository.Add(progression);
         }
 
+        public void UnBookMark(string userId, Guid bookId)
+        {
+            var bookmarkStatus = StatusRepository.GetSingle(s => s.Title == "Bookmarked");
+            var progression = ProgressionRepository.GetSingle(
+                p => p.StatusId == bookmarkStatus.Id
+                && p.BookId == bookId
+                && p.UserId == userId
+                );
+            ProgressionRepository.Delete(progression.Id);
+        }
+
         public SBook GetSingle(Guid id)
         {
             BookRepository.AddNavigationProperties(

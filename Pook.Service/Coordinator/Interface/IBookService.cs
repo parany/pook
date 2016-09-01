@@ -19,5 +19,7 @@ namespace Pook.Service.Coordinator.Interface
         BookCreate GetBookEdit(Guid bookId);
 
         void BookMark(string userId, Guid bookId);
+
+        void UnBookMark(string userId, Guid bookId);
     }
 }
