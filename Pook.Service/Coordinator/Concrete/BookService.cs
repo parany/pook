@@ -176,7 +176,7 @@ namespace Pook.Service.Coordinator.Concrete
 
         public void Update(SBook author)
         {
-            throw new NotImplementedException();
+            BookRepository.Update(StoD(author));
         }
 
         public void Delete(Guid id)
@@ -210,6 +210,7 @@ namespace Pook.Service.Coordinator.Concrete
         {
             return new DBook
             {
+                Id = book.Id,
                 Title = book.Title,
                 Description = book.Description,
                 NumberOfPages = book.NumberOfPages,

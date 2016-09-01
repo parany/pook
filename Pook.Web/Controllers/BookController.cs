@@ -146,9 +146,9 @@ namespace Pook.Web.Controllers
 
         [Route("Edit/{id}"), HttpPost]
         [ValidateAntiForgeryToken, ValidateInput(false), ValidateModel]
-        public ActionResult Edit(DBook book)
+        public ActionResult Edit(SBook book)
         {
-            BookRepository.Update(book);
+            BookService.Update(book);
             return RedirectToAction("Index");
         }
 
