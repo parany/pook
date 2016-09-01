@@ -11,7 +11,7 @@ namespace Pook.Web.Controllers
     [RoutePrefix("Book")]
     public class BookController : Controller
     {
-        private IBookService BookService { get; set; }
+        private IBookService BookService { get; }
 
 
         public BookController(IBookService bookService)
