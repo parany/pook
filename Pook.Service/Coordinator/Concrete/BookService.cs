@@ -68,7 +68,7 @@ namespace Pook.Service.Coordinator.Concrete
             BookRepository.SetSortExpression(l => l.OrderBy(b => b.Title));
 
             var books = BookRepository.GetAll();
-            return books.Select(Transform).ToList();
+            return books.Select(DtoS).ToList();
         }
 
         public IList<BookList> GetList(string userId)
@@ -166,12 +166,12 @@ namespace Pook.Service.Coordinator.Concrete
                 b => b.Firm
                 );
             var book = BookRepository.GetSingle(id);
-            return Transform(book);
+            return DtoS(book);
         }
 
         public void Add(SBook author)
         {
-            throw new NotImplementedException();
+            BookRepository.Add(StoD(author));
         }
 
         public void Update(SBook author)
@@ -188,7 +188,7 @@ namespace Pook.Service.Coordinator.Concrete
 
         #region Private Methods
 
-        private SBook Transform(DBook book)
+        private SBook DtoS(DBook book)
         {
             return new SBook
             {
@@ -203,6 +203,20 @@ namespace Pook.Service.Coordinator.Concrete
                 EditorId = book.EditorId,
                 FirmId = book.FirmId,
                 ReleaseDate = book.ReleaseDate
+            };
+        }
+
+        private DBook StoD(SBook book)
+        {
+            return new DBook
+            {
+                Title = book.Title,
+                Description = book.Description,
+                NumberOfPages = book.NumberOfPages,
+                ReleaseDate = book.ReleaseDate,
+                FirmId = book.FirmId,
+                EditorId = book.EditorId,
+                CategoryId = book.CategoryId
             };
         }
 

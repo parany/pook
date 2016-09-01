@@ -130,9 +130,9 @@ namespace Pook.Web.Controllers
 
         [Route("Create"), HttpPost]
         [ValidateAntiForgeryToken, ValidateInput(false), ValidateModel]
-        public ActionResult Create(DBook book)
+        public ActionResult Create(SBook book)
         {
-            BookRepository.Add(book);
+            BookService.Add(book);
             return RedirectToAction("Index");
         }
 
