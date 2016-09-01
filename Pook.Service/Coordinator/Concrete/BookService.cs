@@ -158,6 +158,19 @@ namespace Pook.Service.Coordinator.Concrete
             return bookEdit;
         }
 
+        public void BookMark(string userId, Guid bookId)
+        {
+            var bookmarkStatus = StatusRepository.GetSingle(s => s.Title == "Bookmarked");
+            var progression = new Progression
+            {
+                BookId = bookId,
+                StatusId = bookmarkStatus.Id,
+                UserId = userId,
+                Date = DateTime.Now
+            };
+            ProgressionRepository.Add(progression);
+        }
+
         public SBook GetSingle(Guid id)
         {
             BookRepository.AddNavigationProperties(

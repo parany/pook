@@ -168,33 +168,20 @@ namespace Pook.Web.Controllers
             return RedirectToAction("Index");
         }
 
-        // GET: Book/Bookmark/5
-        public ActionResult Bookmark(Guid? id)
+        [Route("Bookmark/{id}"), HttpGet]
+        [NotFound]
+        public ActionResult Bookmark(Guid id)
         {
-            if (id == null)
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-
-            DBook book = BookRepository.GetSingle(id.Value);
-            if (book == null)
-                return HttpNotFound();
-
+            SBook book = BookService.GetSingle(id);
             return View(book);
         }
 
-        // POST: Book/Bookmark/5
-        [HttpPost, ActionName("Bookmark")]
+        [Route("Bookmark/{id}"), HttpPost]
+        [ActionName("Bookmark")]
         [ValidateAntiForgeryToken]
         public ActionResult BookmarkConfirmed(Guid id)
         {
-            var bookmarkStatus = StatusRepository.GetSingle(s => s.Title == "Bookmarked");
-            var progression = new Progression
-            {
-                BookId = id,
-                StatusId = bookmarkStatus.Id,
-                UserId = User.Identity.GetUserId(),
-                Date = DateTime.Now
-            };
-            ProgressionRepository.Add(progression);
+            BookService.BookMark(User.Identity.GetUserId(), id);
             return RedirectToAction("Bookmarked");
         }
 
