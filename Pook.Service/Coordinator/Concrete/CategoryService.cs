@@ -32,7 +32,7 @@ namespace Pook.Service.Coordinator.Concrete
 
         public void Add(SCategory author)
         {
-            throw new NotImplementedException();
+            CategoryRepository.Add(StoD(author));
         }
 
         public void Update(SCategory author)
@@ -48,6 +48,16 @@ namespace Pook.Service.Coordinator.Concrete
         private SCategory DtoS(DCategory category)
         {
             return new SCategory
+            {
+                Id = category.Id,
+                Title = category.Title,
+                Description = category.Description
+            };
+        }
+
+        private DCategory StoD(SCategory category)
+        {
+            return new DCategory
             {
                 Id = category.Id,
                 Title = category.Title,

@@ -30,7 +30,7 @@ namespace Pook.Web.Controllers
             return View(author);
         }
 
-        [Route("Create")]
+        [Route("Create"), HttpGet]
         public ActionResult Create()
         {
             return View();
