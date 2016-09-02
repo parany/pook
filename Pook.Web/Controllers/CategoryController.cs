@@ -3,22 +3,30 @@ using System.Net;
 using System.Web.Mvc;
 using Pook.Data.Entities;
 using Pook.Data.Repositories.Interface;
+using Pook.Service.Coordinator.Interface;
 
 namespace Pook.Web.Controllers
 {
+    [RoutePrefix("Category")]
     public class CategoryController : Controller
     {
         private IGenericRepository<Category> CategoryRepository { get; }
 
-        public CategoryController(IGenericRepository<Category> categoryRepository)
+        private ICategoryService CategoryService { get; set; }
+
+        public CategoryController(
+            ICategoryService categoryService,
+            IGenericRepository<Category> categoryRepository
+            )
         {
+            CategoryService = categoryService;
             CategoryRepository = categoryRepository;
         }
 
-        // GET: Category
+        [Route("")]
         public ActionResult Index()
         {
-            return View(CategoryRepository.GetAll());
+            return View(CategoryService.GetAll());
         }
 
         // GET: Category/Create

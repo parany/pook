@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Pook.Data.Entities.Category>
+﻿@model IList<Pook.Service.Models.Categories.Category>
 
 @{
     ViewBag.Title = "Index";
@@ -11,12 +11,8 @@
 </p>
 <table class="table">
     <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Title)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Description)
-        </th>
+        <th>Title</th>
+        <th>Description</th>
         <th></th>
     </tr>
 
