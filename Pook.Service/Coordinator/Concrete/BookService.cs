@@ -7,6 +7,7 @@ using Pook.Data.Repositories.Interface;
 using Pook.Service.Coordinator.Interface;
 using Pook.Service.Models.Books;
 using DBook = Pook.Data.Entities.Book;
+using Firm = Pook.Service.Models.Firms.Firm;
 using SBook = Pook.Service.Models.Books.Book;
 
 namespace Pook.Service.Coordinator.Concrete

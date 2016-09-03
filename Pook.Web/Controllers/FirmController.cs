@@ -3,22 +3,27 @@ using System.Net;
 using System.Web.Mvc;
 using Pook.Data.Entities;
 using Pook.Data.Repositories.Interface;
+using Pook.Service.Coordinator.Interface;
 
 namespace Pook.Web.Controllers
 {
+    [RoutePrefix("Firm")]
     public class FirmController : Controller
     {
         private IGenericRepository<Firm> FirmRepository { get; }
 
-        public FirmController(IGenericRepository<Firm> firmRepository)
+        private IFirmService FirmService { get; set; }
+
+        public FirmController(IGenericRepository<Firm> firmRepository, IFirmService firmService)
         {
+            FirmService = firmService;
             FirmRepository = firmRepository;
         }
 
-        // GET: Firm
+        [Route("")]
         public ActionResult Index()
         {
-            return View(FirmRepository.GetAll());
+            return View(FirmService.GetAll());
         }
 
         // GET: Firm/Create

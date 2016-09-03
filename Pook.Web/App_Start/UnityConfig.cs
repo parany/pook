@@ -46,6 +46,7 @@ namespace Pook.Web
             container.RegisterType<IBookService, BookService>();
             container.RegisterType<ICategoryService, CategoryService>();
             container.RegisterType<IEditorService, EditorService>();
+            container.RegisterType<IFirmService, FirmService>();
 
             DependencyResolver.SetResolver(new UnityDependencyResolver(container));
         }
