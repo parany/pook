@@ -175,9 +175,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Coordinator\Concrete\EditorService.cs" />
     <Compile Include="Coordinator\Concrete\CategoryService.cs" />
     <Compile Include="Coordinator\Concrete\BookService.cs" />
     <Compile Include="Coordinator\Concrete\AuthorService.cs" />
+    <Compile Include="Coordinator\Interface\IEditorService.cs" />
     <Compile Include="Coordinator\Interface\ICategoryService.cs" />
     <Compile Include="Coordinator\Interface\IBookService.cs" />
     <Compile Include="Coordinator\Interface\IGenericService.cs" />
@@ -191,6 +193,7 @@
     <Compile Include="Models\Books\BookDetails.cs" />
     <Compile Include="Models\Books\BookList.cs" />
     <Compile Include="Models\Categories\Category.cs" />
+    <Compile Include="Models\Editors\Editor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Manager\SmsManager.cs" />
   </ItemGroup>

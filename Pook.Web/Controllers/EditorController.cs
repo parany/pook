@@ -3,102 +3,83 @@ using System.Net;
 using System.Web.Mvc;
 using Pook.Data.Entities;
 using Pook.Data.Repositories.Interface;
+using Pook.Service.Coordinator.Interface;
+using Pook.Web.Filters;
+using DEditor = Pook.Data.Entities.Editor;
+using SEditor = Pook.Service.Models.Editors.Editor;
 
 namespace Pook.Web.Controllers
 {
+    [RoutePrefix("Editor")]
     public class EditorController : Controller
     {
         private IGenericRepository<Editor> EditorRepository { get; }
 
-        public EditorController(IGenericRepository<Editor> editorRepository)
+        private IEditorService EditorService { get; set; }
+
+        public EditorController(IGenericRepository<Editor> editorRepository, IEditorService editorService)
         {
+            EditorService = editorService;
             EditorRepository = editorRepository;
         }
 
-        // GET: Editor
+        [Route("")]
         public ActionResult Index()
         {
-            return View(EditorRepository.GetAll());
+            return View(EditorService.GetAll());
         }
 
-        // GET: Editor/Details/5
-        public ActionResult Details(Guid? id)
+        [Route("Details/{id}")]
+        [NotFound]
+        public ActionResult Details(Guid id)
         {
-            if (id == null)
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            
-            Editor editor = EditorRepository.GetSingle(id.Value);
-            if (editor == null)
-                return HttpNotFound();
-            
+            var editor = EditorService.GetSingle(id);
             return View(editor);
         }
 
-        // GET: Editor/Create
+        [Route("Create"), HttpGet]
         public ActionResult Create()
         {
             return View();
         }
 
-        // POST: Editor/Create
-        [HttpPost, ValidateInput(false)]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create(Editor editor)
+        [Route("Create"), HttpPost]
+        [ValidateInput(false), ValidateAntiForgeryToken, ValidateModel]
+        public ActionResult Create(SEditor editor)
         {
-            if (ModelState.IsValid)
-            {
-                EditorRepository.Add(editor);
-                return RedirectToAction("Index");
-            }
+            EditorService.Add(editor);
+            return RedirectToAction("Index");
+        }
 
+        [Route("Edit/{id}")]
+        [NotFound]
+        public ActionResult Edit(Guid id)
+        {
+            var editor = EditorService.GetSingle(id);
             return View(editor);
         }
 
-        // GET: Editor/Edit/5
-        public ActionResult Edit(Guid? id)
+        [Route("Edit/{id}"), HttpPost]
+        [ValidateInput(false), ValidateAntiForgeryToken, ValidateModel]
+        public ActionResult Edit(SEditor editor)
         {
-            if (id == null)
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            EditorService.Update(editor);
+            return RedirectToAction("Index");
+        }
 
-            Editor editor = EditorRepository.GetSingle(id.Value);
-            if (editor == null)
-                return HttpNotFound();
-            
+        [Route("Delete/{id}")]
+        [NotFound]
+        public ActionResult Delete(Guid id)
+        {
+            var editor = EditorService.GetSingle(id);
             return View(editor);
         }
 
-        // POST: Editor/Edit/5
-        [HttpPost, ValidateInput(false)]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit(Editor editor)
-        {
-            if (ModelState.IsValid)
-            {
-                EditorRepository.Update(editor);
-                return RedirectToAction("Index");
-            }
-            return View(editor);
-        }
-
-        // GET: Editor/Delete/5
-        public ActionResult Delete(Guid? id)
-        {
-            if (id == null)
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-
-            Editor editor = EditorRepository.GetSingle(id.Value);
-            if (editor == null)
-                return HttpNotFound();
-            
-            return View(editor);
-        }
-
-        // POST: Editor/Delete/5
-        [HttpPost, ActionName("Delete")]
+        [Route("Delete/{id}"), ActionName("Delete"), HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(Guid id)
         {
-            EditorRepository.Delete(id);
+            EditorService.Delete(id);
             return RedirectToAction("Index");
         }
     }

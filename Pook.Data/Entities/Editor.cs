@@ -9,7 +9,6 @@ namespace Pook.Data.Entities
     {
         public string Title { get; set; }
 
-        [DataType(DataType.MultilineText)]
         public string Description { get; set; }
 
         public string Address { get; set; }
