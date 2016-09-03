@@ -1,28 +1,19 @@
 ﻿using System;
-using System.Net;
 using System.Web.Mvc;
-using Pook.Data.Repositories.Interface;
 using Pook.Service.Coordinator.Interface;
+using Pook.Service.Models.Categories;
 using Pook.Web.Filters;
-using DCategory = Pook.Data.Entities.Category;
-using SCategory = Pook.Service.Models.Categories.Category;
 
 namespace Pook.Web.Controllers
 {
     [RoutePrefix("Category")]
     public class CategoryController : Controller
     {
-        private IGenericRepository<DCategory> CategoryRepository { get; }
-
         private ICategoryService CategoryService { get; set; }
 
-        public CategoryController(
-            ICategoryService categoryService,
-            IGenericRepository<DCategory> categoryRepository
-            )
+        public CategoryController(ICategoryService categoryService)
         {
             CategoryService = categoryService;
-            CategoryRepository = categoryRepository;
         }
 
         [Route("")]
@@ -39,7 +30,7 @@ namespace Pook.Web.Controllers
 
         [Route("Create"), HttpPost]
         [ValidateInput(false), ValidateAntiForgeryToken, ValidateModel]
-        public ActionResult Create(SCategory category)
+        public ActionResult Create(Category category)
         {
             CategoryService.Add(category);
             return RedirectToAction("Index");
@@ -49,13 +40,13 @@ namespace Pook.Web.Controllers
         [NotFound]
         public ActionResult Edit(Guid id)
         {
-            SCategory category = CategoryService.GetSingle(id);
+            Category category = CategoryService.GetSingle(id);
             return View(category);
         }
 
         [Route("Edit/{id}"), HttpPost]
         [ValidateInput(false), ValidateAntiForgeryToken, ValidateModel]
-        public ActionResult Edit(SCategory category)
+        public ActionResult Edit(Category category)
         {
             CategoryService.Update(category);
             return RedirectToAction("Index");
