@@ -27,17 +27,18 @@ namespace Pook.Service.Coordinator.Concrete
 
         public SCategory GetSingle(Guid id)
         {
-            throw new NotImplementedException();
+            var category = CategoryRepository.GetSingle(id);
+            return DtoS(category);
         }
 
-        public void Add(SCategory author)
+        public void Add(SCategory category)
         {
-            CategoryRepository.Add(StoD(author));
+            CategoryRepository.Add(StoD(category));
         }
 
-        public void Update(SCategory author)
+        public void Update(SCategory category)
         {
-            throw new NotImplementedException();
+            CategoryRepository.Update(StoD(category));
         }
 
         public void Delete(Guid id)

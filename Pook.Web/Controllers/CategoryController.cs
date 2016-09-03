@@ -45,31 +45,20 @@ namespace Pook.Web.Controllers
             return RedirectToAction("Index");
         }
 
-        // GET: Category/Edit/5
-        public ActionResult Edit(Guid? id)
+        [Route("Edit/{id}")]
+        [NotFound]
+        public ActionResult Edit(Guid id)
         {
-            if (id == null)
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-
-            DCategory category = CategoryRepository.GetSingle(id.Value);
-
-            if (category == null)
-                return HttpNotFound();
-
+            SCategory category = CategoryService.GetSingle(id);
             return View(category);
         }
 
-        // POST: Category/Edit/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit(DCategory category)
+        [Route("Edit/{id}"), HttpPost]
+        [ValidateInput(false), ValidateAntiForgeryToken, ValidateModel]
+        public ActionResult Edit(SCategory category)
         {
-            if (ModelState.IsValid)
-            {
-                CategoryRepository.Update(category);
-                return RedirectToAction("Index");
-            }
-            return View(category);
+            CategoryService.Update(category);
+            return RedirectToAction("Index");
         }
     }
 }
