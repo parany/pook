@@ -1,26 +1,19 @@
 ﻿using System;
-using System.Net;
 using System.Web.Mvc;
-using Pook.Data.Entities;
-using Pook.Data.Repositories.Interface;
 using Pook.Service.Coordinator.Interface;
+using Pook.Service.Models.Editors;
 using Pook.Web.Filters;
-using DEditor = Pook.Data.Entities.Editor;
-using SEditor = Pook.Service.Models.Editors.Editor;
 
 namespace Pook.Web.Controllers
 {
     [RoutePrefix("Editor")]
     public class EditorController : Controller
     {
-        private IGenericRepository<Editor> EditorRepository { get; }
-
         private IEditorService EditorService { get; set; }
 
-        public EditorController(IGenericRepository<Editor> editorRepository, IEditorService editorService)
+        public EditorController(IEditorService editorService)
         {
             EditorService = editorService;
-            EditorRepository = editorRepository;
         }
 
         [Route("")]
@@ -45,7 +38,7 @@ namespace Pook.Web.Controllers
 
         [Route("Create"), HttpPost]
         [ValidateInput(false), ValidateAntiForgeryToken, ValidateModel]
-        public ActionResult Create(SEditor editor)
+        public ActionResult Create(Editor editor)
         {
             EditorService.Add(editor);
             return RedirectToAction("Index");
@@ -61,7 +54,7 @@ namespace Pook.Web.Controllers
 
         [Route("Edit/{id}"), HttpPost]
         [ValidateInput(false), ValidateAntiForgeryToken, ValidateModel]
-        public ActionResult Edit(SEditor editor)
+        public ActionResult Edit(Editor editor)
         {
             EditorService.Update(editor);
             return RedirectToAction("Index");
