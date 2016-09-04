@@ -201,6 +201,7 @@
     <Compile Include="Models\Firms\Firm.cs" />
     <Compile Include="Models\Notes\Note.cs" />
     <Compile Include="Models\Notes\NoteByBook.cs" />
+    <Compile Include="Models\Notes\NoteCreate.cs" />
     <Compile Include="Models\Notes\NoteSearch.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Manager\SmsManager.cs" />

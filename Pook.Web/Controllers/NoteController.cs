@@ -8,6 +8,7 @@ using Pook.Data.Repositories.Interface;
 using Pook.Service.Coordinator.Concrete;
 using Pook.Service.Coordinator.Interface;
 using Pook.Service.Models.Notes;
+using Pook.Web.Filters;
 using DNote = Pook.Data.Entities.Note;
 using SNote = Pook.Service.Models.Notes.Note;
 
@@ -54,43 +55,26 @@ namespace Pook.Web.Controllers
             return PartialView(notes);
         }
 
-        // GET: Note/ByBook
+        [Route("ByBook")]
         public ActionResult ByBook()
         {
             var userId = User.Identity.GetUserId();
-            var notes = NoteRepository.GetList(p => p.UserId == userId);
-            var books = notes.Select(p => p.Book);
-            var noteSections =
-                (from n in notes
-                 orderby n.Book.Title
-                 group n by n.Book.Id into g
-                 select new NoteByBook
-                 {
-                     Book = books.First(b => b.Id == g.Key).Title,
-                     BookId = g.Key,
-                     Notes = g.OrderBy(n => n.Page).Select(SNote.DtoS).ToList()
-                 }).ToList();
-
-            return View(noteSections);
+            var notesByBook = NoteService.SortByBook(userId);
+            return View(notesByBook);
         }
 
-        [Route("Note/PageNote/{userId}/{bookId}")]
+        [Route("PageNote/{userId}/{bookId}")]
         public ViewResult PageNote(string userId, Guid bookId)
         {
-            var notes = NoteRepository.GetList(n => n.UserId == userId && n.BookId == bookId);
+            var notes = NoteService.GetByBook(userId, bookId);
             return View(notes);
         }
 
-        // GET: Note/Details/5
-        public ActionResult Details(Guid? id)
+        [Route("Details/{id}")]
+        [NotFound]
+        public ActionResult Details(Guid id)
         {
-            if (id == null)
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-
-            DNote note = NoteRepository.GetSingle(id.Value);
-            if (note == null)
-                return HttpNotFound();
-            
+            var note = NoteService.GetSingle(id);
             return View(note);
         }
 
@@ -98,27 +82,18 @@ namespace Pook.Web.Controllers
         [Route("Note/Create/{bookId?}")]
         public ActionResult Create(Guid? bookId)
         {
-            var note = new DNote();
-            if (bookId.HasValue)
-                note.BookId = bookId.Value;
-            else
-                ViewBag.BookId = new SelectList(BookRepository.GetAll(), "Id", "Title");
-            return View(note);
+            var noteCreate = NoteService.BuildNoteCreate(bookId);
+            return View(noteCreate);
         }
 
-        // POST: Note/Create
-        [HttpPost, ValidateInput(false)]
-        [Route("Note/Create/{bookId?}")]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create(DNote note)
+        [Route("Note/Create/{bookId?}"), HttpPost]
+        [ValidateInput(false), ValidateAntiForgeryToken, ValidateModel]
+        public ActionResult Create(NoteCreate createNote)
         {
-            if (ModelState.IsValid)
-            {
-                note.UserId = User.Identity.GetUserId();
-                NoteRepository.Add(note);
-                return RedirectToAction("Details", new { id = note.Id });
-            }
-            return View(note);
+            var note = createNote.Note;
+            note.UserId = User.Identity.GetUserId();
+            NoteService.Add(note);
+            return RedirectToAction("Details", new { id = note.Id });
         }
 
         // GET: Note/Edit/5
@@ -130,13 +105,13 @@ namespace Pook.Web.Controllers
             DNote note = NoteRepository.GetSingle(id.Value);
             if (note == null)
                 return HttpNotFound();
-            
+
             ViewBag.BookId = new SelectList(BookRepository.GetAll(), "Id", "Title", note.BookId);
             return View(note);
         }
 
         // POST: Note/Edit/5
-        [HttpPost, ValidateInput(false) ]
+        [HttpPost, ValidateInput(false)]
         [ValidateAntiForgeryToken]
         public ActionResult Edit(DNote note)
         {
@@ -159,7 +134,7 @@ namespace Pook.Web.Controllers
             DNote note = NoteRepository.GetSingle(id.Value);
             if (note == null)
                 return HttpNotFound();
-            
+
             return View(note);
         }
 

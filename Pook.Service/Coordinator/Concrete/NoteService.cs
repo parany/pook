@@ -37,12 +37,15 @@ namespace Pook.Service.Coordinator.Concrete
 
         public SNote GetSingle(Guid id)
         {
-            throw new NotImplementedException();
+            var note = NoteRepository.GetSingle(id);
+            return SNote.DtoS(note);
         }
 
-        public void Add(SNote entity)
+        public void Add(SNote note)
         {
-            throw new NotImplementedException();
+            var dNote = SNote.StoD(note);
+            NoteRepository.Add(dNote);
+            note.Id = dNote.Id;
         }
 
         public void Update(SNote entity)
@@ -79,14 +82,41 @@ namespace Pook.Service.Coordinator.Concrete
             return notes;
         }
 
-        public IList<NoteByBook> SortByBook()
+        public IList<NoteByBook> SortByBook(string userId)
         {
-            throw new NotImplementedException();
+            var notes = NoteRepository.GetList(p => p.UserId == userId);
+            var books = notes.Select(p => p.Book).ToList();
+            var noteSections =
+                (from n in notes
+                 orderby n.Book.Title
+                 group n by n.Book.Id into g
+                 select new NoteByBook
+                 {
+                     Book = books.First(b => b.Id == g.Key).Title,
+                     BookId = g.Key,
+                     Notes = g.OrderBy(n => n.Page).Select(SNote.DtoS).ToList()
+                 }).ToList();
+            return noteSections;
         }
 
-        public IList<SNote> GetByBook()
+        public IList<SNote> GetByBook(string userId, Guid bookId)
         {
-            throw new NotImplementedException();
+            var notes = NoteRepository
+                .GetList(n => n.UserId == userId && n.BookId == bookId)
+                .Select(SNote.DtoS)
+                .ToList();
+            return notes;
+        }
+
+        public NoteCreate BuildNoteCreate(Guid? bookId = null)
+        {
+            var noteCreate = new NoteCreate { Note = new SNote() };
+            if (bookId.HasValue)
+                noteCreate.Note.BookId = bookId.Value;
+            else
+                noteCreate.BookSelectList = new SelectList(BookRepository.GetAll(), "Id", "Title");
+
+            return noteCreate;
         }
     }
 }

@@ -33,5 +33,18 @@ namespace Pook.Service.Models.Notes
                 BookTitle = note.Book.Title
             };
         }
+
+        public static Data.Entities.Note StoD(Note note)
+        {
+            return new Data.Entities.Note
+            {
+                Id = note.Id,
+                Page = note.Page,
+                Title = note.Title,
+                Description = note.Description,
+                UserId = note.UserId,
+                BookId = note.BookId
+            };
+        }
     }
 }

@@ -1,10 +1,10 @@
-﻿@model IEnumerable<Pook.Data.Entities.Note>
+﻿@model IList<Pook.Service.Models.Notes.Note>
 
 @{
     ViewBag.Title = "Index";
 }
 
-<h2>Note - @Model.First().Book.Title</h2>
+<h2>Note - @Model.First().BookTitle</h2>
 
 <p>
     @Html.ActionLink("Create New", "Create")
@@ -12,12 +12,8 @@
 
 <table class="table">
     <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Page)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Title)
-        </th>
+        <th>Page</th>
+        <th>Title</th>
         <th></th>
     </tr>
 
