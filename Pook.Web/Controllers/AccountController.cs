@@ -16,7 +16,6 @@ namespace Pook.Web.Controllers
     [RoutePrefix("Account")]
     public class AccountController : Controller
     {
-
         #region Private Properties
 
         private ApplicationSignInManager _signInManager;
@@ -444,6 +443,8 @@ namespace Pook.Web.Controllers
         }
         #endregion
 
+        #region Inherited Members
+
         protected override void Dispose(bool disposing)
         {
             if (disposing)
@@ -463,5 +464,7 @@ namespace Pook.Web.Controllers
 
             base.Dispose(disposing);
         }
+
+        #endregion
     }
 }

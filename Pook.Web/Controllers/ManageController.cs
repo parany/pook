@@ -14,18 +14,10 @@ namespace Pook.Web.Controllers
     [RoutePrefix("Manage")]
     public class ManageController : Controller
     {
+        #region Private Properties & Variables
+
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
-
-        public ManageController()
-        {
-        }
-
-        public ManageController(ApplicationUserManager userManager, ApplicationSignInManager signInManager)
-        {
-            UserManager = userManager;
-            SignInManager = signInManager;
-        }
 
         public ApplicationSignInManager SignInManager
         {
@@ -33,9 +25,9 @@ namespace Pook.Web.Controllers
             {
                 return _signInManager ?? HttpContext.GetOwinContext().Get<ApplicationSignInManager>();
             }
-            private set 
-            { 
-                _signInManager = value; 
+            private set
+            {
+                _signInManager = value;
             }
         }
 
@@ -51,8 +43,25 @@ namespace Pook.Web.Controllers
             }
         }
 
-        //
-        // GET: /Manage/Index
+        #endregion
+
+        #region Constructors
+
+        public ManageController()
+        {
+        }
+
+        public ManageController(ApplicationUserManager userManager, ApplicationSignInManager signInManager)
+        {
+            UserManager = userManager;
+            SignInManager = signInManager;
+        }
+
+        #endregion
+
+        #region Actions
+
+        [Route("")]
         public async Task<ActionResult> Index(ManageMessageId? message)
         {
             ViewBag.StatusMessage =
@@ -76,9 +85,7 @@ namespace Pook.Web.Controllers
             return View(model);
         }
 
-        //
-        // POST: /Manage/RemoveLogin
-        [HttpPost]
+        [Route("RemoveLogin"), HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> RemoveLogin(string loginProvider, string providerKey)
         {
@@ -100,16 +107,13 @@ namespace Pook.Web.Controllers
             return RedirectToAction("ManageLogins", new { Message = message });
         }
 
-        //
-        // GET: /Manage/AddPhoneNumber
+        [Route("AddPhoneNumber")]
         public ActionResult AddPhoneNumber()
         {
             return View();
         }
 
-        //
-        // POST: /Manage/EnableTwoFactorAuthentication
-        [HttpPost]
+        [Route("EnableTwoFactorAuthentication"), HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> EnableTwoFactorAuthentication()
         {
@@ -122,9 +126,7 @@ namespace Pook.Web.Controllers
             return RedirectToAction("Index", "Manage");
         }
 
-        //
-        // POST: /Manage/DisableTwoFactorAuthentication
-        [HttpPost]
+        [Route("DisableTwoFactorAuthentication"), HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> DisableTwoFactorAuthentication()
         {
@@ -137,16 +139,13 @@ namespace Pook.Web.Controllers
             return RedirectToAction("Index", "Manage");
         }
         
-        //
-        // GET: /Manage/ChangePassword
+        [Route("ChangePassword")]
         public ActionResult ChangePassword()
         {
             return View();
         }
 
-        //
-        // POST: /Manage/ChangePassword
-        [HttpPost]
+        [Route("ChangePassword"), HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> ChangePassword(ChangePasswordViewModel model)
         {
@@ -168,16 +167,13 @@ namespace Pook.Web.Controllers
             return View(model);
         }
 
-        //
-        // GET: /Manage/SetPassword
+        [Route("SetPassword")]
         public ActionResult SetPassword()
         {
             return View();
         }
 
-        //
-        // POST: /Manage/SetPassword
-        [HttpPost]
+        [Route("SetPassword"), HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> SetPassword(SetPasswordViewModel model)
         {
@@ -200,8 +196,7 @@ namespace Pook.Web.Controllers
             return View(model);
         }
 
-        //
-        // GET: /Manage/ManageLogins
+        [Route("ManageLogins")]
         public async Task<ActionResult> ManageLogins(ManageMessageId? message)
         {
             ViewBag.StatusMessage =
@@ -223,9 +218,7 @@ namespace Pook.Web.Controllers
             });
         }
 
-        //
-        // POST: /Manage/LinkLogin
-        [HttpPost]
+        [Route("LinkLogin"), HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult LinkLogin(string provider)
         {
@@ -233,8 +226,7 @@ namespace Pook.Web.Controllers
             return new AccountController.ChallengeResult(provider, Url.Action("LinkLoginCallback", "Manage"), User.Identity.GetUserId());
         }
 
-        //
-        // GET: /Manage/LinkLoginCallback
+        [Route("LinkLoginCallback")]
         public async Task<ActionResult> LinkLoginCallback()
         {
             var loginInfo = await AuthenticationManager.GetExternalLoginInfoAsync(XsrfKey, User.Identity.GetUserId());
@@ -245,6 +237,10 @@ namespace Pook.Web.Controllers
             var result = await UserManager.AddLoginAsync(User.Identity.GetUserId(), loginInfo.Login);
             return result.Succeeded ? RedirectToAction("ManageLogins") : RedirectToAction("ManageLogins", new { Message = ManageMessageId.Error });
         }
+
+        #endregion
+
+        #region Inherited Members
 
         protected override void Dispose(bool disposing)
         {
@@ -257,17 +253,14 @@ namespace Pook.Web.Controllers
             base.Dispose(disposing);
         }
 
-#region Helpers
+        #endregion
+
+        #region Helpers
+
         // Used for XSRF protection when adding external logins
         private const string XsrfKey = "XsrfId";
 
-        private IAuthenticationManager AuthenticationManager
-        {
-            get
-            {
-                return HttpContext.GetOwinContext().Authentication;
-            }
-        }
+        private IAuthenticationManager AuthenticationManager => HttpContext.GetOwinContext().Authentication;
 
         private void AddErrors(IdentityResult result)
         {
@@ -280,21 +273,7 @@ namespace Pook.Web.Controllers
         private bool HasPassword()
         {
             var user = UserManager.FindById(User.Identity.GetUserId());
-            if (user != null)
-            {
-                return user.PasswordHash != null;
-            }
-            return false;
-        }
-
-        private bool HasPhoneNumber()
-        {
-            var user = UserManager.FindById(User.Identity.GetUserId());
-            if (user != null)
-            {
-                return user.PhoneNumber != null;
-            }
-            return false;
+            return user?.PasswordHash != null;
         }
 
         public enum ManageMessageId
@@ -308,6 +287,6 @@ namespace Pook.Web.Controllers
             Error
         }
 
-#endregion
+        #endregion
     }
 }
