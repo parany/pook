@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using Pook.Data.Entities;
 
 namespace Pook.Service.Models.Firms
 {

@@ -1,26 +1,19 @@
 ﻿using System;
-using System.Net;
 using System.Web.Mvc;
-using Pook.Data.Entities;
-using Pook.Data.Repositories.Interface;
 using Pook.Service.Coordinator.Interface;
+using Pook.Service.Models.Firms;
 using Pook.Web.Filters;
-using DFirm = Pook.Data.Entities.Firm;
-using SFirm = Pook.Service.Models.Firms.Firm;
 
 namespace Pook.Web.Controllers
 {
     [RoutePrefix("Firm")]
     public class FirmController : Controller
     {
-        private IGenericRepository<DFirm> FirmRepository { get; }
-
         private IFirmService FirmService { get; set; }
 
-        public FirmController(IGenericRepository<DFirm> firmRepository, IFirmService firmService)
+        public FirmController(IFirmService firmService)
         {
             FirmService = firmService;
-            FirmRepository = firmRepository;
         }
 
         [Route("")]
@@ -37,7 +30,7 @@ namespace Pook.Web.Controllers
 
         [Route("Create"), HttpPost]
         [ValidateInput(false), ValidateAntiForgeryToken, ValidateModel]
-        public ActionResult Create(SFirm firm)
+        public ActionResult Create(Firm firm)
         {
             FirmService.Add(firm);
             return RedirectToAction("Index");
@@ -53,7 +46,7 @@ namespace Pook.Web.Controllers
 
         [Route("Edit/{id}"), HttpPost]
         [ValidateInput(false), ValidateAntiForgeryToken, ValidateModel]
-        public ActionResult Edit(SFirm firm)
+        public ActionResult Edit(Firm firm)
         {
             FirmService.Update(firm);
             return RedirectToAction("Index");
