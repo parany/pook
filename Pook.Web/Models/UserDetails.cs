@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Pook.Data.Entities;
+using Pook.Service.Models.Notes;
 
 namespace Pook.Web.Models
 {
@@ -10,7 +11,7 @@ namespace Pook.Web.Models
 
         public List<ProgressionSection> ProgressionSections { get; set; }
 
-        public List<NoteSection> NoteSections { get; set; }
+        public List<NoteByBook> NoteSections { get; set; }
     }
 
     public class ProgressionSection
@@ -20,14 +21,5 @@ namespace Pook.Web.Models
         public Guid BookId { get; set; }
 
         public IList<Progression> Progressions { get; set; } 
-    }
-
-    public class NoteSection
-    {
-        public string Book { get; set; }
-
-        public Guid BookId { get; set; }
-
-        public IList<Note> Notes { get; set; }
     }
 }

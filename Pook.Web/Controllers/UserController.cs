@@ -3,7 +3,11 @@ using System.Net;
 using System.Web.Mvc;
 using Pook.Data.Entities;
 using Pook.Data.Repositories.Interface;
+using Pook.Service.Coordinator.Concrete;
+using Pook.Service.Models.Notes;
 using Pook.Web.Models;
+using DNote = Pook.Data.Entities.Note;
+using SNote = Pook.Service.Models.Notes.Note;
 
 namespace Pook.Web.Controllers
 {
@@ -13,12 +17,12 @@ namespace Pook.Web.Controllers
 
         private IGenericRepository<Progression> ProgressionRepository { get; }
 
-        private IGenericRepository<Note> NoteRepository { get; }
+        private IGenericRepository<DNote> NoteRepository { get; }
 
         public UserController(
             IUserRepository userRepository,
             IGenericRepository<Progression> progressionRepository,
-            IGenericRepository<Note> noteRepository
+            IGenericRepository<DNote> noteRepository
             )
         {
             UserRepository = userRepository;
@@ -70,10 +74,10 @@ namespace Pook.Web.Controllers
             var noteSections =
                 from p in notes
                 group p by p.Book.Title into g
-                select new NoteSection
+                select new NoteByBook
                 {
                     Book = g.Key,
-                    Notes = g.ToList()
+                    Notes = g.Select(SNote.DtoS).ToList()
                 };
             userDetails.NoteSections = noteSections.ToList();
 

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Pook.Data.Entities
@@ -24,7 +23,6 @@ namespace Pook.Data.Entities
 
         public string Title { get; set; }
 
-        [DataType(DataType.MultilineText)]
         public string Description { get; set; }
     }
 }

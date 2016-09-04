@@ -5,22 +5,30 @@ using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
 using Pook.Data.Entities;
 using Pook.Data.Repositories.Interface;
-using Pook.Web.Models;
+using Pook.Service.Coordinator.Concrete;
+using Pook.Service.Coordinator.Interface;
+using Pook.Service.Models.Notes;
+using DNote = Pook.Data.Entities.Note;
+using SNote = Pook.Service.Models.Notes.Note;
 
 namespace Pook.Web.Controllers
 {
+    [RoutePrefix("Note")]
     public class NoteController : Controller
     {
-        private IGenericRepository<Note> NoteRepository { get; set; }
+        private IGenericRepository<DNote> NoteRepository { get; set; }
 
         private IGenericRepository<Book> BookRepository { get; set; }
 
+        private INoteService NoteService { get; set; }
 
         public NoteController(
-            IGenericRepository<Note> noteRepository,
-            IGenericRepository<Book> bookRepository
+            IGenericRepository<DNote> noteRepository,
+            IGenericRepository<Book> bookRepository,
+            NoteService noteService
             )
         {
+            NoteService = noteService;
             NoteRepository = noteRepository;
             BookRepository = bookRepository;
 
@@ -29,34 +37,20 @@ namespace Pook.Web.Controllers
                 n => n.User
                 );
             NoteRepository.SetSortExpression(l => l.OrderBy(n => n.CreatedOn));
-            bookRepository.SetSortExpression(l => l.OrderBy(b => b.Title));
+            BookRepository.SetSortExpression(l => l.OrderBy(b => b.Title));
         }
 
-        // GET: Note/ByDate
+        [Route("ByDate")]
         public ActionResult ByDate()
         {
-            NoteRepository.SetSortExpression(l => l.OrderBy(n => n.CreatedOn));
-            var books = BookRepository.GetAll();
-            books.Insert(0, null);
-            var noteSearch = new NoteSearch
-            {
-                Notes = NoteRepository.GetAll(),
-                Books = new SelectList(books, "Id", "Title")
-            };
+            var noteSearch = NoteService.SortByDate();
             return View(noteSearch);
         }
 
-        // GET: Note/Search
+        [Route("Search")]
         public ActionResult Search(NoteSearch search)
         {
-            NoteRepository.SetSortExpression(l => l.OrderBy(n => n.CreatedOn));
-            var notes = NoteRepository
-                .GetList(n =>
-                    (search.BookId == null || n.BookId == search.BookId)
-                    && (search.NoteTitle == null || n.Title.Contains(search.NoteTitle))
-                    && (search.NoteDescription == null || n.Description.Contains(search.NoteDescription)))
-                .ToList();
-
+            var notes = NoteService.Search(search);
             return PartialView(notes);
         }
 
@@ -70,11 +64,11 @@ namespace Pook.Web.Controllers
                 (from n in notes
                  orderby n.Book.Title
                  group n by n.Book.Id into g
-                 select new NoteSection
+                 select new NoteByBook
                  {
                      Book = books.First(b => b.Id == g.Key).Title,
                      BookId = g.Key,
-                     Notes = g.OrderBy(n => n.Page).ToList()
+                     Notes = g.OrderBy(n => n.Page).Select(SNote.DtoS).ToList()
                  }).ToList();
 
             return View(noteSections);
@@ -93,7 +87,7 @@ namespace Pook.Web.Controllers
             if (id == null)
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 
-            Note note = NoteRepository.GetSingle(id.Value);
+            DNote note = NoteRepository.GetSingle(id.Value);
             if (note == null)
                 return HttpNotFound();
             
@@ -104,7 +98,7 @@ namespace Pook.Web.Controllers
         [Route("Note/Create/{bookId?}")]
         public ActionResult Create(Guid? bookId)
         {
-            var note = new Note();
+            var note = new DNote();
             if (bookId.HasValue)
                 note.BookId = bookId.Value;
             else
@@ -116,7 +110,7 @@ namespace Pook.Web.Controllers
         [HttpPost, ValidateInput(false)]
         [Route("Note/Create/{bookId?}")]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(Note note)
+        public ActionResult Create(DNote note)
         {
             if (ModelState.IsValid)
             {
@@ -133,7 +127,7 @@ namespace Pook.Web.Controllers
             if (id == null)
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 
-            Note note = NoteRepository.GetSingle(id.Value);
+            DNote note = NoteRepository.GetSingle(id.Value);
             if (note == null)
                 return HttpNotFound();
             
@@ -144,7 +138,7 @@ namespace Pook.Web.Controllers
         // POST: Note/Edit/5
         [HttpPost, ValidateInput(false) ]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(Note note)
+        public ActionResult Edit(DNote note)
         {
             if (ModelState.IsValid)
             {
@@ -162,7 +156,7 @@ namespace Pook.Web.Controllers
             if (id == null)
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 
-            Note note = NoteRepository.GetSingle(id.Value);
+            DNote note = NoteRepository.GetSingle(id.Value);
             if (note == null)
                 return HttpNotFound();
             

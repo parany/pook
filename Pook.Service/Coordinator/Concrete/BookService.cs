@@ -8,6 +8,8 @@ using Pook.Service.Coordinator.Interface;
 using Pook.Service.Models.Books;
 using DBook = Pook.Data.Entities.Book;
 using SBook = Pook.Service.Models.Books.Book;
+using SNote = Pook.Service.Models.Notes.Note;
+using DNote = Pook.Data.Entities.Note;
 
 namespace Pook.Service.Coordinator.Concrete
 {
@@ -19,7 +21,7 @@ namespace Pook.Service.Coordinator.Concrete
 
         private IGenericRepository<Responsability> ResponsabilityRepository { get; }
 
-        private IGenericRepository<Note> NoteRepository { get; }
+        private IGenericRepository<DNote> NoteRepository { get; }
 
         private IGenericRepository<Category> CategoryRepository { get; }
 
@@ -37,7 +39,7 @@ namespace Pook.Service.Coordinator.Concrete
 
         public BookService(IGenericRepository<DBook> bookRepository,
             IGenericRepository<Responsability> responsabilityRepository,
-            IGenericRepository<Note> noteRepository,
+            IGenericRepository<DNote> noteRepository,
             IGenericRepository<Category> categoryRepository,
             IGenericRepository<Firm> firmRepository,
             IGenericRepository<Progression> progressionRepository,
@@ -140,7 +142,7 @@ namespace Pook.Service.Coordinator.Concrete
             {
                 Book = book,
                 Responsabilities = ResponsabilityRepository.GetList(r => r.BookId == book.Id),
-                Notes = NoteRepository.GetList(n => n.BookId == book.Id)
+                Notes = NoteRepository.GetList(n => n.BookId == book.Id).Select(SNote.DtoS).ToList()
             };
             return model;
         }

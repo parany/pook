@@ -1,11 +1,11 @@
-﻿@model IEnumerable<Pook.Data.Entities.Note>
+﻿@model IList<Pook.Service.Models.Notes.Note>
 
 <table class="table">
     @foreach (var item in Model)
     {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.Book.Title)
+                @Html.DisplayFor(modelItem => item.BookTitle)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Page)
