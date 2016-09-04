@@ -9,9 +9,9 @@ namespace Pook.Service.Coordinator.Interface
 
         T GetSingle(Guid id);
 
-        void Add(T author);
+        void Add(T entity);
 
-        void Update(T author);
+        void Update(T entity);
 
         void Delete(Guid id);
     }

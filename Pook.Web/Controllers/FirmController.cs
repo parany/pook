@@ -4,17 +4,20 @@ using System.Web.Mvc;
 using Pook.Data.Entities;
 using Pook.Data.Repositories.Interface;
 using Pook.Service.Coordinator.Interface;
+using Pook.Web.Filters;
+using DFirm = Pook.Data.Entities.Firm;
+using SFirm = Pook.Service.Models.Firms.Firm;
 
 namespace Pook.Web.Controllers
 {
     [RoutePrefix("Firm")]
     public class FirmController : Controller
     {
-        private IGenericRepository<Firm> FirmRepository { get; }
+        private IGenericRepository<DFirm> FirmRepository { get; }
 
         private IFirmService FirmService { get; set; }
 
-        public FirmController(IGenericRepository<Firm> firmRepository, IFirmService firmService)
+        public FirmController(IGenericRepository<DFirm> firmRepository, IFirmService firmService)
         {
             FirmService = firmService;
             FirmRepository = firmRepository;
@@ -26,71 +29,49 @@ namespace Pook.Web.Controllers
             return View(FirmService.GetAll());
         }
 
-        // GET: Firm/Create
+        [Route("Create"), HttpGet]
         public ActionResult Create()
         {
             return View();
         }
 
-        // POST: Firm/Create
-        [HttpPost, ValidateInput(false)]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create(Firm firm)
+        [Route("Create"), HttpPost]
+        [ValidateInput(false), ValidateAntiForgeryToken, ValidateModel]
+        public ActionResult Create(SFirm firm)
         {
-            if (ModelState.IsValid)
-            {
-                FirmRepository.Add(firm);
-                return RedirectToAction("Index");
-            }
+            FirmService.Add(firm);
+            return RedirectToAction("Index");
+        }
 
+        [Route("Edit/{id}")]
+        [NotFound]
+        public ActionResult Edit(Guid id)
+        {
+            var firm = FirmService.GetSingle(id);
             return View(firm);
         }
 
-        // GET: Firm/Edit/5
-        public ActionResult Edit(Guid? id)
+        [Route("Edit/{id}"), HttpPost]
+        [ValidateInput(false), ValidateAntiForgeryToken, ValidateModel]
+        public ActionResult Edit(SFirm firm)
         {
-            if (id == null)
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            FirmService.Update(firm);
+            return RedirectToAction("Index");
+        }
 
-            Firm firm = FirmRepository.GetSingle(id.Value);
-            if (firm == null)
-                return HttpNotFound();
-            
+        [Route("Delete/{id}")]
+        [NotFound]
+        public ActionResult Delete(Guid id)
+        {
+            var firm = FirmService.GetSingle(id);
             return View(firm);
         }
 
-        // POST: Firm/Edit/5
-        [HttpPost, ValidateInput(false)]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit(Firm firm)
-        {
-            if (ModelState.IsValid)
-            {
-                FirmRepository.Update(firm);
-                return RedirectToAction("Index");
-            }
-            return View(firm);
-        }
-
-        // GET: Firm/Delete/5
-        public ActionResult Delete(Guid? id)
-        {
-            if (id == null)
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-
-            Firm firm = FirmRepository.GetSingle(id.Value);
-            if (firm == null)
-                return HttpNotFound();
-            
-            return View(firm);
-        }
-
-        // POST: Firm/Delete/5
-        [HttpPost, ActionName("Delete")]
+        [Route("Delete/{id}"), ActionName("Delete"), HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(Guid id)
         {
-            FirmRepository.Delete(id);
+            FirmService.Delete(id);
             return RedirectToAction("Index");
         }
     }

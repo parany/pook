@@ -27,22 +27,23 @@ namespace Pook.Service.Coordinator.Concrete
 
         public SFirm GetSingle(Guid id)
         {
-            throw new NotImplementedException();
+            var firm = FirmRepository.GetSingle(id);
+            return DtoS(firm);
         }
 
-        public void Add(SFirm author)
+        public void Add(SFirm firm)
         {
-            throw new NotImplementedException();
+            FirmRepository.Add(StoD(firm));
         }
 
-        public void Update(SFirm author)
+        public void Update(SFirm firm)
         {
-            throw new NotImplementedException();
+            FirmRepository.Update(StoD(firm));
         }
 
         public void Delete(Guid id)
         {
-            throw new NotImplementedException();
+            FirmRepository.Delete(id);
         }
 
         private SFirm DtoS(DFirm firm)
