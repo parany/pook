@@ -9,7 +9,7 @@ namespace Pook.Web.Controllers
     [RoutePrefix("Firm")]
     public class FirmController : Controller
     {
-        private IFirmService FirmService { get; set; }
+        private IFirmService FirmService { get; }
 
         public FirmController(IFirmService firmService)
         {

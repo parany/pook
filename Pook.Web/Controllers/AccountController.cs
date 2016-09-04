@@ -13,6 +13,7 @@ using Pook.Web.Models;
 namespace Pook.Web.Controllers
 {
     [Authorize]
+    [RoutePrefix("Account")]
     public class AccountController : Controller
     {
 
@@ -64,8 +65,7 @@ namespace Pook.Web.Controllers
 
         #region Actions
 
-        //
-        // GET: /Account/Login
+        [Route("Login"), HttpGet]
         [AllowAnonymous]
         public ActionResult Login(string returnUrl)
         {
@@ -73,9 +73,7 @@ namespace Pook.Web.Controllers
             return View();
         }
 
-        //
-        // POST: /Account/Login
-        [HttpPost]
+        [Route("Login"), HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Login(LoginViewModel model, string returnUrl)
@@ -103,8 +101,7 @@ namespace Pook.Web.Controllers
             }
         }
 
-        //
-        // GET: /Account/VerifyCode
+        [Route("VerifyCode"), HttpGet]
         [AllowAnonymous]
         public async Task<ActionResult> VerifyCode(string provider, string returnUrl, bool rememberMe)
         {
@@ -116,9 +113,7 @@ namespace Pook.Web.Controllers
             return View(new VerifyCodeViewModel { Provider = provider, ReturnUrl = returnUrl, RememberMe = rememberMe });
         }
 
-        //
-        // POST: /Account/VerifyCode
-        [HttpPost]
+        [Route("VerifyCode"), HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> VerifyCode(VerifyCodeViewModel model)
@@ -146,17 +141,14 @@ namespace Pook.Web.Controllers
             }
         }
 
-        //
-        // GET: /Account/Register
+        [Route("Register"), HttpGet]
         [AllowAnonymous]
         public ActionResult Register()
         {
             return View();
         }
 
-        //
-        // POST: /Account/Register
-        [HttpPost]
+        [Route("Register"), HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Register(RegisterViewModel model)
@@ -184,8 +176,7 @@ namespace Pook.Web.Controllers
             return View(model);
         }
 
-        //
-        // GET: /Account/ConfirmEmail
+        [Route("ConfirmEmail")]
         [AllowAnonymous]
         public async Task<ActionResult> ConfirmEmail(string userId, string code)
         {
@@ -197,17 +188,14 @@ namespace Pook.Web.Controllers
             return View(result.Succeeded ? "ConfirmEmail" : "Error");
         }
 
-        //
-        // GET: /Account/ForgotPassword
+        [Route("ForgotPassword"), HttpGet]
         [AllowAnonymous]
         public ActionResult ForgotPassword()
         {
             return View();
         }
 
-        //
-        // POST: /Account/ForgotPassword
-        [HttpPost]
+        [Route("ForgotPassword"), HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> ForgotPassword(ForgotPasswordViewModel model)
@@ -233,25 +221,21 @@ namespace Pook.Web.Controllers
             return View(model);
         }
 
-        //
-        // GET: /Account/ForgotPasswordConfirmation
+        [Route("ForgotPasswordConfirmation")]
         [AllowAnonymous]
         public ActionResult ForgotPasswordConfirmation()
         {
             return View();
         }
 
-        //
-        // GET: /Account/ResetPassword
+        [Route("ResetPassword"), HttpGet]
         [AllowAnonymous]
         public ActionResult ResetPassword(string code)
         {
             return code == null ? View("Error") : View();
         }
 
-        //
-        // POST: /Account/ResetPassword
-        [HttpPost]
+        [Route("ResetPassword"), HttpPost]
         [AllowAnonymous]
         public async Task<ActionResult> ResetPassword(ResetPasswordViewModel model)
         {
@@ -270,17 +254,14 @@ namespace Pook.Web.Controllers
             return View();
         }
 
-        //
-        // GET: /Account/ResetPasswordConfirmation
+        [Route("ResetPasswordConfirmation")]
         [AllowAnonymous]
         public ActionResult ResetPasswordConfirmation()
         {
             return View();
         }
 
-        //
-        // POST: /Account/ExternalLogin
-        [HttpPost]
+        [Route("ExternalLogin"), HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
         public ActionResult ExternalLogin(string provider, string returnUrl)
@@ -289,8 +270,7 @@ namespace Pook.Web.Controllers
             return new ChallengeResult(provider, Url.Action("ExternalLoginCallback", "Account", new { ReturnUrl = returnUrl }));
         }
 
-        //
-        // GET: /Account/SendCode
+        [Route("SendCode"), HttpGet]
         [AllowAnonymous]
         public async Task<ActionResult> SendCode(string returnUrl, bool rememberMe)
         {
@@ -304,9 +284,7 @@ namespace Pook.Web.Controllers
             return View(new SendCodeViewModel { Providers = factorOptions, ReturnUrl = returnUrl, RememberMe = rememberMe });
         }
 
-        //
-        // POST: /Account/SendCode
-        [HttpPost]
+        [Route("SendCode"), HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> SendCode(SendCodeViewModel model)
@@ -324,8 +302,7 @@ namespace Pook.Web.Controllers
             return RedirectToAction("VerifyCode", new { Provider = model.SelectedProvider, ReturnUrl = model.ReturnUrl, RememberMe = model.RememberMe });
         }
 
-        //
-        // GET: /Account/ExternalLoginCallback
+        [Route("ExternalLoginCallback")]
         [AllowAnonymous]
         public async Task<ActionResult> ExternalLoginCallback(string returnUrl)
         {
@@ -354,9 +331,7 @@ namespace Pook.Web.Controllers
             }
         }
 
-        //
-        // POST: /Account/ExternalLoginConfirmation
-        [HttpPost]
+        [Route("ExternalLoginConfirmation"), HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> ExternalLoginConfirmation(ExternalLoginConfirmationViewModel model, string returnUrl)
@@ -392,9 +367,7 @@ namespace Pook.Web.Controllers
             return View(model);
         }
 
-        //
-        // POST: /Account/LogOff
-        [HttpPost]
+        [Route("LogOff"), HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult LogOff()
         {
@@ -402,8 +375,7 @@ namespace Pook.Web.Controllers
             return RedirectToAction("Login");
         }
 
-        //
-        // GET: /Account/ExternalLoginFailure
+        [Route("ExternalLoginFailure")]
         [AllowAnonymous]
         public ActionResult ExternalLoginFailure()
         {
