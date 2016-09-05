@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
 namespace Pook.Service.Models.Notes
@@ -16,6 +17,7 @@ namespace Pook.Service.Models.Notes
 
         public string UserId { get; set; }
 
+        [DisplayName("Book")]
         public Guid BookId { get; set; }
 
         public string BookTitle { get; set; }

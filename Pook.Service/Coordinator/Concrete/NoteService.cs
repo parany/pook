@@ -50,12 +50,12 @@ namespace Pook.Service.Coordinator.Concrete
 
         public void Update(SNote entity)
         {
-            throw new NotImplementedException();
+            NoteRepository.Update(SNote.StoD(entity));
         }
 
         public void Delete(Guid id)
         {
-            throw new NotImplementedException();
+            NoteRepository.Delete(id);
         }
 
         public NoteSearch SortByDate()
@@ -116,6 +116,16 @@ namespace Pook.Service.Coordinator.Concrete
             else
                 noteCreate.BookSelectList = new SelectList(BookRepository.GetAll(), "Id", "Title");
 
+            return noteCreate;
+        }
+
+        public NoteCreate BuildNoteCreate(SNote note)
+        {
+            var noteCreate = new NoteCreate
+            {
+                Note = note,
+                BookSelectList = new SelectList(BookRepository.GetAll(), "Id", "Title", note.BookId)
+            };
             return noteCreate;
         }
     }

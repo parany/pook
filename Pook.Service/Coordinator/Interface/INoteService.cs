@@ -15,5 +15,7 @@ namespace Pook.Service.Coordinator.Interface
         IList<Note> GetByBook(string userId, Guid bookId);
 
         NoteCreate BuildNoteCreate(Guid? bookId = null);
+
+        NoteCreate BuildNoteCreate(Note note);
     }
 }

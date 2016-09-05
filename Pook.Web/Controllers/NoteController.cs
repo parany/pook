@@ -79,71 +79,53 @@ namespace Pook.Web.Controllers
         }
 
         [HttpGet]
-        [Route("Note/Create/{bookId?}")]
+        [Route("Create/{bookId?}")]
         public ActionResult Create(Guid? bookId)
         {
             var noteCreate = NoteService.BuildNoteCreate(bookId);
             return View(noteCreate);
         }
 
-        [Route("Note/Create/{bookId?}"), HttpPost]
+        [Route("Create/{bookId?}"), HttpPost]
         [ValidateInput(false), ValidateAntiForgeryToken, ValidateModel]
-        public ActionResult Create(NoteCreate createNote)
+        public ActionResult Create(SNote note)
         {
-            var note = createNote.Note;
             note.UserId = User.Identity.GetUserId();
             NoteService.Add(note);
             return RedirectToAction("Details", new { id = note.Id });
         }
 
-        // GET: Note/Edit/5
-        public ActionResult Edit(Guid? id)
+        [Route("Edit/{id}")]
+        [NotFound]
+        public ActionResult Edit(Guid id)
         {
-            if (id == null)
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            var note = NoteService.GetSingle(id);
+            var createNote = NoteService.BuildNoteCreate(note);
+            return View(createNote);
+        }
 
-            DNote note = NoteRepository.GetSingle(id.Value);
-            if (note == null)
-                return HttpNotFound();
+        [Route("Edit/{id}"), HttpPost]
+        [ValidateInput(false), ValidateAntiForgeryToken, ValidateModel]
+        public ActionResult Edit(SNote note)
+        {
+            note.UserId = User.Identity.GetUserId();
+            NoteService.Update(note);
+            return RedirectToAction("Details", new { id = note.Id });
+        }
 
-            ViewBag.BookId = new SelectList(BookRepository.GetAll(), "Id", "Title", note.BookId);
+        [Route("Delete/{id}")]
+        [NotFound]
+        public ActionResult Delete(Guid id)
+        {
+            var note = NoteService.GetSingle(id);
             return View(note);
         }
 
-        // POST: Note/Edit/5
-        [HttpPost, ValidateInput(false)]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit(DNote note)
-        {
-            if (ModelState.IsValid)
-            {
-                note.UserId = User.Identity.GetUserId();
-                NoteRepository.Update(note);
-                return RedirectToAction("Details", new { id = note.Id });
-            }
-            ViewBag.BookId = new SelectList(BookRepository.GetAll(), "Id", "Title", note.BookId);
-            return View(note);
-        }
-
-        // GET: Note/Delete/5
-        public ActionResult Delete(Guid? id)
-        {
-            if (id == null)
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-
-            DNote note = NoteRepository.GetSingle(id.Value);
-            if (note == null)
-                return HttpNotFound();
-
-            return View(note);
-        }
-
-        // POST: Note/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
+        [Route("Delete/{id}"), HttpPost, ActionName("Delete")]
+        [ValidateInput(false), ValidateAntiForgeryToken, ValidateModel]
         public ActionResult DeleteConfirmed(Guid id)
         {
-            NoteRepository.Delete(id);
+            NoteService.Delete(id);
             return RedirectToAction("ByBook");
         }
     }
