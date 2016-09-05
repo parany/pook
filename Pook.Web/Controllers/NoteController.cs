@@ -1,44 +1,21 @@
 ﻿using System;
-using System.Linq;
-using System.Net;
 using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
-using Pook.Data.Entities;
-using Pook.Data.Repositories.Interface;
 using Pook.Service.Coordinator.Concrete;
 using Pook.Service.Coordinator.Interface;
 using Pook.Service.Models.Notes;
 using Pook.Web.Filters;
-using DNote = Pook.Data.Entities.Note;
-using SNote = Pook.Service.Models.Notes.Note;
 
 namespace Pook.Web.Controllers
 {
     [RoutePrefix("Note")]
     public class NoteController : Controller
     {
-        private IGenericRepository<DNote> NoteRepository { get; set; }
+        private INoteService NoteService { get; }
 
-        private IGenericRepository<Book> BookRepository { get; set; }
-
-        private INoteService NoteService { get; set; }
-
-        public NoteController(
-            IGenericRepository<DNote> noteRepository,
-            IGenericRepository<Book> bookRepository,
-            NoteService noteService
-            )
+        public NoteController(NoteService noteService)
         {
             NoteService = noteService;
-            NoteRepository = noteRepository;
-            BookRepository = bookRepository;
-
-            NoteRepository.AddNavigationProperties(
-                n => n.Book,
-                n => n.User
-                );
-            NoteRepository.SetSortExpression(l => l.OrderBy(n => n.CreatedOn));
-            BookRepository.SetSortExpression(l => l.OrderBy(b => b.Title));
         }
 
         [Route("ByDate")]
@@ -88,7 +65,7 @@ namespace Pook.Web.Controllers
 
         [Route("Create/{bookId?}"), HttpPost]
         [ValidateInput(false), ValidateAntiForgeryToken, ValidateModel]
-        public ActionResult Create(SNote note)
+        public ActionResult Create(Note note)
         {
             note.UserId = User.Identity.GetUserId();
             NoteService.Add(note);
@@ -106,7 +83,7 @@ namespace Pook.Web.Controllers
 
         [Route("Edit/{id}"), HttpPost]
         [ValidateInput(false), ValidateAntiForgeryToken, ValidateModel]
-        public ActionResult Edit(SNote note)
+        public ActionResult Edit(Note note)
         {
             note.UserId = User.Identity.GetUserId();
             NoteService.Update(note);

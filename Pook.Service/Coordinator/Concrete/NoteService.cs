@@ -15,7 +15,7 @@ namespace Pook.Service.Coordinator.Concrete
     {
         private IGenericRepository<DNote> NoteRepository { get; }
 
-        private IGenericRepository<Book> BookRepository { get; set; }
+        private IGenericRepository<Book> BookRepository { get; }
 
         public NoteService(IGenericRepository<DNote> noteRepository, IGenericRepository<Book> bookRepository)
         {
