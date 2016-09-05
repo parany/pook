@@ -64,15 +64,17 @@ namespace Pook.Service.Coordinator.Concrete
 
         public ProgressionSearch SortByDate()
         {
-            var model = new ProgressionSearch();
             var now = DateTime.Now;
-            model.EndDate = now;
-            model.StartDate = now.AddDays(-90);
-            ProgressionRepository.SetSortExpression(p => p.OrderByDescending(r => r.Date));
+            var model = new ProgressionSearch
+            {
+                EndDate = now,
+                StartDate = now.AddDays(-90)
+            };
             var progressions = ProgressionRepository
                 .GetList(p => p.Date >= model.StartDate && p.Date <= model.EndDate)
                 .Select(SProgression.DtoS)
                 .ToList();
+            model.Progressions = progressions;
 
             var books = BookRepository.GetAll();
             books.Insert(0, null);
@@ -81,9 +83,36 @@ namespace Pook.Service.Coordinator.Concrete
             statuses.Insert(0, null);
             model.Statuses = new SelectList(statuses, "Id", "Title");
 
-            model.Progressions = progressions;
-
             return model;
+        }
+
+        public List<SProgression> Search(ProgressionSearch search)
+        {
+            var progressions = ProgressionRepository
+                .GetList(p =>
+                    (search.BookId == null || p.BookId == search.BookId)
+                    && (search.StatusId == null || p.StatusId == search.StatusId)
+                    && p.Date >= search.StartDate && p.Date <= search.EndDate)
+                .Select(SProgression.DtoS)
+                .ToList();
+            return progressions;
+        }
+
+        public List<ProgressionSection> SortByBook(string userId)
+        {
+            var progressions = ProgressionRepository.GetList(p => p.UserId == userId);
+            var books = progressions.Select(p => p.Book);
+            var progressionSections =
+                (from p in progressions
+                 orderby p.Book.Title
+                 group p by p.Book.Id into g
+                 select new ProgressionSection
+                 {
+                     Book = books.First(b => b.Id == g.Key).Title,
+                     BookId = g.Key,
+                     Progressions = g.Select(SProgression.DtoS).ToList(),
+                 }).ToList();
+            return progressionSections;
         }
     }
 }

@@ -3,10 +3,12 @@ using System.Net;
 using System.Web.Mvc;
 using Pook.Data.Entities;
 using Pook.Data.Repositories.Interface;
-using Pook.Service.Coordinator.Concrete;
 using Pook.Service.Models.Notes;
+using Pook.Service.Models.Progressions;
 using Pook.Web.Models;
 using DNote = Pook.Data.Entities.Note;
+using Progression = Pook.Data.Entities.Progression;
+using SProgression = Pook.Service.Models.Progressions.Progression;
 using SNote = Pook.Service.Models.Notes.Note;
 
 namespace Pook.Web.Controllers
@@ -65,7 +67,7 @@ namespace Pook.Web.Controllers
                 {
                     Book = books.First(b => b.Id == g.Key).Title,
                     BookId = g.Key,
-                    Progressions = g.ToList()
+                    Progressions = g.Select(SProgression.DtoS).ToList()
                 };
             userDetails.ProgressionSections = progressionSections.ToList();
 

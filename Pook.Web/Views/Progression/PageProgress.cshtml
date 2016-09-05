@@ -1,10 +1,10 @@
-﻿@model IEnumerable<Pook.Data.Entities.Progression>
+﻿@model List<Pook.Service.Models.Progressions.Progression>
 
 @{
     ViewBag.Title = "PageProgress";
 }
 
-<h2>Progression - @Model.First().Book.Title</h2>
+<h2>Progression - @Model.First().BookTitle</h2>
 
 <p>
     @Html.ActionLink("Create New", "Create")
@@ -12,12 +12,8 @@
 
 <table class="table">
     <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Date)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Page)
-        </th>
+        <th>Date</th>
+        <th>Status</th>
         <th></th>
     </tr>
 
@@ -28,7 +24,7 @@
                 @Html.DisplayFor(modelItem => item.Date)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Status.Title)
+                @Html.DisplayFor(modelItem => item.StatusTitle)
             </td>
             <td>
                 @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |

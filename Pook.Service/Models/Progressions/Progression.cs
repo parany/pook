@@ -1,7 +1,5 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using Pook.Service.Models.Books;
 
 namespace Pook.Service.Models.Progressions
 {
@@ -34,7 +32,8 @@ namespace Pook.Service.Models.Progressions
                 Date = p.Date,
                 BookTitle = p.Book.Title,
                 StatusTitle = p.Status.Title == "Current" ? p.Page.ToString() : p.Status.Title,
-                UserName = p.User.FullName
+                UserName = p.User.FullName,
+                UserId = p.UserId
             };
         }
     }

@@ -53,41 +53,22 @@ namespace Pook.Web.Controllers
             return View(model);
         }
 
-        // GET: Progression/Search
+        [Route("Search")]
         public ActionResult Search(ProgressionSearch search)
         {
-            ProgressionRepository.SetSortExpression(p => p.OrderByDescending(r => r.Date));
-            var progressions = ProgressionRepository
-                .GetList(p =>
-                    (search.BookId == null || p.BookId == search.BookId)
-                    && (search.StatusId == null || p.StatusId == search.StatusId)
-                    && (p.Date >= search.StartDate && p.Date <= search.EndDate))
-                .ToList();
-
+            var progressions = ProgressionService.Search(search);
             return PartialView(progressions);
         }
 
-        // GET: Progression/ByBook
+        [Route("ByBook")]
         public ActionResult ByBook()
         {
             var userId = User.Identity.GetUserId();
-            var progressions = ProgressionRepository.GetList(p => p.UserId == userId);
-            var books = progressions.Select(p => p.Book);
-            var progressionSections =
-                (from p in progressions
-                 orderby p.Book.Title
-                 group p by p.Book.Id into g
-                 select new ProgressionSection
-                 {
-                     Book = books.First(b => b.Id == g.Key).Title,
-                     BookId = g.Key,
-                     Progressions = g.ToList()
-                 }).ToList();
-
-            return View(progressionSections);
+            var progressions = ProgressionService.SortByBook(userId);
+            return View(progressions);
         }
 
-        [Route("Progression/PageProgress/{userId}/{bookId}")]
+        [Route("PageProgress/{userId}/{bookId}")]
         public ActionResult PageProgress(string userId, Guid bookId)
         {
             ProgressionRepository.SetSortExpression(p => p.OrderByDescending(r => r.Date));
