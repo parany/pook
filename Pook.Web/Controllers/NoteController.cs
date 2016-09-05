@@ -13,7 +13,7 @@ namespace Pook.Web.Controllers
     {
         private INoteService NoteService { get; }
 
-        public NoteController(NoteService noteService)
+        public NoteController(INoteService noteService)
         {
             NoteService = noteService;
         }

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Pook.Data.Entities
@@ -22,7 +21,6 @@ namespace Pook.Data.Entities
 
         public virtual User User { get; set; }
 
-        [DisplayFormat(DataFormatString = "{0:dd-MMM-yyyy}", ApplyFormatInEditMode = false)]
         public DateTime Date { get; set; }
 
         [Index("IX_Progression", 1, IsUnique = true, Order = 6)]

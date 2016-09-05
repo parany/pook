@@ -48,6 +48,7 @@ namespace Pook.Web
             container.RegisterType<IEditorService, EditorService>();
             container.RegisterType<IFirmService, FirmService>();
             container.RegisterType<INoteService, NoteService>();
+            container.RegisterType<IProgressionService, ProgressionService>();
 
             DependencyResolver.SetResolver(new UnityDependencyResolver(container));
         }

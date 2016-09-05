@@ -5,23 +5,31 @@ using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
 using Pook.Data.Entities;
 using Pook.Data.Repositories.Interface;
+using Pook.Service.Coordinator.Interface;
+using Pook.Service.Models.Progressions;
 using Pook.Web.Models;
+using DProgression = Pook.Data.Entities.Progression;
+using SProgression = Pook.Service.Models.Progressions.Progression;
 
 namespace Pook.Web.Controllers
 {
+    [RoutePrefix("Progression")]
     public class ProgressionController : Controller
     {
-        private IGenericRepository<Progression> ProgressionRepository { get; set; }
+        private IGenericRepository<DProgression> ProgressionRepository { get; set; }
 
         private IGenericRepository<Book> BookRepository { get; set; }
 
         private IGenericRepository<Status> StatusRepository { get; set; }
 
+        private IProgressionService ProgressionService { get; set; }
+
 
         public ProgressionController(
-            IGenericRepository<Progression> progressionRepository,
+            IGenericRepository<DProgression> progressionRepository,
             IGenericRepository<Book> bookRepository,
-            IGenericRepository<Status> statusRepository
+            IGenericRepository<Status> statusRepository,
+            IProgressionService progressionService
             )
         {
             ProgressionRepository = progressionRepository;
@@ -34,37 +42,14 @@ namespace Pook.Web.Controllers
                 p => p.User
                 );
             ProgressionRepository.SetSortExpression(l => l.OrderByDescending(p => p.Date));
+
+            ProgressionService = progressionService;
         }
 
-        // GET: Progression/ByDate
+        [Route("ByDate")]
         public ActionResult ByDate()
         {
-            var model = new ProgressionSearch();
-            var now = DateTime.Now;
-            model.EndDate = now;
-            model.StartDate = now.AddDays(-90);
-            ProgressionRepository.SetSortExpression(p => p.OrderByDescending(r => r.Date));
-            var progressions = ProgressionRepository
-                .GetList(p => p.Date >= model.StartDate && p.Date <= model.EndDate)
-                .ToList();
-
-            var books = BookRepository.GetAll();
-            books.Insert(0, null);
-            model.Books = new SelectList(books, "Id", "Title");
-            var statuses = StatusRepository.GetAll();
-            statuses.Insert(0, null);
-            model.Statuses = new SelectList(statuses, "Id", "Title");
-
-            progressions = progressions.Select(p => new Progression
-            {
-                Id = p.Id,
-                Date = p.Date,
-                Book = p.Book,
-                Status = new Status { Title = p.Status.Title == "Current" ? p.Page.ToString() : p.Status.Title },
-                User = p.User
-            }).ToList();
-            model.Progressions = progressions;
-
+            var model = ProgressionService.SortByDate();
             return View(model);
         }
 
@@ -78,15 +63,6 @@ namespace Pook.Web.Controllers
                     && (search.StatusId == null || p.StatusId == search.StatusId)
                     && (p.Date >= search.StartDate && p.Date <= search.EndDate))
                 .ToList();
-
-            progressions = progressions.Select(p => new Progression
-            {
-                Id = p.Id,
-                Date = p.Date,
-                Book = p.Book,
-                Status = new Status { Title = p.Status.Title == "Current" ? p.Page.ToString() : p.Status.Title },
-                User = p.User
-            }).ToList();
 
             return PartialView(progressions);
         }
@@ -117,15 +93,8 @@ namespace Pook.Web.Controllers
             ProgressionRepository.SetSortExpression(p => p.OrderByDescending(r => r.Date));
             var progressions = ProgressionRepository
                 .GetList(p => p.UserId == userId && p.BookId == bookId)
+                .Select(SProgression.DtoS)
                 .ToList();
-            progressions = progressions.Select(p => new Progression
-            {
-                Id = p.Id,
-                Date = p.Date,
-                Book = p.Book,
-                Status = new Status { Title = p.Status.Title == "Current" ? p.Page.ToString() : p.Status.Title },
-                User = p.User
-            }).ToList();
             return View(progressions);
         }
 
@@ -133,7 +102,7 @@ namespace Pook.Web.Controllers
         [Route("Progression/Create/{bookId}")]
         public ActionResult Create(Guid bookId)
         {
-            var progression = new Progression
+            var progression = new DProgression
             {
                 BookId = bookId,
                 Date = DateTime.Now,
@@ -145,7 +114,7 @@ namespace Pook.Web.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Route("Progression/Create/{bookId}")]
-        public ActionResult Create(Progression progression, Guid bookId)
+        public ActionResult Create(DProgression progression, Guid bookId)
         {
             if (ModelState.IsValid)
             {
@@ -168,7 +137,7 @@ namespace Pook.Web.Controllers
             if (id == null)
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 
-            Progression progression = ProgressionRepository.GetSingle(id.Value);
+            DProgression progression = ProgressionRepository.GetSingle(id.Value);
             if (progression == null)
                 return HttpNotFound();
 
@@ -180,7 +149,7 @@ namespace Pook.Web.Controllers
         // POST: Progression/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(Progression progression)
+        public ActionResult Edit(DProgression progression)
         {
             if (ModelState.IsValid)
             {
@@ -203,7 +172,7 @@ namespace Pook.Web.Controllers
             if (id == null)
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 
-            Progression progression = ProgressionRepository.GetSingle(id.Value);
+            DProgression progression = ProgressionRepository.GetSingle(id.Value);
             if (progression == null)
                 return HttpNotFound();
 

@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Pook.Data.Entities.Progression>
+﻿@model IEnumerable<Pook.Service.Models.Progressions.Progression>
 
 <table class="table">
     @foreach (var item in Model)
@@ -8,10 +8,10 @@
                 @Html.DisplayFor(modelItem => item.Date)
             </td>
             <td class="col-md-2">
-                @Html.DisplayFor(modelItem => item.Book.Title)
+                @Html.DisplayFor(modelItem => item.BookTitle)
             </td>
             <td class="col-md-2">
-                @Html.DisplayFor(modelItem => item.Status.Title)
+                @Html.DisplayFor(modelItem => item.StatusTitle)
             </td>
             <td class="col-md-2">
                 @Html.ActionLink("Edit", "Edit", new {id = item.Id}) |
