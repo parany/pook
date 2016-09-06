@@ -3,23 +3,33 @@ using System.Net;
 using System.Web.Mvc;
 using Pook.Data.Entities;
 using Pook.Data.Repositories.Interface;
+using Pook.Service.Coordinator.Interface;
+using Pook.Web.Filters;
+using SResponsability = Pook.Service.Models.ResponsabilityTypes.Responsability;
+using DResponsability = Pook.Data.Entities.Responsability;
 
 namespace Pook.Web.Controllers
 {
+    [RoutePrefix("Responsability")]
     public class ResponsabilityController : Controller
     {
-        private IGenericRepository<Responsability> ResponsabilityRepository { get; }
+        private IGenericRepository<DResponsability> ResponsabilityRepository { get; }
 
         private IGenericRepository<Author> AuthorRepository { get; }
 
         private IGenericRepository<ResponsabilityType> ResponsabilityTypeRepository { get; }
 
+        private IResponsabilityService ResponsabilityService { get; set; }
+
         public ResponsabilityController(
             IGenericRepository<Responsability> responsabilityRepository,
             IGenericRepository<ResponsabilityType> responsabilityTypeRepository,
-            IGenericRepository<Author> authorRepository
+            IGenericRepository<Author> authorRepository,
+            IResponsabilityService responsabilityService
             )
         {
+            ResponsabilityService = responsabilityService;
+
             ResponsabilityRepository = responsabilityRepository;
             ResponsabilityTypeRepository = responsabilityTypeRepository;
             AuthorRepository = authorRepository;
@@ -31,51 +41,35 @@ namespace Pook.Web.Controllers
                 );
         }
 
-        // GET: Responsability/Create
-        [Route("Responsability/Create/{bookId?}")]
+        [Route("Create/{bookId?}"), HttpGet]
         public ActionResult Create(Guid? bookId)
         {
-            ViewBag.AuthorId = new SelectList(AuthorRepository.GetAll(), "Id", "FullName");
-            ViewBag.ResponsabilityTypeId = new SelectList(ResponsabilityTypeRepository.GetAll(), "Id", "Title");
-            return View();
+            var responsabilityCreate = ResponsabilityService.BuildResponsabilityCreate();
+            return View(responsabilityCreate);
         }
 
-        [Route("Responsability/Create/{bookId?}")]
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create(Guid? bookId, Responsability responsability)
+        [Route("Create/{bookId}"), HttpPost]
+        [ValidateAntiForgeryToken, ValidateModel]
+        public ActionResult Create(Guid bookId, SResponsability responsability)
         {
-            if (ModelState.IsValid)
-            {
-                responsability.BookId = bookId.GetValueOrDefault();
-                ResponsabilityRepository.Add(responsability);
-                return RedirectToAction("Details", "Book", new { id = responsability.BookId });
-            }
+            responsability.BookId = bookId;
+            ResponsabilityService.Add(responsability);
+            return RedirectToAction("Details", "Book", new { id = responsability.BookId });
+        }
 
-            ViewBag.AuthorId = new SelectList(AuthorRepository.GetAll(), "Id", "FullName");
-            ViewBag.ResponsabilityTypeId = new SelectList(ResponsabilityTypeRepository.GetAll(), "Id", "Title");
+        [Route("Delete/{id}")]
+        [NotFound]
+        public ActionResult Delete(Guid id)
+        {
+            var responsability = ResponsabilityService.GetSingle(id);
             return View(responsability);
         }
 
-        // GET: Responsability/Delete/5
-        public ActionResult Delete(Guid? id)
-        {
-            if (id == null)
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-
-            Responsability responsability = ResponsabilityRepository.GetSingle(id.Value);
-            if (responsability == null)
-                return HttpNotFound();
-
-            return View(responsability);
-        }
-
-        // POST: Responsability/Delete/5
-        [HttpPost, ActionName("Delete")]
+        [Route("Delete/{id}"), HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(Guid id)
         {
-            Responsability responsability = ResponsabilityRepository.GetSingle(id);
+            var responsability = ResponsabilityService.GetSingle(id);
             ResponsabilityRepository.Delete(id);
             return RedirectToAction("Details", "Book", new { id = responsability.BookId });
         }
