@@ -49,7 +49,9 @@ namespace Pook.Data.Repositories.Concrete
         {
             using (var context = new PookDbContext())
             {
-                context.Users.Remove(new User { Id = id });
+                var user = new User {Id = id};
+                context.Users.Attach(user);
+                context.Users.Remove(user);
                 context.SaveChanges();
             }
         }
