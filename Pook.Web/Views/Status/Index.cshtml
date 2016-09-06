@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Pook.Data.Entities.Status>
+﻿@model IList<Pook.Service.Models.Statuses.Status>
 
 @{
     ViewBag.Title = "Index";
@@ -11,9 +11,7 @@
 </p>
 <table class="table">
     <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Title)
-        </th>
+        <th>Title</th>
         <th></th>
     </tr>
 

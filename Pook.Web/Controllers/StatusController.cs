@@ -3,70 +3,60 @@ using System.Net;
 using System.Web.Mvc;
 using Pook.Data.Entities;
 using Pook.Data.Repositories.Interface;
+using Pook.Service.Coordinator.Interface;
+using Pook.Web.Filters;
+using DStatus = Pook.Data.Entities.Status;
+using SStatus = Pook.Service.Models.Statuses.Status;
 
 namespace Pook.Web.Controllers
 {
+    [RoutePrefix("Status")]
     public class StatusController : Controller
     {
-        private IGenericRepository<Status> StatusRepository { get; }
+        private IGenericRepository<DStatus> StatusRepository { get; }
 
-        public StatusController(IGenericRepository<Status> statusRepository)
+        private IStatusService StatusService { get; set; }
+
+        public StatusController(IGenericRepository<DStatus> statusRepository, IStatusService statusService)
         {
+            StatusService = statusService;
             StatusRepository = statusRepository;
         }
 
-        // GET: Status
+        [Route("")]
         public ActionResult Index()
         {
-            return View(StatusRepository.GetAll());
+            return View(StatusService.GetAll());
         }
 
-        // GET: Status/Create
+        [Route("Create"), HttpGet]
         public ActionResult Create()
         {
             return View();
         }
 
-        // POST: Status/Create
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create(Status status)
+        [Route("Create"), HttpPost]
+        [ValidateInput(false), ValidateAntiForgeryToken, ValidateModel]
+        public ActionResult Create(SStatus status)
         {
-            if (ModelState.IsValid)
-            {
-                StatusRepository.Add(status);
-                return RedirectToAction("Index");
-            }
+            StatusService.Add(status);
+            return RedirectToAction("Index");
+        }
 
+        [Route("Edit/{id}")]
+        [NotFound]
+        public ActionResult Edit(Guid id)
+        {
+            var status = StatusService.GetSingle(id);
             return View(status);
         }
 
-        // GET: Status/Edit/5
-        public ActionResult Edit(Guid? id)
+        [Route("Edit/{id}"), HttpPost]
+        [ValidateInput(false), ValidateAntiForgeryToken, ValidateModel]
+        public ActionResult Edit(SStatus status)
         {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Status status = StatusRepository.GetSingle(id.Value);
-            if (status == null)
-            {
-                return HttpNotFound();
-            }
-            return View(status);
-        }
-
-        // POST: Status/Edit/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit(Status status)
-        {
-            if (ModelState.IsValid)
-            {
-                StatusRepository.Update(status);
-                return RedirectToAction("Index");
-            }
-            return View(status);
+            StatusService.Update(status);
+            return RedirectToAction("Index");
         }
     }
 }
