@@ -51,6 +51,7 @@ namespace Pook.Web
             container.RegisterType<IProgressionService, ProgressionService>();
             container.RegisterType<IResponsabilityTypeService, ResponsabilityTypeService>();
             container.RegisterType<IStatusService, StatusService>();
+            container.RegisterType<IUserService, UserService>();
 
             DependencyResolver.SetResolver(new UnityDependencyResolver(container));
         }

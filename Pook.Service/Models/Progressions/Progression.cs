@@ -39,7 +39,7 @@ namespace Pook.Service.Models.Progressions
                 Page = p.Page,
                 BookTitle = p.Book.Title,
                 StatusTitle = p.Status.Title == "Current" ? p.Page.ToString() : p.Status.Title,
-                UserName = p.User.FullName,
+                UserName = p.User != null ? p.User.FullName : string.Empty,
                 UserId = p.UserId,
                 BookId = p.BookId,
                 StatusId = p.StatusId

@@ -3,6 +3,7 @@ using System.Net;
 using System.Web.Mvc;
 using Pook.Data.Entities;
 using Pook.Data.Repositories.Interface;
+using Pook.Service.Coordinator.Interface;
 using Pook.Service.Models.Notes;
 using Pook.Service.Models.Progressions;
 using Pook.Web.Models;
@@ -10,9 +11,11 @@ using DNote = Pook.Data.Entities.Note;
 using Progression = Pook.Data.Entities.Progression;
 using SProgression = Pook.Service.Models.Progressions.Progression;
 using SNote = Pook.Service.Models.Notes.Note;
+using DUser = Pook.Data.Entities.User;
 
 namespace Pook.Web.Controllers
 {
+    [RoutePrefix("User")]
     public class UserController : Controller
     {
         private IUserRepository UserRepository { get; }
@@ -21,12 +24,17 @@ namespace Pook.Web.Controllers
 
         private IGenericRepository<DNote> NoteRepository { get; }
 
+        private IUserService UserService { get; set; }
+
         public UserController(
             IUserRepository userRepository,
             IGenericRepository<Progression> progressionRepository,
-            IGenericRepository<DNote> noteRepository
+            IGenericRepository<DNote> noteRepository,
+            IUserService userService
             )
         {
+            UserService = userService;
+
             UserRepository = userRepository;
             ProgressionRepository = progressionRepository;
             NoteRepository = noteRepository;
@@ -40,9 +48,10 @@ namespace Pook.Web.Controllers
             NoteRepository.AddNavigationProperty(n => n.Book);
         }
 
+        [Route("")]
         public ActionResult Index()
         {
-            return View(UserRepository.GetAll());
+            return View(UserService.GetAll());
         }
 
         // GET: User/Details/5
@@ -51,7 +60,7 @@ namespace Pook.Web.Controllers
             if (id == null)
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 
-            User user = UserRepository.GetSingle(id);
+            DUser user = UserRepository.GetSingle(id);
             if (user == null)
                 return HttpNotFound();
 
@@ -95,7 +104,7 @@ namespace Pook.Web.Controllers
         // POST: User/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(User user)
+        public ActionResult Create(DUser user)
         {
             if (ModelState.IsValid)
             {
@@ -122,7 +131,7 @@ namespace Pook.Web.Controllers
         // POST: User/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(User user)
+        public ActionResult Edit(DUser user)
         {
             if (ModelState.IsValid)
             {

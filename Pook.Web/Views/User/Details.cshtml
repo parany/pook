@@ -83,13 +83,13 @@
                 {
                     <tr class="col-md-10">
                         <td class="col-md-6">
-                            @if (progression.Status.Title == "Current")
+                            @if (progression.StatusTitle == "Current")
                             {
                                 @progression.Page
                             }
                             else
                             {
-                                @progression.Status.Title
+                                @progression.StatusTitle
                             }
                         </td>
                         <td class="col-md-6">@progression.Date.ToString("dd-MMM-yyyy")</td>

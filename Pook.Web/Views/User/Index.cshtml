@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Pook.Data.Entities.User>
+﻿@model List<Pook.Service.Models.Users.User>
 
 @{
     ViewBag.Title = "Index";
@@ -11,18 +11,10 @@
 </p>
 <table class="table">
     <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.FirstName)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.LastName)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Email)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.UserName)
-        </th>
+        <th>First Name</th>
+        <th>Last Name</th>
+        <th>Email</th>
+        <th>User Name</th>
         <th></th>
     </tr>
 
