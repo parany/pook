@@ -9,7 +9,7 @@ namespace Pook.Web.Controllers
     [RoutePrefix("ResponsabilityType")]
     public class ResponsabilityTypeController : Controller
     {
-        private IResponsabilityTypeService ResponsabilityTypeService { get; set; }
+        private IResponsabilityTypeService ResponsabilityTypeService { get; }
 
         public ResponsabilityTypeController(IResponsabilityTypeService responsabilityTypeService)
         {

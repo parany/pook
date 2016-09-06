@@ -9,7 +9,7 @@ namespace Pook.Web.Controllers
     [RoutePrefix("Status")]
     public class StatusController : Controller
     {
-        private IStatusService StatusService { get; set; }
+        private IStatusService StatusService { get; }
 
         public StatusController(IStatusService statusService)
         {

@@ -10,6 +10,7 @@ using DBook = Pook.Data.Entities.Book;
 using SBook = Pook.Service.Models.Books.Book;
 using SNote = Pook.Service.Models.Notes.Note;
 using DNote = Pook.Data.Entities.Note;
+using SResponsability = Pook.Service.Models.ResponsabilityTypes.Responsability;
 
 namespace Pook.Service.Coordinator.Concrete
 {
@@ -54,6 +55,26 @@ namespace Pook.Service.Coordinator.Concrete
             EditorRepository = editorRepository;
             StatusRepository = statusRepository;
             ProgressionRepository = progressionRepository;
+
+            NoteRepository.SetSortExpression(l => l.OrderBy(o => o.Page));
+            NoteRepository.AddNavigationProperties(
+                u => u.User, 
+                u => u.Book
+                );
+
+            ResponsabilityRepository.AddNavigationProperties(
+                r => r.Author, 
+                r => r.ResponsabilityType
+                );
+
+            BookRepository.AddNavigationProperties(
+                b => b.Category,
+                b => b.Editor,
+                b => b.Firm
+                );
+            BookRepository.SetSortExpression(l => l.OrderBy(b => b.Title));
+
+            ProgressionRepository.AddNavigationProperty(b => b.Status);
         }
 
         #endregion
@@ -62,22 +83,12 @@ namespace Pook.Service.Coordinator.Concrete
 
         public IList<SBook> GetAll()
         {
-            BookRepository.AddNavigationProperties(
-                b => b.Category,
-                b => b.Editor,
-                b => b.Firm
-                );
-            BookRepository.SetSortExpression(l => l.OrderBy(b => b.Title));
-
             var books = BookRepository.GetAll();
             return books.Select(DtoS).ToList();
         }
 
         public IList<BookList> GetList(string userId)
         {
-            BookRepository.AddNavigationProperty(b => b.Category);
-            ProgressionRepository.AddNavigationProperty(b => b.Status);
-
             var books = BookRepository.GetAll();
             var progressions = ProgressionRepository.GetList(b => b.UserId == userId);
             progressions =
@@ -103,9 +114,6 @@ namespace Pook.Service.Coordinator.Concrete
 
         public IList<BookList> GetListByStatus(string userId, Func<Progression, bool> filter)
         {
-            BookRepository.AddNavigationProperty(b => b.Category);
-            ProgressionRepository.AddNavigationProperty(b => b.Status);
-
             var books = BookRepository.GetAll();
             var progressions = ProgressionRepository.GetList(p => p.UserId == userId);
             progressions =
@@ -134,14 +142,11 @@ namespace Pook.Service.Coordinator.Concrete
 
         public BookDetails GetDetails(Guid id)
         {
-            NoteRepository.SetSortExpression(l => l.OrderBy(o => o.Page));
-            NoteRepository.AddNavigationProperty(u => u.User);
-
             SBook book = GetSingle(id);
             var model = new BookDetails
             {
                 Book = book,
-                Responsabilities = ResponsabilityRepository.GetList(r => r.BookId == book.Id),
+                Responsabilities = ResponsabilityRepository.GetList(r => r.BookId == book.Id).Select(SResponsability.DtoS).ToList(),
                 Notes = NoteRepository.GetList(n => n.BookId == book.Id).Select(SNote.DtoS).ToList()
             };
             return model;
@@ -186,11 +191,6 @@ namespace Pook.Service.Coordinator.Concrete
 
         public SBook GetSingle(Guid id)
         {
-            BookRepository.AddNavigationProperties(
-                b => b.Category,
-                b => b.Editor,
-                b => b.Firm
-                );
             var book = BookRepository.GetSingle(id);
             return DtoS(book);
         }

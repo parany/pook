@@ -8,7 +8,7 @@ namespace Pook.Web.Controllers
     [RoutePrefix("User")]
     public class UserController : Controller
     {
-        private IUserService UserService { get; set; }
+        private IUserService UserService { get; }
 
         public UserController(IUserService userService)
         {

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
-using Pook.Service.Coordinator.Concrete;
 using Pook.Service.Coordinator.Interface;
 using Pook.Service.Models.Notes;
 using Pook.Web.Filters;

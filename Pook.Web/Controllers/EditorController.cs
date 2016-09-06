@@ -9,7 +9,7 @@ namespace Pook.Web.Controllers
     [RoutePrefix("Editor")]
     public class EditorController : Controller
     {
-        private IEditorService EditorService { get; set; }
+        private IEditorService EditorService { get; }
 
         public EditorController(IEditorService editorService)
         {

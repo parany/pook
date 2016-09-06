@@ -3,13 +3,10 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
 using Microsoft.Owin.Security.Cookies;
-using Microsoft.Owin.Security.Google;
 using Owin;
 using Pook.Data;
 using Pook.Data.Entities;
-using Pook.Service;
 using Pook.Service.Manager;
-using Pook.Web.Models;
 
 namespace Pook.Web
 {

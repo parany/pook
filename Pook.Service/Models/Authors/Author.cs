@@ -21,5 +21,18 @@ namespace Pook.Service.Models.Authors
         public string Email { get; set; }
 
         public string Address { get; set; }
+
+        public static Author DtoS(Data.Entities.Author author)
+        {
+            return new Author
+            {
+                Id = author.Id,
+                FirstName = author.FirstName,
+                LastName = author.LastName,
+                Description = author.Description,
+                Address = author.Address,
+                Email = author.Email
+            };
+        }
     }
 }

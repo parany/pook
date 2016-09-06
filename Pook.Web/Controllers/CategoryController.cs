@@ -9,7 +9,7 @@ namespace Pook.Web.Controllers
     [RoutePrefix("Category")]
     public class CategoryController : Controller
     {
-        private ICategoryService CategoryService { get; set; }
+        private ICategoryService CategoryService { get; }
 
         public CategoryController(ICategoryService categoryService)
         {

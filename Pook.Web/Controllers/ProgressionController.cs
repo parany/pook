@@ -10,7 +10,7 @@ namespace Pook.Web.Controllers
     [RoutePrefix("Progression")]
     public class ProgressionController : Controller
     {
-        private IProgressionService ProgressionService { get; set; }
+        private IProgressionService ProgressionService { get; }
 
 
         public ProgressionController(IProgressionService progressionService)

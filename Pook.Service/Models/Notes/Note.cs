@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using Pook.Service.Models.Users;
 
 namespace Pook.Service.Models.Notes
 {
@@ -22,6 +23,8 @@ namespace Pook.Service.Models.Notes
 
         public string BookTitle { get; set; }
 
+        public User User { get; set; }
+
         public static Note DtoS(Data.Entities.Note note)
         {
             return new Note
@@ -32,7 +35,8 @@ namespace Pook.Service.Models.Notes
                 Description = note.Description,
                 UserId = note.UserId,
                 BookId = note.BookId,
-                BookTitle = note.Book.Title
+                BookTitle = note.Book.Title,
+                User = User.DtoS(note.User)
             };
         }
 

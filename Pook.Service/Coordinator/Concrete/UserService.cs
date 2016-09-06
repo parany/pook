@@ -40,7 +40,10 @@ namespace Pook.Service.Coordinator.Concrete
                 p => p.Status
                 );
             NoteRepository.SetSortExpression(list => list.OrderBy(n => n.Page));
-            NoteRepository.AddNavigationProperty(n => n.Book);
+            NoteRepository.AddNavigationProperties(
+                n => n.Book,
+                n => n.User
+                );
         }
 
         public IList<SUser> GetAll()

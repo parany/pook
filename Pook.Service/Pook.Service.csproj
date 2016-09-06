@@ -215,6 +215,7 @@
     <Compile Include="Models\Progressions\ProgressionCreate.cs" />
     <Compile Include="Models\Progressions\ProgressionSearch.cs" />
     <Compile Include="Models\Progressions\ProgressionSection.cs" />
+    <Compile Include="Models\ResponsabilityTypes\Responsability.cs" />
     <Compile Include="Models\ResponsabilityTypes\ResponsabilityType.cs" />
     <Compile Include="Models\Statuses\Status.cs" />
     <Compile Include="Models\Users\User.cs" />
