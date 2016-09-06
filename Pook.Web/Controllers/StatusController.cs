@@ -1,26 +1,19 @@
 ﻿using System;
-using System.Net;
 using System.Web.Mvc;
-using Pook.Data.Entities;
-using Pook.Data.Repositories.Interface;
 using Pook.Service.Coordinator.Interface;
+using Pook.Service.Models.Statuses;
 using Pook.Web.Filters;
-using DStatus = Pook.Data.Entities.Status;
-using SStatus = Pook.Service.Models.Statuses.Status;
 
 namespace Pook.Web.Controllers
 {
     [RoutePrefix("Status")]
     public class StatusController : Controller
     {
-        private IGenericRepository<DStatus> StatusRepository { get; }
-
         private IStatusService StatusService { get; set; }
 
-        public StatusController(IGenericRepository<DStatus> statusRepository, IStatusService statusService)
+        public StatusController(IStatusService statusService)
         {
             StatusService = statusService;
-            StatusRepository = statusRepository;
         }
 
         [Route("")]
@@ -37,7 +30,7 @@ namespace Pook.Web.Controllers
 
         [Route("Create"), HttpPost]
         [ValidateInput(false), ValidateAntiForgeryToken, ValidateModel]
-        public ActionResult Create(SStatus status)
+        public ActionResult Create(Status status)
         {
             StatusService.Add(status);
             return RedirectToAction("Index");
@@ -53,7 +46,7 @@ namespace Pook.Web.Controllers
 
         [Route("Edit/{id}"), HttpPost]
         [ValidateInput(false), ValidateAntiForgeryToken, ValidateModel]
-        public ActionResult Edit(SStatus status)
+        public ActionResult Edit(Status status)
         {
             StatusService.Update(status);
             return RedirectToAction("Index");
