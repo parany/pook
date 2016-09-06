@@ -181,6 +181,8 @@
     <Compile Include="Coordinator\Concrete\CategoryService.cs" />
     <Compile Include="Coordinator\Concrete\BookService.cs" />
     <Compile Include="Coordinator\Concrete\AuthorService.cs" />
+    <Compile Include="Coordinator\Concrete\ResponsabilityTypeService.cs" />
+    <Compile Include="Coordinator\Interface\IResponsabilityTypeService.cs" />
     <Compile Include="Coordinator\Interface\IProgressionService.cs" />
     <Compile Include="Coordinator\Interface\INoteService.cs" />
     <Compile Include="Coordinator\Interface\IFirmService.cs" />
@@ -209,6 +211,7 @@
     <Compile Include="Models\Progressions\ProgressionCreate.cs" />
     <Compile Include="Models\Progressions\ProgressionSearch.cs" />
     <Compile Include="Models\Progressions\ProgressionSection.cs" />
+    <Compile Include="Models\ResponsabilityTypes\ResponsabilityType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Manager\SmsManager.cs" />
   </ItemGroup>

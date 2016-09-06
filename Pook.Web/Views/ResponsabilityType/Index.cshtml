@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Pook.Data.Entities.ResponsabilityType>
+﻿@model IList<Pook.Service.Models.ResponsabilityTypes.ResponsabilityType>
 
 @{
     ViewBag.Title = "Index";
@@ -11,12 +11,8 @@
 </p>
 <table class="table">
     <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Title)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Desription)
-        </th>
+        <th>Title</th>
+        <th>Description</th>
         <th></th>
     </tr>
 
