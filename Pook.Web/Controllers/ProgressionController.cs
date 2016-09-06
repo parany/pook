@@ -1,48 +1,20 @@
 ﻿using System;
-using System.Linq;
-using System.Net;
 using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
-using Pook.Data.Entities;
-using Pook.Data.Repositories.Interface;
 using Pook.Service.Coordinator.Interface;
 using Pook.Service.Models.Progressions;
 using Pook.Web.Filters;
-using DProgression = Pook.Data.Entities.Progression;
-using SProgression = Pook.Service.Models.Progressions.Progression;
 
 namespace Pook.Web.Controllers
 {
     [RoutePrefix("Progression")]
     public class ProgressionController : Controller
     {
-        private IGenericRepository<DProgression> ProgressionRepository { get; set; }
-
-        private IGenericRepository<Book> BookRepository { get; set; }
-
-        private IGenericRepository<Status> StatusRepository { get; set; }
-
         private IProgressionService ProgressionService { get; set; }
 
 
-        public ProgressionController(
-            IGenericRepository<DProgression> progressionRepository,
-            IGenericRepository<Book> bookRepository,
-            IGenericRepository<Status> statusRepository,
-            IProgressionService progressionService
-            )
+        public ProgressionController(IProgressionService progressionService)
         {
-            ProgressionRepository = progressionRepository;
-            BookRepository = bookRepository;
-            StatusRepository = statusRepository;
-
-            ProgressionRepository.AddNavigationProperties(
-                p => p.Book,
-                p => p.Status,
-                p => p.User
-                );
-            ProgressionRepository.SetSortExpression(l => l.OrderByDescending(p => p.Date));
-
             ProgressionService = progressionService;
         }
 
@@ -85,7 +57,7 @@ namespace Pook.Web.Controllers
 
         [Route("Progression/Create/{bookId}"), HttpPost]
         [ValidateInput(false), ValidateAntiForgeryToken, ValidateModel]
-        public ActionResult Create(SProgression progression)
+        public ActionResult Create(Progression progression)
         {
             progression.UserId = User.Identity.GetUserId();
             ProgressionService.Add(progression);
@@ -106,7 +78,7 @@ namespace Pook.Web.Controllers
 
         [Route("Edit/{id}"), HttpPost]
         [ValidateInput(false), ValidateAntiForgeryToken, ValidateModel]
-        public ActionResult Edit(SProgression progression)
+        public ActionResult Edit(Progression progression)
         {
             progression.UserId = User.Identity.GetUserId();
             ProgressionService.Update(progression);
