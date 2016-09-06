@@ -1,44 +1,19 @@
 ﻿using System;
-using System.Net;
 using System.Web.Mvc;
-using Pook.Data.Entities;
-using Pook.Data.Repositories.Interface;
 using Pook.Service.Coordinator.Interface;
+using Pook.Service.Models.ResponsabilityTypes;
 using Pook.Web.Filters;
-using SResponsability = Pook.Service.Models.ResponsabilityTypes.Responsability;
-using DResponsability = Pook.Data.Entities.Responsability;
 
 namespace Pook.Web.Controllers
 {
     [RoutePrefix("Responsability")]
     public class ResponsabilityController : Controller
     {
-        private IGenericRepository<DResponsability> ResponsabilityRepository { get; }
+        private IResponsabilityService ResponsabilityService { get; }
 
-        private IGenericRepository<Author> AuthorRepository { get; }
-
-        private IGenericRepository<ResponsabilityType> ResponsabilityTypeRepository { get; }
-
-        private IResponsabilityService ResponsabilityService { get; set; }
-
-        public ResponsabilityController(
-            IGenericRepository<Responsability> responsabilityRepository,
-            IGenericRepository<ResponsabilityType> responsabilityTypeRepository,
-            IGenericRepository<Author> authorRepository,
-            IResponsabilityService responsabilityService
-            )
+        public ResponsabilityController(IResponsabilityService responsabilityService)
         {
             ResponsabilityService = responsabilityService;
-
-            ResponsabilityRepository = responsabilityRepository;
-            ResponsabilityTypeRepository = responsabilityTypeRepository;
-            AuthorRepository = authorRepository;
-
-            ResponsabilityRepository.AddNavigationProperties(
-                r => r.Author,
-                r => r.Book,
-                r => r.ResponsabilityType
-                );
         }
 
         [Route("Create/{bookId?}"), HttpGet]
@@ -50,7 +25,7 @@ namespace Pook.Web.Controllers
 
         [Route("Create/{bookId}"), HttpPost]
         [ValidateAntiForgeryToken, ValidateModel]
-        public ActionResult Create(Guid bookId, SResponsability responsability)
+        public ActionResult Create(Guid bookId, Responsability responsability)
         {
             responsability.BookId = bookId;
             ResponsabilityService.Add(responsability);
@@ -70,7 +45,7 @@ namespace Pook.Web.Controllers
         public ActionResult DeleteConfirmed(Guid id)
         {
             var responsability = ResponsabilityService.GetSingle(id);
-            ResponsabilityRepository.Delete(id);
+            ResponsabilityService.Delete(id);
             return RedirectToAction("Details", "Book", new { id = responsability.BookId });
         }
     }
