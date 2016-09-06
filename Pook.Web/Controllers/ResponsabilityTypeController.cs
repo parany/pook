@@ -1,28 +1,18 @@
 ﻿using System;
-using System.Net;
 using System.Web.Mvc;
-using Pook.Data.Entities;
-using Pook.Data.Repositories.Interface;
 using Pook.Service.Coordinator.Interface;
+using Pook.Service.Models.ResponsabilityTypes;
 using Pook.Web.Filters;
-using SResponsabilityType = Pook.Service.Models.ResponsabilityTypes.ResponsabilityType;
-using DResponsabilityType = Pook.Data.Entities.ResponsabilityType;
 
 namespace Pook.Web.Controllers
 {
     [RoutePrefix("ResponsabilityType")]
     public class ResponsabilityTypeController : Controller
     {
-        private IGenericRepository<DResponsabilityType> ResponsabilityTypeRepository { get; set; }
-
         private IResponsabilityTypeService ResponsabilityTypeService { get; set; }
 
-        public ResponsabilityTypeController(
-            IGenericRepository<DResponsabilityType> responsabilityTypeRepository,
-            IResponsabilityTypeService responsabilityTypeService
-            )
+        public ResponsabilityTypeController(IResponsabilityTypeService responsabilityTypeService)
         {
-            ResponsabilityTypeRepository = responsabilityTypeRepository;
             ResponsabilityTypeService = responsabilityTypeService;
         }
 
@@ -40,7 +30,7 @@ namespace Pook.Web.Controllers
 
         [Route("Create"), HttpPost]
         [ValidateInput(false), ValidateAntiForgeryToken, ValidateModel]
-        public ActionResult Create(SResponsabilityType responsabilityType)
+        public ActionResult Create(ResponsabilityType responsabilityType)
         {
             ResponsabilityTypeService.Add(responsabilityType);
             return RedirectToAction("Index");
@@ -56,7 +46,7 @@ namespace Pook.Web.Controllers
 
         [Route("Edit/{id}"), HttpPost]
         [ValidateInput(false), ValidateAntiForgeryToken, ValidateModel]
-        public ActionResult Edit(SResponsabilityType responsabilityType)
+        public ActionResult Edit(ResponsabilityType responsabilityType)
         {
             ResponsabilityTypeService.Update(responsabilityType);
             return RedirectToAction("Index");
