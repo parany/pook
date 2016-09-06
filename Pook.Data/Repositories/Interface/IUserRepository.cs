@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Pook.Data.Entities;
 
 namespace Pook.Data.Repositories.Interface

@@ -33,7 +33,7 @@ namespace Pook.Data.Repositories.Concrete
 
         public virtual void SetNavigationProperties(params Expression<Func<T, object>>[] navigationProperties)
         {
-            if (NavigationProperties != null) NavigationProperties.Clear();
+            NavigationProperties?.Clear();
             AddNavigationProperties(navigationProperties);
         }
 
@@ -128,7 +128,7 @@ namespace Pook.Data.Repositories.Concrete
                 list = dbQuery.ToList();
 
                 // Set number of records
-                if (PagingSettings != null) { PagingSettings.NumberOfRecords = list.Count(); }
+                if (PagingSettings != null) { PagingSettings.NumberOfRecords = list.Count; }
             }
 
             return list;
