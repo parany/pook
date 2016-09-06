@@ -206,6 +206,7 @@
     <Compile Include="Models\Notes\NoteCreate.cs" />
     <Compile Include="Models\Notes\NoteSearch.cs" />
     <Compile Include="Models\Progressions\Progression.cs" />
+    <Compile Include="Models\Progressions\ProgressionCreate.cs" />
     <Compile Include="Models\Progressions\ProgressionSearch.cs" />
     <Compile Include="Models\Progressions\ProgressionSection.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

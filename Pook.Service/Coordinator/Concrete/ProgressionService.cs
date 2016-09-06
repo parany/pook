@@ -44,22 +44,23 @@ namespace Pook.Service.Coordinator.Concrete
 
         public SProgression GetSingle(Guid id)
         {
-            throw new NotImplementedException();
+            var progression = ProgressionRepository.GetSingle(id);
+            return SProgression.DtoS(progression);
         }
 
         public void Add(SProgression entity)
         {
-            throw new NotImplementedException();
+            ProgressionRepository.Add(SProgression.StoD(entity));
         }
 
         public void Update(SProgression entity)
         {
-            throw new NotImplementedException();
+            ProgressionRepository.Update(SProgression.StoD(entity));
         }
 
         public void Delete(Guid id)
         {
-            throw new NotImplementedException();
+            ProgressionRepository.Delete(id);
         }
 
         public ProgressionSearch SortByDate()
@@ -113,6 +114,41 @@ namespace Pook.Service.Coordinator.Concrete
                      Progressions = g.Select(SProgression.DtoS).ToList(),
                  }).ToList();
             return progressionSections;
+        }
+
+        public List<SProgression> GetByBook(string userId, Guid bookId)
+        {
+            var progressions = ProgressionRepository
+                .GetList(p => p.UserId == userId && p.BookId == bookId)
+                .Select(SProgression.DtoS)
+                .ToList();
+            return progressions;
+        }
+
+        public ProgressionCreate BuildProgressionCreate(Guid bookId)
+        {
+            var progressionCreate = new ProgressionCreate
+            {
+                Progression = new SProgression
+                {
+                    BookId = bookId,
+                    Date = DateTime.Now,
+                },
+                StatusList = new SelectList(StatusRepository.GetAll(), "Id", "Title")
+            };
+            return progressionCreate;
+        }
+
+        public ProgressionCreate BuildProgressionEdit(Guid bookId)
+        {
+            var progression = GetSingle(bookId);
+            var progressionCreate = new ProgressionCreate
+            {
+                Progression = progression,
+                StatusList = new SelectList(StatusRepository.GetAll(), "Id", "Title", progression.StatusId),
+                BookList = new SelectList(BookRepository.GetAll(), "Id", "Title", progression.BookId)
+            };
+            return progressionCreate;
         }
     }
 }

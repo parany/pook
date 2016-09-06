@@ -1,4 +1,4 @@
-﻿@model Pook.Data.Entities.Progression
+﻿@model Pook.Service.Models.Progressions.Progression
 
 @{
     ViewBag.Title = "Delete";
@@ -12,27 +12,27 @@
     <hr />
     <dl class="dl-horizontal">
         <dt>
-            @Html.DisplayNameFor(model => model.Book.Title)
+            @Html.DisplayNameFor(model => model.BookTitle)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Book.Title)
+            @Html.DisplayFor(model => model.BookTitle)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Status.Title)
+            @Html.DisplayNameFor(model => model.StatusTitle)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Status.Title)
+            @Html.DisplayFor(model => model.StatusTitle)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.User.FirstName)
+            @Html.DisplayNameFor(model => model.UserName)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.User.FirstName)
+            @Html.DisplayFor(model => model.UserName)
         </dd>
 
         <dt>
@@ -50,7 +50,7 @@
 
         <div class="form-actions no-color">
             <input type="submit" value="Delete" class="btn btn-default" /> |
-            @Html.ActionLink("Back to List", "Index")
+            @Html.ActionLink("Back to List", "ByBook")
         </div>
     }
 </div>

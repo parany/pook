@@ -7,7 +7,7 @@ using Pook.Data.Entities;
 using Pook.Data.Repositories.Interface;
 using Pook.Service.Coordinator.Interface;
 using Pook.Service.Models.Progressions;
-using Pook.Web.Models;
+using Pook.Web.Filters;
 using DProgression = Pook.Data.Entities.Progression;
 using SProgression = Pook.Service.Models.Progressions.Progression;
 
@@ -71,11 +71,7 @@ namespace Pook.Web.Controllers
         [Route("PageProgress/{userId}/{bookId}")]
         public ActionResult PageProgress(string userId, Guid bookId)
         {
-            ProgressionRepository.SetSortExpression(p => p.OrderByDescending(r => r.Date));
-            var progressions = ProgressionRepository
-                .GetList(p => p.UserId == userId && p.BookId == bookId)
-                .Select(SProgression.DtoS)
-                .ToList();
+            var progressions = ProgressionService.GetByBook(userId, bookId);
             return View(progressions);
         }
 
@@ -83,95 +79,58 @@ namespace Pook.Web.Controllers
         [Route("Progression/Create/{bookId}")]
         public ActionResult Create(Guid bookId)
         {
-            var progression = new DProgression
-            {
-                BookId = bookId,
-                Date = DateTime.Now,
-            };
-            ViewBag.StatusId = new SelectList(StatusRepository.GetAll(), "Id", "Title");
-            return View(progression);
+            var progressionCreate = ProgressionService.BuildProgressionCreate(bookId);
+            return View(progressionCreate);
         }
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        [Route("Progression/Create/{bookId}")]
-        public ActionResult Create(DProgression progression, Guid bookId)
+        [Route("Progression/Create/{bookId}"), HttpPost]
+        [ValidateInput(false), ValidateAntiForgeryToken, ValidateModel]
+        public ActionResult Create(SProgression progression)
         {
-            if (ModelState.IsValid)
-            {
-                progression.UserId = User.Identity.GetUserId();
-                ProgressionRepository.Add(progression);
-                return RedirectToAction("PageProgress", new
-                {
-                    userId = progression.UserId,
-                    progressionId = progression.Id
-                });
-            }
-
-            ViewBag.StatusId = new SelectList(StatusRepository.GetAll(), "Id", "Title");
-            return View(progression);
-        }
-
-        // GET: Progression/Edit/5
-        public ActionResult Edit(Guid? id)
-        {
-            if (id == null)
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-
-            DProgression progression = ProgressionRepository.GetSingle(id.Value);
-            if (progression == null)
-                return HttpNotFound();
-
-            ViewBag.BookId = new SelectList(BookRepository.GetAll(), "Id", "Title", progression.BookId);
-            ViewBag.StatusId = new SelectList(StatusRepository.GetAll(), "Id", "Title", progression.StatusId);
-            return View(progression);
-        }
-
-        // POST: Progression/Edit/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit(DProgression progression)
-        {
-            if (ModelState.IsValid)
-            {
-                progression.UserId = User.Identity.GetUserId();
-                ProgressionRepository.Update(progression);
-                return RedirectToAction("PageProgress", new
-                {
-                    userId = progression.UserId,
-                    bookId = progression.BookId
-                });
-            }
-            ViewBag.BookId = new SelectList(BookRepository.GetAll(), "Id", "Title");
-            ViewBag.StatusId = new SelectList(StatusRepository.GetAll(), "Id", "Title");
-            return View(progression);
-        }
-
-        // GET: Progression/Delete/5
-        public ActionResult Delete(Guid? id)
-        {
-            if (id == null)
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-
-            DProgression progression = ProgressionRepository.GetSingle(id.Value);
-            if (progression == null)
-                return HttpNotFound();
-
-            return View(progression);
-        }
-
-        // POST: Progression/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(Guid id)
-        {
-            var progression = ProgressionRepository.GetSingle(id);
-            ProgressionRepository.Delete(id);
+            progression.UserId = User.Identity.GetUserId();
+            ProgressionService.Add(progression);
             return RedirectToAction("PageProgress", new
             {
                 userId = progression.UserId,
                 bookId = progression.BookId
             });
+        }
+
+        [Route("Edit/{id}")]
+        [NotFound]
+        public ActionResult Edit(Guid id)
+        {
+            var progressionCreate = ProgressionService.BuildProgressionEdit(id);
+            return View(progressionCreate);
+        }
+
+        [Route("Edit/{id}"), HttpPost]
+        [ValidateInput(false), ValidateAntiForgeryToken, ValidateModel]
+        public ActionResult Edit(SProgression progression)
+        {
+            progression.UserId = User.Identity.GetUserId();
+            ProgressionService.Update(progression);
+            return RedirectToAction("PageProgress", new
+            {
+                userId = progression.UserId,
+                bookId = progression.BookId
+            });
+        }
+
+        [Route("Delete/{id}")]
+        [NotFound]
+        public ActionResult Delete(Guid id)
+        {
+            var progression = ProgressionService.GetSingle(id);
+            return View(progression);
+        }
+
+        [Route("Delete/{id}"), HttpPost, ActionName("Delete")]
+        [ValidateInput(false), ValidateAntiForgeryToken, ValidateModel]
+        public ActionResult DeleteConfirmed(Guid id)
+        {
+            ProgressionService.Delete(id);
+            return RedirectToAction("ByBook");
         }
     }
 }
