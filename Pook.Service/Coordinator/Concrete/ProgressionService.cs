@@ -111,7 +111,7 @@ namespace Pook.Service.Coordinator.Concrete
                  {
                      Book = books.First(b => b.Id == g.Key).Title,
                      BookId = g.Key,
-                     Progressions = g.Select(SProgression.DtoS).ToList(),
+                     Progressions = g.Select(SProgression.DtoS).ToList()
                  }).ToList();
             return progressionSections;
         }

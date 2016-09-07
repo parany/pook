@@ -9,37 +9,14 @@
 <div class="user-details">
     @foreach (var progressionSection in Model)
     {
-        <h4>
-            @Html.ActionLink(@progressionSection.Book, "PageProgress", "Progression", new
+        var sectionTitle = $"{progressionSection.Book} ({progressionSection.Progressions.Count})";
+        <p>
+            @Html.ActionLink(sectionTitle, "PageProgress", "Progression", new
             {
                 userId = progressionSection.Progressions.First().UserId,
                 bookId = progressionSection.BookId
             }, null)
-        </h4>
-        <table class="table table-condensed">
-            <tbody>
-                @foreach (var progression in progressionSection.Progressions)
-                {
-                    <tr class="col-md-10">
-                        <td class="col-md-6">
-                            @if (progression.StatusTitle == "Current")
-                            {
-                                @progression.Page
-                            }
-                            else
-                            {
-                                @progression.StatusTitle
-                            }
-                        </td>
-                        <td class="col-md-4">@progression.Date.ToString("dd-MMM-yyyy")</td>
-                        <td>
-                            @Html.ActionLink("Edit", "Edit", new { id = progression.Id }) |
-                            @Html.ActionLink("Delete", "Delete", new { id = progression.Id })
-                        </td>
-                    </tr>
-                }
-            </tbody>
-        </table>
+        </p>
     }
 
 </div>

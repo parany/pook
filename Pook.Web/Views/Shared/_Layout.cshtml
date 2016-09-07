@@ -84,6 +84,13 @@
                     this.getDoc().body.style.fontSize = '13pt';
                     this.getDoc().body.style.fontFamily = 'Book Antiqua';
                 });
+                ed.addButton('mybutton', {
+                    text: 'My button',
+                    icon: false,
+                    onclick: function () {
+                        editor.insertContent('&nbsp;<b>It\'s my button!</b>&nbsp;');
+                    }
+                });
             },
             fontsize_formats: "8pt 10pt 12pt 13pt 14pt 18pt 24pt 36pt"
         });
