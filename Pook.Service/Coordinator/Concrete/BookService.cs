@@ -115,13 +115,16 @@ namespace Pook.Service.Coordinator.Concrete
         public IList<BookList> GetListByStatus(string userId, Func<Progression, bool> filter)
         {
             var books = BookRepository.GetAll();
-            var progressions = ProgressionRepository.GetList(p => p.UserId == userId);
+            var progressions = ProgressionRepository
+                .GetList(p => p.UserId == userId)
+                .OrderBy(p => p.Date)
+                .ToList();
             progressions =
                 (from progression in progressions
                  group progression by progression.BookId
                  into g
-                 where filter(g.First())
-                 select g.First()
+                 where filter(g.Last())
+                 select g.Last()
                  ).ToList();
             var bookModels =
                 (from book in books

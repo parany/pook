@@ -22,5 +22,7 @@ namespace Pook.Service.Models.Books
         public Progression Progression { get; set; }
 
         public bool HasNote { get; set; }
+
+        public int Page { get; set; }
     }
 }
